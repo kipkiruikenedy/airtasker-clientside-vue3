@@ -5,7 +5,11 @@ import { useAuthStore } from "../../stores/auth";
 const authStore = useAuthStore();
 
 const form = ref({
-  name: "",
+  first_name: "",
+  last_name: "",
+  phone_number: "",
+  country: "",
+  gender: "",
   email: "",
   password: "",
   password_confirmation: "",
@@ -33,12 +37,12 @@ const form = ref({
             "
           >
             <div class="mb-10 text-center md:mb-16">Become a tasker </div>
-            <form @submit.prevent="authStore.handleRegister(form)">
+            <form @submit.prevent="authStore.handleRegisterTasker(form)">
               <div class="mb-6">
                 <input
                   type="text"
                   placeholder="First Name"
-                  v-model="form.name"
+                  v-model="form.first_name"
                   class="
                     bordder-[#E9EDF4]
                     w-full
@@ -64,7 +68,7 @@ const form = ref({
                 <input
                   type="text"
                   placeholder="Last Name"
-                  v-model="form.name"
+                  v-model="form.last_name"
                   class="
                     bordder-[#E9EDF4]
                     w-full
@@ -89,8 +93,8 @@ const form = ref({
               <div class="mb-6">
                 <input
                   type="text"
-                  placeholder="Name"
-                  v-model="form.name"
+                  placeholder="Phone Number"
+                  v-model="form.phone_number"
                   class="
                     bordder-[#E9EDF4]
                     w-full
@@ -115,8 +119,34 @@ const form = ref({
               <div class="mb-6">
                 <input
                   type="text"
-                  placeholder="Name"
-                  v-model="form.name"
+                  placeholder="Gender"
+                  v-model="form.gender"
+                  class="
+                    bordder-[#E9EDF4]
+                    w-full
+                    rounded-md
+                    border
+                    bg-[#FCFDFE]
+                    py-3
+                    px-5
+                    text-base text-body-color
+                    placeholder-[#ACB6BE]
+                    outline-none
+                    focus:border-primary
+                    focus-visible:shadow-none
+                  "
+                />
+                <div v-if="authStore.errors.name" class="flex">
+                  <span class="text-red-400 text-sm m-2 p-2">{{
+                    authStore.errors.name[0]
+                  }}</span>
+                </div>
+              </div>
+              <div class="mb-6">
+                <input
+                  type="text"
+                  placeholder="Country"
+                  v-model="form.country"
                   class="
                     bordder-[#E9EDF4]
                     w-full

@@ -47,12 +47,39 @@ export const useAuthStore = defineStore("auth", {
         }
       }
     },
-    async handleRegister(data) {
+    async handleRegisterClient(data) {
       this.authErrors = [];
       await this.getToken();
       try {
-        await axios.post("/register", {
-          name: data.name,
+        await axios.post("/register/client", {
+         
+
+          first_name:data.first_name,
+          last_name:data.last_name,
+          phone_number:data.last_name,
+          country:data.last_name,
+          gender:data.country,
+          email: data.email,
+          password: data.password,
+          password_confirmation: data.password_confirmation,
+        });
+        this.router.push("/login");
+      } catch (error) {
+        if (error.response.status === 422) {
+          this.authErrors = error.response.data.errors;
+        }
+      }
+    },
+    async handleRegisterTasker(data) {
+      this.authErrors = [];
+      await this.getToken();
+      try {
+        await axios.post("/register/tasker", {
+          first_name:data.first_name,
+          last_name:data.last_name,
+          phone_number:data.last_name,
+          country:data.last_name,
+          gender:data.country,
           email: data.email,
           password: data.password,
           password_confirmation: data.password_confirmation,
