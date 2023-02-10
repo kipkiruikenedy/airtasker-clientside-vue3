@@ -70,7 +70,7 @@ const authStore = useAuthStore();
           <template v-if="!authStore.user">
             <li>
               <router-link
-                :to="{ name: 'Login' }"
+                :to="{ name: 'Categories' }"
                 class="
                   block
                   rounded
@@ -85,7 +85,7 @@ const authStore = useAuthStore();
             </li>
             <li>
               <router-link
-                :to="{ name: 'Login' }"
+                :to="{ name: 'AllTasks' }"
                 class="
                   block
                   rounded
@@ -100,7 +100,7 @@ const authStore = useAuthStore();
             </li>
             <li>
               <router-link
-                :to="{ name: 'Login' }"
+                :to="{ name: 'HowItWorks' }"
                 class="
                   block
                   rounded
@@ -147,7 +147,7 @@ const authStore = useAuthStore();
             </li>
             <li>
               <router-link
-                :to="{ name: 'Client-Register' }"
+                :to="{ name: 'RegisterAsTasker' }"
                 class="
                   block
                   rounded
@@ -217,7 +217,7 @@ const authStore = useAuthStore();
         <v-avatar  image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyxVEw9MRh_vuujq_zWCppZySLY0aEH7HrM9gr9EHa&s"></v-avatar>
       </div>
                 <button
-              @click="authStore.handleLogout"
+              @click="authStore.handleLogout()"
               class="
                 block
                 rounded

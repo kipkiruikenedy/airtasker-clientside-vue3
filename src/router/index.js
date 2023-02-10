@@ -4,15 +4,16 @@ import Home from "../components/Home.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
+
   {
-    path: "/login",
-    name: "Login",
-    component: () => import("../components/Login.vue"),
+    path: "/register/tasker",
+    name: "RegisterAsTasker",
+    component: () => import("../components/tasker/RegisterTasker.vue"),
   },
   {
-    path: "/register",
+    path: "/register/client",
     name: "Register",
-    component: () => import("../components/Register.vue"),
+    component: () => import("../components/client/ClientRegister.vue"),
   },
   {
     path: "/forgot-password",
@@ -23,6 +24,26 @@ const routes = [
     path: "/password-reset/:token",
     name: "ResetPassword",
     component: () => import("../components/ResetPassword.vue"),
+  },
+  {
+    path: "/how-it-works",
+    name: "HowItWorks",
+    component: () => import("../components/How-it-works.vue"),
+  },
+  {
+    path: "/all-tasks",
+    name: "AllTasks",
+    component: () => import("../components/TasksList.vue"),
+  },
+  {
+    path: "/categories",
+    name: "Categories",
+    component: () => import("../components/Categories.vue"),
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import("../components/Login.vue"),
   },
 
   // ADMIN
@@ -71,6 +92,8 @@ const routes = [
     name: "Login",
     component: () => import("../components/Login.vue"),
   },
+
+
 
 
   // CLIENT

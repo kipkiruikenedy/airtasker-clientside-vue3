@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    authUser: "jhjhj",
+    authUser: null,
     authErrors: [],
     authStatus: null,
     loading:false
@@ -31,7 +31,7 @@ export const useAuthStore = defineStore("auth", {
           email: data.email,
           password: data.password,
         });
-       if (role=="admin") {
+       if (this.authUser=="ken") {
         this.router.push("/admin-dashboard");
        } 
        else if(role=="tasker"){
@@ -68,6 +68,7 @@ export const useAuthStore = defineStore("auth", {
       await axios.post("/logout");
       this.authUser = null;
     },
+
     async handleForgotPassword(email) {
       this.authErrors = [];
       this.getToken();

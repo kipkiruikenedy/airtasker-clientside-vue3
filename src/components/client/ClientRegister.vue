@@ -32,7 +32,8 @@ const form = ref({
               md:px-[60px]
             "
           >
-            <div class="mb-10 text-center md:mb-16">Become a Tasker </div>
+            <div class="mb-10 text-center md:mb-16">Wants experts answer? </div>
+            <div class="mb-10 text-center md:mb-16">Register </div>
             <form @submit.prevent="authStore.handleRegister(form)">
               <div class="mb-6">
                 <input

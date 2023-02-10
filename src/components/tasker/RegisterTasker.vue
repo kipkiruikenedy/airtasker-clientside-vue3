@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { useAuthStore } from "../stores/auth";
+import { useAuthStore } from "../../stores/auth";
 
 const authStore = useAuthStore();
 
@@ -32,7 +32,7 @@ const form = ref({
               md:px-[60px]
             "
           >
-            <div class="mb-10 text-center md:mb-16">Register and post a task </div>
+            <div class="mb-10 text-center md:mb-16">Become a tasker </div>
             <form @submit.prevent="authStore.handleRegister(form)">
               <div class="mb-6">
                 <input
