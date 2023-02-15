@@ -47,27 +47,25 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>df123123</td>
-        <td>sam</td>
-        <td>ken@gmail.com</td>
-        <td>254799460000</td>
-        <td>12/12/2022</td>
-        <td>12/12/2022</td>
-        <td>$200</td>
-        <td>kenya</td>
-        <td>
+      <div class="text-center" v-if="authStore.isLoading"> <v-progress-circular
+      :size="50"
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
+    </div>
+    <tr v-for="tasker in taskers" :key="tasker.id">
+          <td>{{ tasker.first_name }}</td>
+          <td>{{ tasker.last_name }}</td>
+          <td>{{ tasker.email }}</td>
+          <td>{{ tasker.phone_number }}</td>
+          <td>{{ tasker.gender }}</td>
+          <td>{{ tasker.country }}</td>
+          <td>
             <v-button class="bg-blue-500 rounded-md py-1 px-2 text-white mx-2">Update</v-button>
             <v-button class="bg-red-500 rounded-md py-1 px-2 text-white">Delete</v-button>
         </td>
       </tr>
-      <!-- <tr
-        v-for="item in desserts"
-        :key="item.name"
-      >
-        <td>{{ item.name }}</td>
-        <td>{{ item.calories }}</td>
-      </tr> -->
+  
     </tbody>
   </v-table>
 
@@ -77,5 +75,17 @@
 </template>
 <script setup>
 import AdminSideBar from './AdminSideBar.vue';
+import { useAuthStore } from '../../stores/auth';
+import { reactive } from 'vue';
+import axios from 'axios';
+const authStore = useAuthStore();
+const completedTasks = reactive([]);
+// fetch data from localhost:5000
+authStore.isLoading=true;
+axios.get('http://127.0.0.1:8000/api/admin-taskers')
+  .then(response => {
+    completedTasks.push(...response.data);
+    authStore.isLoading=false;
+  });
 
 </script>

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Home from "../components/Home.vue";
 
+
 const routes = [
   { path: "/", name: "Home", component: Home },
 
@@ -49,7 +50,7 @@ const routes = [
   // ADMIN
   {
     path: "/admin-dashboard",
-    name: "Dahsboard",
+    name: "AdminDahsboard",
     component: () => import("../components/admin/AdminDashboard.vue"),
   },
   {
@@ -74,24 +75,20 @@ const routes = [
   },
   {
     path: "/admin-pending-payments",
-    name: "Login",
-    component: () => import("../components/Login.vue"),
+    name: "PendingPayment",
+    component: () => import("../components/admin/PendingPayments.vue"),
   },
   {
     path: "/admin-completed-payments",
-    name: "Login",
-    component: () => import("../components/Login.vue"),
+    name: "CompletedPayment",
+    component: () => import("../components/admin/CompletedPayments.vue"),
   },
   {
     path: "/admin-suspended-accounts",
-    name: "Login",
-    component: () => import("../components/Login.vue"),
+    name: "CompletedPayment",
+    component: () => import("../components/admin/CompletedPayments.vue"),
   },
-  {
-    path: "/admin-system-logs",
-    name: "Login",
-    component: () => import("../components/Login.vue"),
-  },
+
 
 
 
@@ -107,18 +104,35 @@ const routes = [
     name: "Client-Register",
     component: () => import("../components/client/ClientRegister.vue"),
   },
-  {
-    path: "/post-task",
-    name: "TaskPost",
-    component: () => import("../components/client/PostTask.vue"),
-  },
+ 
     // WRITER
+    {
+      path: "/post-task",
+      name: "TaskPost",
+      component: () => import("../components/client/PostTask.vue"),
+    },
     {
       path: "/tasker-dashboard",
       name: "TaskerDahsboard",
       component: () => import("../components/tasker/TaskerDashboard.vue"),
     },
+
+
+    // CETEGORY
+    {
+      path: "/admin-create-category",
+      name: "AdminCreateCategory",
+      component: () => import("../components/admin/AddCategory.vue"),
+    },
+    {
+      path: "/categories",
+      name: "Categories",
+      component: () => import("../components/Categories.vue"),
+    },
 ];
+
+
+
 
 const router = createRouter({
   history: createWebHistory(),

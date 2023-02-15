@@ -1,14 +1,21 @@
-<script setup>
-import { ref } from "vue";
-import { useAuthStore } from "../stores/auth";
 
-const authStore = useAuthStore();
+<script setup>
+import { useAuthStore } from '../stores/auth'
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+
+const authStore = useAuthStore()
+const router = useRouter()
 
 const form = ref({
   email: "",
   password: "",
 });
+
+
 </script>
+
+
 <template>
   <section class="bg-[#F4F7FF] py-20 lg:py-[120px]">
     <div class="container mx-auto">
@@ -29,8 +36,11 @@ const form = ref({
               md:px-[60px]
             "
           >
+          <div class="bg-red-500 text-center rounded-lg py-1 text-white mb-3" v-if="authStore.authError" >{{authStore.authError }}</div>
             <div class="mb-10 text-center md:mb-16">Airtasker Pro</div>
-            <form @submit.prevent="authStore.handleLogin(form)">
+           
+          
+            <form @submit.prevent="authStore.login(form)">
               <div class="mb-6">
                 <input
                   type="email"
@@ -51,17 +61,18 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <div v-if="authStore.errors.email" class="flex">
+                <!-- <div v-if="authStore.errors.email" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
                     authStore.errors.email[0]
                   }}</span>
-                </div>
+                </div> -->
               </div>
               <div class="mb-6">
                 <input
                   type="password"
                   v-model="form.password"
                   placeholder="Password"
+                  required
                   class="
                     bordder-[#E9EDF4]
                     w-full
@@ -77,11 +88,11 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <div v-if="authStore.errors.password" class="flex">
+                <!-- <div v-if="authStore.errors.password" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
                     authStore.errors.password[0]
                   }}</span>
-                </div>
+                </div> -->
               </div>
               <div class="mb-10">
                 <button
@@ -96,8 +107,12 @@ const form = ref({
                     text-white
                   "
                 >
-                <div></div>
-                <div>Login</div>
+                
+                <div v-if="authStore.isLoading" >
+                <v-progress-circular indeterminate color="amber"></v-progress-circular>
+                </div>
+                <div v-else>Login</div>
+               
                   
                 </button>
               </div>

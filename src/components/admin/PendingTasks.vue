@@ -72,5 +72,14 @@
 </template>
 <script setup>
 import AdminSideBar from './AdminSideBar.vue';
+import { reactive } from 'vue';
+import axios from 'axios';
+const taskers = reactive([]);
+// fetch data from localhost:5000
+axios.get('http://127.0.0.1:8000/api/admin-taskers')
+  .then(response => {
+    taskers.push(...response.data);
+    console.log(" taskers")
+  });
 
 </script>

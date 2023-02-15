@@ -26,7 +26,7 @@
           Email
         </th>
         <th class="text-left">
-         Contacts
+        Phone
         </th>
         <th class="text-left">
          Gender
@@ -40,25 +40,24 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>ken</td>
-        <td>sam</td>
-        <td>ken@gmail.com</td>
-        <td>254799460000</td>
-        <td>male</td>
-        <td>kenya</td>
-        <td>
+<div class="text-center" v-if="authStore.isLoading"> <v-progress-circular
+      :size="50"
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
+    </div>
+      <tr v-for="client in clients" :key="client.id">
+          <td>{{ client.first_name }}</td>
+          <td>{{ client.last_name }}</td>
+          <td>{{ client.email }}</td>
+          <td>{{ client.phone_number }}</td>
+          <td>{{ client.gender }}</td>
+          <td>{{ client.country }}</td>
+          <td>
             <v-button class="bg-blue-500 rounded-md py-1 px-2 text-white mx-2">Update</v-button>
-            <v-button class="bg-red-500 rounded-md py-1 px-2 text-white">Delete</v-button>
-        </td>
-      </tr>
-      <!-- <tr
-        v-for="item in desserts"
-        :key="item.name"
-      >
-        <td>{{ item.name }}</td>
-        <td>{{ item.calories }}</td>
-      </tr> -->
+            <v-button class="bg-red-500 rounded-md py-1 px-2 text-white">Delete</v-button></td>
+        </tr>
+     
     </tbody>
   </v-table>
 
@@ -68,5 +67,18 @@
 </template>
 <script setup>
 import AdminSideBar from './AdminSideBar.vue';
+import { useAuthStore } from '../../stores/auth';
+import { reactive } from 'vue';
+import axios from 'axios';
+const authStore = useAuthStore();
+const clients = reactive([]);
+// fetch data from localhost:5000
+authStore.isLoading=true;
+axios.get('http://127.0.0.1:8000/api/admin-clients')
+  .then(response => {
+    clients.push(...response.data);
+    authStore.isLoading=false;
+  });
+
 
 </script>

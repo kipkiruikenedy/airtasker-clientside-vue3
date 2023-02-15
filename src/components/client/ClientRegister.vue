@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from "vue";
 import { useAuthStore } from "../../stores/auth";
-
 const authStore = useAuthStore();
+
 
 const form = ref({
   first_name: "",
@@ -14,6 +14,7 @@ const form = ref({
   password: "",
   password_confirmation: "",
 });
+
 </script>
 <template>
   <!-- ====== Forms Section Start -->
@@ -36,11 +37,14 @@ const form = ref({
               md:px-[60px]
             "
           >
+          <div class="bg-red-500 text-center rounded-lg py-1 text-white mb-3" v-if="authStore.authError" >{{authStore.authError }}</div>
             <div class="mb-10 text-center md:mb-16">Register </div>
+           
             <form @submit.prevent="authStore.handleRegisterClient(form)">
               <div class="mb-6">
                 <input
                   type="text"
+                  required
                   placeholder="First Name"
                   v-model="form.first_name"
                   class="
@@ -58,15 +62,16 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <div v-if="authStore.errors.name" class="flex">
+                <!-- <div v-if="authStore.errors.name" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
                     authStore.errors.name[0]
                   }}</span>
-                </div>
+                </div> -->
               </div>
               <div class="mb-6">
                 <input
                   type="text"
+                  required
                   placeholder="Last Name"
                   v-model="form.last_name"
                   class="
@@ -84,15 +89,16 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <div v-if="authStore.errors.name" class="flex">
+                <!-- <div v-if="authStore.errors.name" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
                     authStore.errors.name[0]
                   }}</span>
-                </div>
+                </div> -->
               </div>
               <div class="mb-6">
                 <input
-                  type="text"
+                  type="number"
+                  required
                   placeholder="Phone Number"
                   v-model="form.phone_number"
                   class="
@@ -110,38 +116,21 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <div v-if="authStore.errors.name" class="flex">
+                <!-- <div v-if="authStore.errors.name" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
                     authStore.errors.name[0]
                   }}</span>
-                </div>
+                </div> -->
               </div>
-              <div class="mb-6">
-                <input
-                  type="text"
-                  placeholder="Gender"
-                  v-model="form.gender"
-                  class="
-                    bordder-[#E9EDF4]
-                    w-full
-                    rounded-md
-                    border
-                    bg-[#FCFDFE]
-                    py-3
-                    px-5
-                    text-base text-body-color
-                    placeholder-[#ACB6BE]
-                    outline-none
-                    focus:border-primary
-                    focus-visible:shadow-none
-                  "
-                />
-                <div v-if="authStore.errors.name" class="flex">
-                  <span class="text-red-400 text-sm m-2 p-2">{{
-                    authStore.errors.name[0]
-                  }}</span>
-                </div>
-              </div>
+              <div class="mb-4 flex">
+      <label for="gender" class="block text-gray-700 font-bold mb-2">Gender:</label>
+      <select id="gender" v-model="form.gender" class="bg-gray-300 text-center ml-4 py-1 px-2 rounded-md">
+        <option value="">Select your gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
               <div class="mb-6">
                 <input
                   type="text"
@@ -162,11 +151,11 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <div v-if="authStore.errors.name" class="flex">
+                <!-- <div v-if="authStore.errors.name" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
                     authStore.errors.name[0]
                   }}</span>
-                </div>
+                </div> -->
               </div>
               <div class="mb-6">
                 <input
@@ -188,11 +177,11 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <div v-if="authStore.errors.email" class="flex">
+                <!-- <div v-if="authStore.errors.email" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
                     authStore.errors.email[0]
                   }}</span>
-                </div>
+                </div> -->
               </div>
               <div class="mb-6">
                 <input
@@ -214,11 +203,11 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <div v-if="authStore.errors.password" class="flex">
+                <!-- <div v-if="authStore.errors.password" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
                     authStore.errors.password[0]
                   }}</span>
-                </div>
+                </div> -->
               </div>
               <div class="mb-6">
                 <input
@@ -254,7 +243,10 @@ const form = ref({
                     text-white
                   "
                 >
-                  Register
+                <div v-if="authStore.isLoading" >
+                <v-progress-circular indeterminate color="amber"></v-progress-circular>
+                </div>
+                <div v-else>Register</div>
                 </button>
               </div>
             </form>

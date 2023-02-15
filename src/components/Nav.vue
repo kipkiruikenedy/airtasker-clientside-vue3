@@ -67,7 +67,7 @@ const authStore = useAuthStore();
               >Post a task</router-link
             >
           </li>
-          <template v-if="!authStore.user">
+          <template v-if="!authStore.isAuthenticated">
             <li>
               <router-link
                 :to="{ name: 'Categories' }"
@@ -229,7 +229,10 @@ const authStore = useAuthStore();
                 md:border-0
               "
             >
-              Logout
+            <div v-if="authStore.isLoading" >
+                <v-progress-circular indeterminate color="amber"></v-progress-circular>
+                </div>
+                <div v-else>Logout</div>
             </button>
               </div>
             </div>

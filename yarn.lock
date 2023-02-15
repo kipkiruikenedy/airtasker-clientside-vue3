@@ -17,6 +17,18 @@
   resolved "https://registry.yarnpkg.com/@esbuild/linux-loong64/-/linux-loong64-0.15.13.tgz#64e8825bf0ce769dac94ee39d92ebe6272020dfc"
   integrity sha512-+BoyIm4I8uJmH/QDIH0fu7MG0AEx9OXEDXnqptXCwKOlOqZiS4iraH1Nr7/ObLMokW3sOCeBNyD68ATcV9b9Ag==
 
+"@grammarly/editor-sdk-vue@^2.3.9":
+  version "2.3.9"
+  resolved "https://registry.yarnpkg.com/@grammarly/editor-sdk-vue/-/editor-sdk-vue-2.3.9.tgz#1c108a89b240cb45d07fa9065496b63059f3697a"
+  integrity sha512-XZQmjew6RQEnBNUbTFcLQJwJ+blQDLP4k4OPX7kXEg4r1bUTQ0pbCv0fqo/wDKVZj5N2ja4f5CkL10OjVJsayg==
+  dependencies:
+    "@grammarly/editor-sdk" "2.3.9"
+
+"@grammarly/editor-sdk@2.3.9":
+  version "2.3.9"
+  resolved "https://registry.yarnpkg.com/@grammarly/editor-sdk/-/editor-sdk-2.3.9.tgz#0ce4da2d74911ef4e6bbcb9472793e2dfcc81613"
+  integrity sha512-d3tG8bf9JKq0bi6GhFMHjBYDGV7XyD4tRpLz1BPnQQav0vIEcdfgMWRVCkymyHvF2DKmOPjskQsfQuOFJa3f7w==
+
 "@mdi/js@*", "@mdi/js@^7.1.96":
   version "7.1.96"
   resolved "https://registry.yarnpkg.com/@mdi/js/-/js-7.1.96.tgz#9c5a7f8a20ea63c03b09a0dba1768fe8b70eeaf9"
