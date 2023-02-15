@@ -1,0 +1,1 @@
+import{_ as s,c as e,o as c}from"./index.9e412263.js";const t={},n={class:"min-h-screen bg-slate-400"};function o(a,r){return c(),e("div",n,"Task list")}const i=s(t,[["render",o]]);export{i as default};
