@@ -3,7 +3,7 @@ import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 const authStore = useAuthStore();
 
-export function authGuard(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
+export function authGuard() {
   if (authStore.isAuthenticated) {
     // user is authenticated, allow access to the route
     next();
@@ -12,3 +12,8 @@ export function authGuard(to: RouteLocationNormalized, from: RouteLocationNormal
     next("/login");
   }
 }
+
+router.beforeEach((to, from, next) => {
+
+  // to and from are both route objects. must call `next`.
+})

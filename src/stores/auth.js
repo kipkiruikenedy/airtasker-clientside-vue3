@@ -1,16 +1,20 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { ref } from 'vue'
+import Swal from 'sweetalert2'
 
 export const useAuthStore = defineStore('auth',{
   state: () => ({
     user: null,
     isAuthenticated: false,
     isLoading: false,
-    token: localStorage.getItem('token') || '',
+    status:true,
+    token: localStorage.getItem('token'),
     refreshToken: localStorage.getItem('refreshToken') || '',
+    authMessage:null,
     authError:null,
-    authStatus: null
+    authStatus: null,
+    messages:null,
   }),
 
   // getters: {
@@ -19,49 +23,93 @@ export const useAuthStore = defineStore('auth',{
   //   isClient: (state) => state.user?.role === 'client',
   //   isTasker: (state) => state.user?.role === 'tasker',
     
-  //   status:(state)=>state.authStatus,
+ 
     
 
   // },
 
   actions: {
+
+
     async getToken() {
-      // await axios.get("/sanctum/csrf-cookie");
+      await axios.get("/sanctum/csrf-cookie");
+      
       localStorage.getItem('token')
     },
+
+
+
+    // LOGIN THE USER
     async login(data) {
-   
+      await this.getToken()
       this.isLoading = true
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/login',
-         {    email: data.email, password: data.password, });
-         this.isLoading=false 
+        const response = await axios.post('http://127.0.0.1:8000/api/login', {
+          email: data.email,
+          password: data.password,
+        })
+        this.isLoading = false
         this.refreshToken = response.data.refresh_token
-        this.token = response.data.token
+        this.token = response.data.authToken
         this.user = response.data.user
         this.isAuthenticated = true
         this.authError = response.data.error
-       
-       
+    
         localStorage.setItem('token', this.token)
-        // localStorage.setItem('refreshToken', this.refreshToken)
-        // localStorage.setItem('user', JSON.stringify(this.user));
-       if (this.authError==null && this.user.role_id=="admin") {
-        this.router.push("/admin-dashboard");
-       } else if(this.authError==null && this.user.role_id=="tasker"){
-        this.router.push("/post-task");
-       } else if(this.authError==null && this.user.role_id=="client"){
-        this.router.push("/client-dashboard");
-       } else{
-        this.router.push("/login");
-       }
-        
+    
+        if (this.authError == null && this.user.role_id == 'admin') {
+          this.router.push('/admin-dashboard')
+        } else if (this.authError == null && this.user.role_id == 'tasker') {
+          this.router.push('/tasker/dashboard')
+        } else if (this.authError == null && this.user.role_id == 'client') {
+          this.router.push('/client/post-task')
+        } else {
+          this.router.push('/login')
+        }
       } catch (error) {
-        this.isLoading=false 
-        this.authError = error.response.data.error;
+        this.isLoading = false
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: this.authError,
+          position: 'top-end',
+          showConfirmButton: true,
+       
+        });
+        
       }
     },
+    
 
+// SEND MESSAGE
+async sendMessage(data) {
+  const newMessage=data.newMessage;
+  const task_id=data.task_id;
+  const sender_id=this.user.id;
+  const receiver_id=messages.value[0].sender_id === senderId
+  ? messages.value[0].receiver_id
+  : messages.value[0].sender_id;
+
+      const message = {
+        content:newMessage,
+        sender_id: sender_id,
+        receiver_id:receiver_id,
+        task_id:task_id,
+      };
+      await axios.post('http://127.0.0.1:8000/api/message', message);
+      messages.value.push(message);
+      newMessage.value = '';
+      
+    },
+
+// GET ALL MESSAGES
+     async loadMessages  (data){
+  const response = await axios.get('http://127.0.0.1:8000/api/message',);
+  messages.value = response.data.messages;
+  },
+
+
+    // REGISTER CLIENT
 
     async handleRegisterClient(data) {
       this.authErrors = [];
@@ -91,6 +139,7 @@ export const useAuthStore = defineStore('auth',{
 
 
 
+// REGISTER TASKER
     async handleRegisterTasker(data) {
       this.authErrors = [];
       await this.getToken();
@@ -115,6 +164,57 @@ export const useAuthStore = defineStore('auth',{
       }
     },
 
+
+
+// CREATE TASK
+
+async handleTaskCreate(data) {
+  this.authErrors = [];
+  await this.getToken();
+  this.isLoading = true
+  try {
+    await axios.post("http://127.0.0.1:8000/api/create-task", {
+      title:data.title,
+      description:data.description,
+      amount:data.amount,
+      category_id:data.job_category_name,
+      deadline:data.deadline,
+      time:data.time,
+      client_id:this.user.id
+    });
+    this.isLoading=false
+    this.authError = null
+   
+  } catch (error) {
+    this.isLoading=false 
+    // this.authError = error.response.data.error;
+  }
+},
+
+
+// CREATE AN OFFER TO DO TASK
+    async offer(data) {
+   
+      await this.getToken();
+      this.isLoading = true;
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/api/create-offer',
+         {
+          tasker_id:this.user.id,
+            content:data.title, 
+            task_id: data.task_id, })
+         this.isLoading=false 
+      
+      } catch (error) {
+        this.isLoading=false ;
+      
+      }
+    },
+
+
+
+
+    // LOGOUT THE USER
     async handleLogout() {
       this.authErrors = [];
       this.isLoading=true
@@ -125,7 +225,7 @@ export const useAuthStore = defineStore('auth',{
         this.user=null
         this.router.push("/login");
       } catch (error) {
-        console.error(error)
+        console.log(error)
       } finally {
         this.isLoading=false
         this.isAuthenticated = false
@@ -137,6 +237,8 @@ export const useAuthStore = defineStore('auth',{
     },
    
 
+
+// UPDATE USER
     async updateUser({ state }, { email, password }) {
       try {
         const response = await axios.put(`/users/${state.user.id}`, { email, password })
@@ -148,7 +250,7 @@ export const useAuthStore = defineStore('auth',{
     },
 
 
-
+// FORGOT PASSWORD
     async handleForgotPassword(email) {
       this.authErrors = [];
       this.getToken();
@@ -163,6 +265,11 @@ export const useAuthStore = defineStore('auth',{
         }
       }
     },
+
+
+
+
+    // RESET PASSWORD
     async handleResetPassword(resetData) {
       this.authErrors = [];
       try {
@@ -176,4 +283,5 @@ export const useAuthStore = defineStore('auth',{
     
 },
 }
-});
+}
+);

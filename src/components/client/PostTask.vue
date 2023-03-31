@@ -1,130 +1,204 @@
-<template>
-    <div class="flex items-center justify-center h-screen">
-      <form @submit.prevent="submitTask" class="w-3/5">
-        <div class="mb-4">
-          <label for="title" class="block text-gray-700 font-bold mb-2">Title:</label>
-          <input type="text" id="title" v-model="title" class="w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-  
-        <div class="mb-4">
-          <label for="description" class="block text-gray-700 font-bold mb-2">Description:</label>
-          <GrammarlyEditorPlugin clientId="client_FT69PXiE6gD2r6ya8tv4AD">
-          <textarea id="description" v-model="description" class="w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4"></textarea>
-          </GrammarlyEditorPlugin>
-        </div>
-  
-        <div class="mb-4">
-          <label for="amount" class="block text-gray-700 font-bold mb-2">Amount:</label>
-          <input type="number" id="amount" v-model="amount" class="w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-  
-        <div class="mb-4">
-          <label for="category" class="block text-gray-700 font-bold mb-2">Category:</label>
-          <select id="category" v-model="category" class="w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            <option value="">Select a category</option>
-            <option v-for="category in categories" :value="category.id" :key="category.id">{{ category.name }}</option>
-          </select>
-        </div>
-  
-         
-
-        <div class="mb-4">
-  <label for="image" class="text-gray-700 font-bold mb-2">Image:</label>
-  <input 
-    type="file" 
-    id="image" 
-    :rules="fileRules"
-    accept="image/*"
-    name="image" 
-    @change="onFileSelected"
-  >
-</div>
+<script setup>
+import { ref } from "vue";
+import { useAuthStore } from "../../stores/auth";
+import Nav from "../Nav.vue";
+import ClientNav from "./partials/ClientNav.vue";
+import ClientSidebar from "./partials/ClientSideBar.vue";
+import axios from 'axios'
+import { reactive, toRefs } from 'vue'
+const authStore = useAuthStore();
 
 
+const form = ref({
+  title: "",
+  description: "",
+  amount: "",
+  job_category_name: "",
+  deadline: "",
+  time: "",
 
-        <div class="flex justify-end">
-          <button type="submit" :disabled="!paymentCompleted" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            <i class="mdi mdi-send mdi-18px mr-1"></i>
-            Submit Task
-          </button>
-        </div>
-      </form>
-    </div>
-  </template>
-  
-  <script setup>
-
-  import { ref, reactive, onMounted } from 'vue';
-  import axios from 'axios';
-  import { GrammarlyEditorPlugin } from '@grammarly/editor-sdk-vue'
-
-  const file = ref(null)
-  const title = ref('');
-  const description = ref('');
-  const amount = ref('');
-  const category = ref('');
-  const image = ref(null);
-  const paymentCompleted = ref(false);
-  const categories = reactive([]);
-
-
-  const fileRules = [
-  value => !!value || 'File is required',
-  value => !value || value.size < 2000000 || 'File size should be less than 2 MB',
-]
-
-function onFileSelected(event) {
-  const files = event.target.files
-  if (files.length > 0) {
-    file.value = files[0]
-  }
-};
-
-
-  
-  const getCategories = async () => {
-  try {
-    const response = await axios.get('http://127.0.0.1:8000/api/categories');
-    categories = response.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const submitTask = async () => {
-  if (paymentCompleted.value) {
-    const formData = new FormData();
-    formData.append('title', title.value);
-    formData.append('description', description.value);
-    formData.append('amount', amount.value);
-    formData.append('category', category.value);
-    formData.append('image', image.value);
-
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/api/create-tasks', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
-  } else {
-    alert('Please complete payment before submitting the task.');
-  }
-};
-
-onMounted(() => {
-  getCategories();
 });
+
+const categories = reactive([]);
+
+axios.get('http://127.0.0.1:8000/api/categories')
+  .then(response => {
+    categories.push(...response.data);
+
+  });
 </script>
+<template>
+  <ClientNav/>
+  <div class="grid grid-cols-12 z-0">
+  <div class=" col-span-3 ">
+  <ClientSidebar />
+  </div>
+  <div class=" col-span-9">
+    <!-- ====== Forms Section Start -->
+    <section class="bg-[#F4F7FF] py-20 lg:py-[120px]">
+    <div class="container mx-auto">
+      <div class="-mx-4 flex flex-wrap">
+        <div class="w-full px-4">
+          <div
+            class="
+              relative
+              mx-auto
+              max-w-[525px]
+              overflow-hidden
+              rounded-lg
+              bg-white
+              py-16
+              px-10
+              text-center
+              sm:px-12
+              md:px-[60px]
+            "
+          >
+          <div class="bg-red-500 text-center rounded-lg py-1 text-white mb-3" v-if="authStore.authError" >{{authStore.authError }}</div>
+            <div class="mb-10 text-center md:mb-16 text-2xl text-blue-900">Post a Task and get a Tasker do the work for you</div>
+           
+            <form @submit.prevent="authStore.handleTaskCreate(form)">
+              <div class="mb-6">
+              <p>Title of your task. Give a brief title</p>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g I need a wordpress website"
+                  v-model="form.title"
+                  class="
+                    bordder-[#E9EDF4]
+                    w-full
+                    rounded-md
+                    border
+                    bg-[#FCFDFE]
+                    py-3
+                    px-5
+                    text-base text-body-color
+                    placeholder-[#ACB6BE]
+                    outline-none
+                    focus:border-primary
+                    focus-visible:shadow-none
+                  "
+                />
+                <!-- <div v-if="authStore.errors.name" class="flex">
+                  <span class="text-red-400 text-sm m-2 p-2">{{
+                    authStore.errors.name[0]
+                  }}</span>
+                </div> -->
+              </div>
+            
+              <div class="mb-6">
+              <p>Tell us more about your project</p>
+                <textarea
+                  type="text"
+                  required
+                  placeholder="descripe your task fully to help the tasker understand the task fully"
+                  v-model="form.description"
+                  class="
+                    bordder-[#E9EDF4]
+                    w-full
+                    rounded-md
+                    border
+                    bg-[#FCFDFE]
+                    py-5
+                    px-8
+                    text-base text-body-color
+                    placeholder-[#ACB6BE]
+                    outline-none
+                    focus:border-primary
+                    focus-visible:shadow-none
+                  "
+                />
+                <!-- <div v-if="authStore.errors.name" class="flex">
+                  <span class="text-red-400 text-sm m-2 p-2">{{
+                    authStore.errors.name[0]
+                  }}</span>
+                </div> -->
+              </div>
+         
+      
+            
+              <div class="mb-4 flex mt-3">
+      <label for="category" class="block text-gray-700 font-bold mb-2">Task Category:</label>
+      <select id="category" v-model="form.job_category_name" class="bg-gray-300 text-center ml-4 py-1 px-2 rounded-md" required>
+  <option value="">Select a category</option>
+  <option v-for="category in categories" :value="category.id">{{ category.job_category_name }}</option>
+</select>
 
-<style scoped>
-  form {
-    width: 60%;
-    margin: 0 auto;
-  }
-</style>
+    </div>
+              <div class="mb-6 mt-4">
+           <p>What is your Budget in USD for this task?</p>
+                <input
+                  type="number"
+                  placeholder="$1200"
+                  v-model="form.amount"
+                  class="
+                    bordder-[#E9EDF4]
+                    w-full
+                    rounded-md
+                    border
+                    bg-[#FCFDFE]
+                    py-3
+                    px-5
+                    text-base text-body-color
+                    placeholder-[#ACB6BE]
+                    outline-none
+                    focus:border-primary
+                    focus-visible:shadow-none
+                  "
+                />
+                <!-- <div v-if="authStore.errors.password" class="flex">
+                  <span class="text-red-400 text-sm m-2 p-2">{{
+                    authStore.errors.password[0]
+                  }}</span>
+                </div> -->
+              </div>
 
-  
+              <div class="mb-6">
+              <p class="text-blue-800">Deadline of the task</p>
+              <div>     
+<input type="date" id="birthday" name="birthday"  v-model="form.deadline">
+              </div>
+              </div>
+
+
+              <div class="mb-6">
+              <p class="text-blue-800">Deadline Time</p>
+              <div class="p-5">     
+              
+<input type="time" id="picker" name="picker" v-model="form.time">
+              </div>
+              </div>
+
+
+              <div class="mb-10">
+                <button
+                  type="submit"
+                  class="
+                    w-full
+                    px-4
+                    py-3
+                    bg-indigo-500
+                    hover:bg-indigo-700
+                    rounded-md
+                    text-white
+                  "
+                >
+                <div v-if="authStore.isLoading" >
+                <v-progress-circular indeterminate color="amber"></v-progress-circular>
+                </div>
+                <div v-else>Submit Task</div>
+                </button>
+              </div>
+            </form>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  </div>
+
+</template>

@@ -10,6 +10,7 @@
    <!-- CONTENT -->
    <div class="bg-white col-span-10">
     <h2 class="text-center">Clients</h2>
+  
   <v-table
     fixed-header
     height="300px"
@@ -78,6 +79,7 @@ axios.get('http://127.0.0.1:8000/api/admin-clients')
   .then(response => {
     clients.push(...response.data);
     authStore.isLoading=false;
+    console.log( clients.tasks)
   });
 
 

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { useAuthStore } from "../../stores/auth";
-
+import Nav from "../Nav.vue";
 const authStore = useAuthStore();
 
 const form = ref({
@@ -16,6 +16,7 @@ const form = ref({
 });
 </script>
 <template>
+    <Nav />
   <!-- ====== Forms Section Start -->
   <section class="bg-[#F4F7FF] py-20 lg:py-[120px]">
     <div class="container mx-auto">
@@ -97,7 +98,7 @@ const form = ref({
                 <input
                   type="number"
                   required
-                  placeholder="Phone Number"
+                  placeholder="04"
                   v-model="form.phone_number"
                   class="
                     bordder-[#E9EDF4]

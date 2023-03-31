@@ -4,6 +4,8 @@ import { useAuthStore } from '../stores/auth'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 
+import Swal from 'sweetalert2'
+import Nav from "./Nav.vue";
 const authStore = useAuthStore()
 const router = useRouter()
 
@@ -13,10 +15,19 @@ const form = ref({
 });
 
 
+
+const showLoginError = () => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Login Error',
+      text: authStore.authError,
+    })
+  }
 </script>
 
 
 <template>
+    <Nav />
   <section class="bg-[#F4F7FF] py-20 lg:py-[120px]">
     <div class="container mx-auto">
       <div class="-mx-4 flex flex-wrap">
@@ -36,11 +47,21 @@ const form = ref({
               md:px-[60px]
             "
           >
-          <div class="bg-red-500 text-center rounded-lg py-1 text-white mb-3" v-if="authStore.authError" >{{authStore.authError }}</div>
+
+    <!-- ERROR -->
+          <div class="mb-6" v-if="authStore.authError">
+            <div class="bg-red-500 text-center rounded-lg py-1 text-white">{{ authStore.authError }}</div>
+          </div>
+
             <div class="mb-10 text-center md:mb-16">Airtasker Pro</div>
            
-          
-            <form @submit.prevent="authStore.login(form)">
+
+            <form @submit.prevent="async () => {
+          await authStore.login(form)
+          if (authStore.authError) {
+            showLoginError()
+          }
+        }" >
               <div class="mb-6">
                 <input
                   type="email"
@@ -130,10 +151,11 @@ const form = ref({
             </router-link>
             <p class="text-base text-[#adadad]">
               Not a member yet?
-              <router-link to="/register" class="text-primary hover:underline">
-                Sign Up
+              <router-link to="/register/client" class="text-primary hover:underline">
+                Sign Up 
               </router-link>
             </p>
+          
           </div>
         </div>
       </div>

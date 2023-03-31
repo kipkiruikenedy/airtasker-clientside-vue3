@@ -45,7 +45,7 @@ const email = ref("");
         "
         placeholder="email@ken.com"
       />
-      <div v-if="authStore.errors.email" class="flex">
+      <div v-if="authStore.errors" class="flex">
         <span class="text-red-400 text-sm m-2 p-2">{{
           authStore.errors.email[0]
         }}</span>

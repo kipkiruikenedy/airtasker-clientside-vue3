@@ -1,10 +1,11 @@
 <template>
     <form @submit.prevent="updateUser">
-      <input type="email" v-model="email" required>
-      <input type="password" v-model="password" required>
+      <input type="email" v-model="email" required />
+      <input type="password" v-model="password" required />
       <button type="submit">Update</button>
     </form>
   </template>
+  
   
   <script setup>
   import { useAuthStore } from '../store/auth'

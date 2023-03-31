@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { useAuthStore } from "../../stores/auth";
+import Nav from "../Nav.vue";
 const authStore = useAuthStore();
 
 
@@ -17,6 +18,7 @@ const form = ref({
 
 </script>
 <template>
+    <Nav />
   <!-- ====== Forms Section Start -->
   <section class="bg-[#F4F7FF] py-20 lg:py-[120px]">
     <div class="container mx-auto">
@@ -38,7 +40,7 @@ const form = ref({
             "
           >
           <div class="bg-red-500 text-center rounded-lg py-1 text-white mb-3" v-if="authStore.authError" >{{authStore.authError }}</div>
-            <div class="mb-10 text-center md:mb-16">Register </div>
+            <div class="mb-10 text-center md:mb-16">Create Account </div>
            
             <form @submit.prevent="authStore.handleRegisterClient(form)">
               <div class="mb-6">

@@ -5,6 +5,13 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
   // base:"/deploying-vite-project",
   plugins: [vue()],
+  css: {
+    preprocessorOptions: {
+      sass: {
+        // options for sass
+      },
+    },
+  },
   server: {
     port: 3000,
   },

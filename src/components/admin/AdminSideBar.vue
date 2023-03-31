@@ -1,6 +1,6 @@
 <template>
     <div class="flex-col h-screen bg-gray-800 text-white">
-      <div class=" justify-center pt-4 pl-7">
+      <div class="justify-center pt-4 pl-7">
         <v-avatar  image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyxVEw9MRh_vuujq_zWCppZySLY0aEH7HrM9gr9EHa&s"></v-avatar>
       </div>
       <nav class="mt-8">
@@ -36,6 +36,8 @@
           { title: 'Pending Payments', to: '/admin-pending-payments' },
           { title: 'Completed Payments', to: '/admin-completed-paymets' },
           { title: 'Suspended Acounts', to: '/admin-suspended-accounts' },
+          { title: 'Add Tasks Categories', to: '/admin-create-category' },
+          { title: 'Add Taskers Categories', to: '/admin-suspended-accounts' },
          
         ],
       };
