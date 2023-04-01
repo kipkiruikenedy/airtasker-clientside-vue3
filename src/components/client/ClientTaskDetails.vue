@@ -42,7 +42,7 @@ axios.get(`http://localhost:8000/api/tasks/${taskId}`)
 
         <!-- OFFERS -->
         <div >
-        <p>offers</p>
+        
           <RouterView />
 
         </div>

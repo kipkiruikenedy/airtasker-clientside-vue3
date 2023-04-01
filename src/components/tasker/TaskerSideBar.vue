@@ -30,13 +30,11 @@ export default defineComponent({
       items: [
         { title: 'Dashboard', to: '/tasker/dashboard',icon:"mdi mdi-account-multiple-outline" },
 
-        { title: 'Pending Tasks', to: '/tasker-pending-tasks' },
+        { title: 'New Tasks', to: '/tasker-pending-tasks' },
         { title: 'Active Tasks', to: '/tasker-active-tasks' },
         { title: 'Completed Tasks', to: '/tasker-completed-tasks' },
       
-     
-        { title: 'Settings', to: '/admin-create-category' },
-        { title: 'LogOut', to: '/admin-suspended-accounts' },
+
        
       ],
     };

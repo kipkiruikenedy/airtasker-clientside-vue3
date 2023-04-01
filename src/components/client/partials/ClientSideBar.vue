@@ -30,11 +30,11 @@ export default defineComponent({
       items: [
         { title: 'Active Tasks', to: '/client-active-task' },
         { title: 'Post a Task', to: '/client/post-task' },
-        { title: 'My Tasks', to: '/client-task' },
-        { title: 'Rejected Tasks', to: '/admin-pending-tasks' },
-        { title: 'Completed Tasks', to: '/admin-completed-tasks' },
+        { title: 'Pending Tasks', to: '/client-task' },
+        { title: 'Completed Tasks', to: '/client-completedtask' },
+        { title: 'Rejected Tasks', to: '/client-rejectedtask' },
       
-        { title: 'Settings', to: '/client-settings' }
+      
       ],
     };
   },

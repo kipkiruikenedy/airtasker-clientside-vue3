@@ -148,30 +148,30 @@ const routes = [
     component: () => import("../components/client/PostTask.vue"),
   },
   {
-    path: '/client/task/:id',
+    path: '/client/task/:taskId',
     name: 'clientTaskDetails',
     component: () => import('../components/client/ClientTaskDetails.vue'),
        children: [
         
            {
           path: "offer",
-          component: () => import("../components/client/offers/ClientOfferCard.vue"),
+          component: () => import("../components/client/offers/OffersLists.vue"),
            },
            {
-          path: 'offer/:id',
+          path: 'offer/:offerId',
           component: () => import("../components/client/offers/OfferDetails.vue"),
-          children: [
-            {
-              path: 'messages',
-              component: () => import('../components/client/ClientTaskPayment.vue'),
+         
            },
-          ]
-           },
-
            {
-              path: 'pay',
-              component: () => import('../components/client/ClientTaskPayment.vue'),
-           },
+            path: 'pay',
+            component: () => import('../components/client/ClientTaskPayment.vue'),
+         },
+           {
+            path: 'message',
+            component: () => import('../components/client/Message/SendMesage.vue'),
+         },
+
+         
          
          
       ]
@@ -181,6 +181,16 @@ const routes = [
 
 
 // ACTIVE TASK
+{
+  path: "/client-rejectedtask",
+  name: "ClientCurrentRejectedTasks",
+  component: () => import("../components/client/ClientRejectedTasks.vue"),
+},
+{
+  path: "/client-completedtask",
+  name: "ClientCurrentCompletedTasks",
+  component: () => import("../components/client/ClientCompletedTasks.vue"),
+},
 {
   path: "/client-active-task",
   name: "ClientCurrentActiveTasks",
@@ -207,16 +217,7 @@ const routes = [
     name: "ClientActiveTasks",
     component: () => import("../components/client/ClientActiveTasks.vue"),
   },
-  {
-    path: "/client-rejected-task",
-    name: "ClientRejectedTasks",
-    component: () => import("../components/client/ClientRejectedTasks.vue"),
-  },
-  {
-    path: "/client-completed-task",
-    name: "ClientCompletedTasks",
-    component: () => import("../components/client/ClientCompletedTasks.vue"),
-  },
+
   // {
   //   path: "/client-settings",
   //   name: "ClientSetting",
@@ -373,6 +374,11 @@ const routes = [
       path: "/categories",
       name: "Categories",
       component: () => import("../components/Categories.vue"),
+    },
+    {
+      path: "/help",
+      name: "Help",
+      component: () => import("../components/Global/MessageAdmin.vue"),
     },
 ];
 

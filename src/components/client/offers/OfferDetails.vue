@@ -1,73 +1,40 @@
+<template>
+  <div>details
+    <button class="bg-blue-600 text-white py-1 px-3 rounded-full items-center flex "
+    @click="router.push(`/task/offer/${task.id}`)"
+          ><p>Employ tasker</p>
+        </button>
+  </div>
+    <!-- payment -->
+    <div >
+        
+        <RouterView />
+
+      </div>
+</template>
 
 <script setup>
 
 import { useRoute, useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
-import axios from 'axios';
-import { reactive } from 'vue';
+import { reactive, toRefs } from 'vue'
+import axios from 'axios'
 import { Icon } from "@iconify/vue";
-import ClientOfferCard from '../offers/ClientOfferCard.vue';
-import ClientSideBar from '../partials/ClientSideBar.vue';
-import ClientNav from '../partials/ClientNav.vue';
+import { computed } from 'vue'
 
 const route = useRoute();
 const router = useRouter();
 
-
-const tasks =  reactive([]);
-const offers = reactive([]);
-const { id } = route.params;
-
-
-axios.get('http://127.0.0.1:8000/api/all-tasks')
-  .then(response => {
-    tasks.push(...response.data);
-    
-  });
-  
-
-
-  
-  // task =  items.find(t => t.id === parseInt(id));
-
- 
-
-
-  const taskId=id;
- 
-   const params = new URLSearchParams([['task_id', taskId]]);
-    axios.get('http://127.0.0.1:8000/api/client/task-offer',{params} )
-    .then(response => {
-      offers.push(...response.data);
-  
-    });
-    console.log(offers)
+const taskId =route.params.taskId
+const offerId = computed(() => parseInt(route.params.offerId))
+console.log(taskId)
+function handleEmployTaskerClick() {
+  router.push({
+    name: 'pay',
+    params: {
+      taskId: taskId.value,
+      offerId: offerId.value,
+    },
+  })
+}
 </script>
-
-<template>
-  <ClientNav />
-<div class="grid grid-cols-12">
-<!-- SIDEBAR -->
-<div class="bg-red-100 col-span-2">
-<ClientSideBar/>
-</div>
-<!-- TASK DETAILS -->
-<div class=" col-span-10">
-<div class="bg-white">
-<p>title</p>
-<button @click="router.push(`/client/task/${id}/offer`)">View Offers for this task</button>
-</div>
-
-<!-- oFFERS -->
-<div class="flex">
-     <RouterView />
-</div>
-</div>
-
-
-
-</div>
-
-</template>
-
-

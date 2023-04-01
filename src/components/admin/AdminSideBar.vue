@@ -37,7 +37,8 @@
           { title: 'Completed Payments', to: '/admin-completed-paymets' },
           { title: 'Suspended Acounts', to: '/admin-suspended-accounts' },
           { title: 'Add Tasks Categories', to: '/admin-create-category' },
-          { title: 'Add Taskers Categories', to: '/admin-suspended-accounts' },
+         
+     
          
         ],
       };

@@ -170,7 +170,7 @@ axios.get('http://127.0.0.1:8000/api/categories')
 
 
 
-  axios.get('http://127.0.0.1:8000/api/all-tasks')
+  axios.get('http://127.0.0.1:8000/api/open-tasks')
   .then(response => {
     tasks.push(...response.data);
 

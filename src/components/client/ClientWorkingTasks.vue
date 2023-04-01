@@ -55,8 +55,8 @@
         <td>{{ task.gender }}</td>
         <td>{{ task.country }}</td> -->
         <td>
-          <v-button class="bg-blue-500 rounded-md py-1 px-2 text-white mx-2">Update</v-button>
-          <v-button class="bg-red-500 rounded-md py-1 px-2 text-white">Delete</v-button>
+          <v-button class="bg-blue-500 rounded-md py-1 px-2 text-white mx-2">Release payment</v-button>
+         
       </td>
     </tr>
 

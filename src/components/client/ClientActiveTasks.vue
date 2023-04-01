@@ -29,7 +29,7 @@
   <v-progress-circular indeterminate color="amber"></v-progress-circular>
 </div>
   <div v-else class="col-span-10 p-5 ">
-  <p>My Active Tasks</p>
+  <p>My Pending Tasks</p>
     <div v-for="task in tasks"
      class="m-2 space-y-5 flex flex-row" 
      @click="router.push(`/client/task/${task.id}/offer`)">

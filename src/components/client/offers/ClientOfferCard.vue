@@ -16,10 +16,7 @@
 </div>
 
 <div class="py-1 px-2">
-<button class="bg-blue-600 text-white py-1 px-3 rounded-full items-center flex "
-@click="router.push(`/client/task/${id}/pay`)"
-          ><p>Employ tasker</p>
-        </button>
+
 </div>
    
     </div>
@@ -33,8 +30,12 @@
     <div class="py-1 px-2 flex justify-between m-1">
       <p class="text-gray-900 text-center">{{ minutesAgo }}minutes ago</p>
 <button class="bg-blue-600 text-white py-1 px-3 rounded-full items-center flex "
-@click="router.push(`/client/task/${id}/pay`)"
+@click="router.push(`/client/task/${taskId}/message`)"
           ><p>Reply</p>
+        </button>
+<button class="bg-blue-600 text-white py-1 px-3 rounded-full items-center flex "
+@click="router.push(`/client/task/${taskId}/pay`)"
+          ><p>employ</p>
         </button>
 
 </div>
@@ -51,8 +52,8 @@ import { Icon } from "@iconify/vue";
 import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
-const { id } = route.params;
-
+const {taskId } = route.params;
+console.log(taskId)
 const props = defineProps({
  name: String,
  message: String,
