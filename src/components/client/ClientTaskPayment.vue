@@ -74,7 +74,12 @@ const submitTask = () => {
       title.value = '';
       description.value = '';
       price.value = '';
-         
+      Swal.fire({
+        icon: 'success',
+        title: 'Congratulations! You payment have succesfully been submitted',
+  text: 'Your money will be on hold untill the tasker completes the task!',
+  footer: '<a href="">Want to read more about payment?</a>'
+})
       card.clear();
       isSubmitting.value = false;
       const router = useRouter();

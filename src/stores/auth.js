@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { ref } from 'vue'
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 
 export const useAuthStore = defineStore('auth',{
   state: () => ({
@@ -67,15 +69,15 @@ export const useAuthStore = defineStore('auth',{
           this.router.push('/login')
         }
       } catch (error) {
-        this.isLoading = false
         Swal.fire({
+          position: 'center',
           icon: 'error',
-          title: 'Oops...',
-          text: this.authError,
-          position: 'top-end',
-          showConfirmButton: true,
-       
-        });
+          title: 'Invalid credentials, please try again',
+          showConfirmButton: false,
+          timer: 2000
+        })
+        this.isLoading = false
+      
         
       }
     },
@@ -154,9 +156,18 @@ async handleTaskCreate(data) {
       time:data.time,
       client_id:this.user.id
     });
+   // Display congratulations popup upon successful task creation
+   Swal.fire({
+    title: 'Congratulations!',
+    text: 'Your task has been created successfully.',
+    icon: 'success',
+    confirmButtonText: 'OK'
+  }).then(() => {
+    router.push('/home'); // Navigate to "/home" route when "OK" button is clicked
+  });
     this.isLoading=false
     this.authError = null
-   
+    this.router.push('/client-task')
   } catch (error) {
     this.isLoading=false 
     // this.authError = error.response.data.error;

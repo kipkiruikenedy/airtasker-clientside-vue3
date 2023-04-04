@@ -11,15 +11,20 @@ const routes = [
 
  
   {
+    path: "/sms",
+    name: "SMSS",
+    component: () => import("../components/client/PrivateChart.vue"),
+  },
+  {
     path: "/rate",
     name: "Rate",
     component: () => import("../components/Global/RateUser.vue"),
   },
   {
-    path: '/chat',
+    path: '/chat/:userId',
     name: 'Chat',
     component: Chat,
-    props: (route) => ({ messages: route.params.messages ? JSON.parse(route.params.messages) : null }),
+    props: true
   },
   
   { 
@@ -80,6 +85,10 @@ const routes = [
          path: "pay",
          component: () => import('../components/client/ClientTaskPayment.vue'),
       },
+      {
+        path: "private-chat",
+        component: () => import('../components/client/PrivateChart.vue'),
+     },
 
     
  ]
@@ -163,7 +172,7 @@ const routes = [
     component: () => import("../components/client/PostTask.vue"),
   },
   {
-    path: '/client/task/:taskId',
+    path: '/client/task/:id',
     name: 'clientTaskDetails',
     component: () => import('../components/client/ClientTaskDetails.vue'),
        children: [
@@ -173,7 +182,7 @@ const routes = [
           component: () => import("../components/client/offers/OffersLists.vue"),
            },
            {
-          path: 'offer/:offerId',
+          path: 'offer/:id',
           component: () => import("../components/client/offers/OfferDetails.vue"),
          
            },

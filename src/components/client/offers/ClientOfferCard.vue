@@ -30,11 +30,13 @@
     <div class="py-1 px-2 flex justify-between m-1">
       <p class="text-gray-900 text-center">{{ minutesAgo }}minutes ago</p>
 <button class="bg-blue-600 text-white py-1 px-3 rounded-full items-center flex "
-@click="router.push(`/client/task/${taskId}/message`)"
+@click="router.push(`/client/task/${taskId}/private-chat`)"
+
           ><p>Reply</p>
         </button>
 <button class="bg-blue-600 text-white py-1 px-3 rounded-full items-center flex "
-@click="router.push(`/client/task/${taskId}/pay`)"
+
+@click="Employ()"
           ><p>employ</p>
         </button>
 
@@ -47,13 +49,14 @@
 
 
     <script setup>
-
+    import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import { Icon } from "@iconify/vue";
 import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
-const {taskId } = route.params;
-console.log(taskId)
+const {id } = route.params;
+
 const props = defineProps({
  name: String,
  message: String,
@@ -85,4 +88,33 @@ const props = defineProps({
  
  
 });
+
+const Employ = () => {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You want to employ this tasker!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, I want to employ!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        'Congratulations! You have succesfully employed the tasker',
+        'You need to make payment for your employment to be complete.',
+        'success'
+      ).then(() => {
+        router.push(`/client/task/${id}/pay`);
+      });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire(
+        'Cancelled succesfully',
+        'You have succesfully cancelled the operation.',
+        'error'
+      );
+    }
+  });
+};
+
 </script>

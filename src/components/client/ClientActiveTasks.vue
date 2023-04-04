@@ -32,7 +32,10 @@
   <p>My Pending Tasks</p>
     <div v-for="task in tasks"
      class="m-2 space-y-5 flex flex-row" 
-     @click="router.push(`/client/task/${task.id}/offer`)">
+     @click="router.push('/client/task/' + task.id +'/offer')"
+
+>
+    
    <TaskCard 
     :key="task.id" 
     :title="task.title" 
@@ -48,6 +51,7 @@
   </template>
   
   
+
   <script setup>
   
   import { reactive, toRefs } from 'vue'

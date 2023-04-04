@@ -10,16 +10,16 @@ import { Icon } from "@iconify/vue";
 const route = useRoute();
 const router = useRouter();
 
-const { taskId } = route.params;
+const { id } = route.params;
  
-   const params = new URLSearchParams([['task_id', taskId]]);
+   const params = new URLSearchParams([['task_id', id]]);
 
 const categories = reactive([]);
 const offers = reactive([]);
 axios.get('http://127.0.0.1:8000/api/client/task-offer',{params} )
   .then(response => {
     offers.push(...response.data);
-
+console.log("edrfyukjhgrertyu")
   });
 </script>
 

@@ -110,9 +110,9 @@ axios.get('http://127.0.0.1:8000/api/categories')
                   "
                 />
                 <!-- <div v-if="authStore.errors.name" class="flex">
-                  <span class="text-red-400 text-sm m-2 p-2">{{
-                    authStore.errors.name[0]
-                  }}</span>
+                  <span class="text-red-400 text-sm m-2 p-2">
+                  {{authStore.errors.name[0]}}
+                  </span>
                 </div> -->
               </div>
          
