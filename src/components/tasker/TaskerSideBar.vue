@@ -32,6 +32,7 @@ export default defineComponent({
 
         { title: 'New Tasks', to: '/tasker-pending-tasks' },
         { title: 'Active Tasks', to: '/tasker-active-tasks' },
+        { title: 'My offers', to: '/tasker-pending-tasks' },
         { title: 'Completed Tasks', to: '/tasker-completed-tasks' },
       
 

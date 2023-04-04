@@ -37,23 +37,19 @@ import { reactive, toRefs } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 const authStore = useAuthStore();
 const userAuthId = authStore.user.id;
-
 const task = ref({});
 const categories = reactive([]);
 const tasks = reactive([]);
 const showCheckboxes = ref(false);
-
     let stripe = Stripe(`pk_test_51MptVhBQovItJ3xem1WVQAsYny0SKYmYJBrSU3QPn33MwZmrYChJBZm7tqmX7Xx43AAxCgcmrAco0iuZKTX53cS800t2QmFabq`),
     elements = stripe.elements(),
     card = undefined;
-
 const route = useRoute();
 const router = useRouter();
 const title = ref('');
 const description = ref('');
 const price = ref('');
 const isSubmitting = ref(false);
-
 const submitTask = () => {
   isSubmitting.value = true;
   stripe.createToken(card).then(function(result) {
@@ -83,14 +79,12 @@ const submitTask = () => {
       isSubmitting.value = false;
       const router = useRouter();
       // window.location.href = '/client-active-task';
-
     }).catch(function(error) {
       console.log(error);
       isSubmitting.value = false;
     });
   });
 };
-
 const mounted = () => {
   if (!card) {
     card = elements.create('card');
@@ -99,5 +93,4 @@ const mounted = () => {
 };
 const cardRef = ref(null);
 onMounted(mounted);
-
 </script>

@@ -81,34 +81,6 @@ export const useAuthStore = defineStore('auth',{
     },
     
 
-// SEND MESSAGE
-async sendMessage(data) {
-  const newMessage=data.newMessage;
-  const task_id=data.task_id;
-  const sender_id=this.user.id;
-  const receiver_id=messages.value[0].sender_id === senderId
-  ? messages.value[0].receiver_id
-  : messages.value[0].sender_id;
-
-      const message = {
-        content:newMessage,
-        sender_id: sender_id,
-        receiver_id:receiver_id,
-        task_id:task_id,
-      };
-      await axios.post('http://127.0.0.1:8000/api/message', message);
-      messages.value.push(message);
-      newMessage.value = '';
-      
-    },
-
-// GET ALL MESSAGES
-     async loadMessages  (data){
-  const response = await axios.get('http://127.0.0.1:8000/api/message',);
-  messages.value = response.data.messages;
-  },
-
-
     // REGISTER CLIENT
 
     async handleRegisterClient(data) {

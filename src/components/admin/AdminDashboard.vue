@@ -2,6 +2,7 @@
 
 
 <template>
+    <AdminNav/>
     <div class="grid grid-cols-12 gap-2 min-h-screen bg-gray-200">
         <!-- SIDEBAR -->
    <div class="bg-red-500 col-span-2">
@@ -64,6 +65,7 @@
     </div>
 </template>
 <script setup>
+import AdminNav from './AdminNav.vue';
 import AdminSideBar from './AdminSideBar.vue';
 
 </script>

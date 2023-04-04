@@ -22,7 +22,7 @@
       
         <div>
       <router-link @click="showMenu = !showMenu"
-        :to="{ name: 'Login' }"
+        :to="{ name: 'Help' }"
         class="block rounded py-2 pr-4 pl-3 text-black hover:text-blue-800">
         Help
         </router-link>
@@ -34,9 +34,9 @@
         Notification
         </router-link>
     </div>
-        <div>
+    <div>
       <router-link @click="showMenu = !showMenu"
-        :to="{ name: 'Login' }"
+        :to="{ name: 'ClientMessages' }"
         class="block rounded py-2 pr-4 pl-3 text-black hover:text-blue-800">
         Message
         </router-link>

@@ -22,6 +22,7 @@
     "mdi-vue": "^3.0.13",
     "pinia": "^2.0.33",
     "sass": "^1.58.3",
+    "stripe": "^11.17.0",
     "stripe-card-validator": "^1.0.1",
     "sweetalert2": "11.1.4",
     "vue": "^3.2.41",

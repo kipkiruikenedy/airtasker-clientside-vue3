@@ -55,7 +55,7 @@
         <td>{{ task.gender }}</td>
         <td>{{ task.country }}</td> -->
         <td>
-          <v-button class="bg-blue-500 rounded-md py-1 px-2 text-white mx-2">Release payment</v-button>
+          <button class="bg-blue-500 rounded-md py-1 px-2 text-white mx-2" @click="rateTutor">Release payment</button>
          
       </td>
     </tr>
@@ -107,6 +107,9 @@ try{
   console.log("erro occured")
 }
 
+function rateTutor() {
+  router.push('/rate');
+}
 </script>
 
 

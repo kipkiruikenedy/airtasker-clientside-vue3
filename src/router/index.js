@@ -2,13 +2,28 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Home from "../components/Home.vue";
 import Pay from "../components/client/ClientTaskPayment.vue";
-import sms from "../components/client/Message/SendMesage.vue";
+import sms from "../components/Global/PrivateChat.vue";
+import Chat from "../components/Global/Chart.vue";
+
 
 const routes = [
   { path: "/", name: "Home", component: Home },
 
+ 
+  {
+    path: "/rate",
+    name: "Rate",
+    component: () => import("../components/Global/RateUser.vue"),
+  },
+  {
+    path: '/chat',
+    name: 'Chat',
+    component: Chat,
+    props: (route) => ({ messages: route.params.messages ? JSON.parse(route.params.messages) : null }),
+  },
+  
   { 
-    path: "/message",
+    path: "/private-chart",
    name: "sms", 
    component: sms,
   //  meta: { requiresAuth: true }
@@ -166,10 +181,7 @@ const routes = [
             path: 'pay',
             component: () => import('../components/client/ClientTaskPayment.vue'),
          },
-           {
-            path: 'message',
-            component: () => import('../components/client/Message/SendMesage.vue'),
-         },
+           
 
          
          
@@ -284,6 +296,11 @@ const routes = [
   },
 
   // ADMIN
+  {
+    path: "/admin-view-notifications",
+    name: "AdminNotifications",
+    component: () => import("../components/admin/AdminViewNotifications.vue"),
+  },
   {
     path: "/admin-dashboard",
     name: "AdminDahsboard",
