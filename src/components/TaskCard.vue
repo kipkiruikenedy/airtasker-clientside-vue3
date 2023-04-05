@@ -23,7 +23,7 @@
       <p class=" text-blue-900 rounded font-semibold">{{ status }}</p>
       <p class="mb-2">{{ offers }}</p>
       <v-avatar>
-        <img src="../assets/images/img1.PNG" />
+        <img src="https://images.ctfassets.net/hrltx12pl8hq/6VnchrGZSnO8xyvO7uT7PC/811d0fd7d53c07ad055adbd761f205c8/shutterstock_1919883236__1_.jpg?fit=fill&w=480&h=270&fm=webp" />
       </v-avatar>
     </div>
   </div>

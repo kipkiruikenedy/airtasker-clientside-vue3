@@ -12,7 +12,7 @@
 <!-- CONTENT -->
 <div class="bg-white col-span-10">
 
-<div v-for="task in tasks">
+<div>
 <p class="text-center text-blue-900 text-2xl font-semibold">{{ task.title }}</p>
 <!-- TOP -->
 <div class="flex justify-between">
@@ -24,7 +24,7 @@
 <div class="border rounded-full">image</div>
 <div class="">
 <p>POSTED BY</p>
-<p>kenedy</p>
+<p>{{ task.client.first_name }} {{ task.client.last_name }}</p>
 </div>
 </div>
 <!-- two -->
@@ -46,8 +46,8 @@
 </div>
 <!-- LEFT -->
 <div class="flex flex-column justify-between py-6 my-5 mx-6">
-<div>one</div>
-<div>2</div>
+<div>{{ formatDate(task.created_at) }}</div>
+<div></div>
 </div>
 </div>
 <!-- END OF TOP -->
@@ -62,21 +62,45 @@
 <p class="text-2xl">${{ task.amount }}</p>
 </div>
 
-<div class="flex justify-between">
+<div class="flex justify-between mt-4">
 <div>Service Fee</div>
-<div>$2</div>
+<div>${{ task.fees }}</div>
 </div>
 
 <div class="flex justify-between">
 <div>You'll receive</div>
-<div>$16.21</div>
+<div>${{ task.receivable }}</div>
 </div>
 <!-- BUTTON -->
 <div class="bg-green-500 text-center rounded-full py-1 ">
 <button><p class="text-white">Request Payment</p></button>
 </div>
 </div>
+<!-- DETAILS -->
+<div>
+<p class="text-center">details</p>
+<div>{{ task.description }}</div>
+</div>
+<!-- ASSIGNEE -->
+<div>
+<p class="text-start text-gray-800 mt-5 font-semibold">Assignee</p>
+<div class="flex justify-between">
+<!-- User Details -->
+<div class="flex justify-between space-x-4">
+<div class="rounded-full border">image</div>
+<!-- details -->
+<div >
+  <p class="flex space-x-1">{{ task.tasker.first_name }} {{ task.tasker.last_name }}</p>
+<p>rating</p>
+<p>completion rate</p>
+</div>
 
+</div>
+
+<div class="mr-10">${{ task.amount }}</div>
+</div>
+
+</div>
 
 </div>
 </div>
@@ -94,23 +118,34 @@ import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 const authStore = useAuthStore();
-const tasks = reactive([]);
+const task = reactive([]);
 // fetch data from localhost:5000
 
 const route = useRoute();
 const router = useRouter();
 const Id=route.params.id;
 
-console.log(Id)
-authStore.isLoading=true;
-axios.get(`http://127.0.0.1:8000/api/tasker-active-tasks/${Id}`)
-.then(response => {
-tasks.push(...response.data);
 
-authStore.isLoading=false;
-});
-console.log(tasks)
 
+  axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
+  .then(response => {
+    task.title = response.data.title;
+    task.description = response.data.description;
+    task.deadline = response.data.deadline;
+    task.created_at = response.data.created_at;
+    task.amount = response.data.amount;
+    task.status = response.data.status;
+    task.fees = response.data.fees;
+    task.receivable = response.data.receivable;
+    task.created_at = response.data.created_at;
+
+    task.client = response.data.client;
+    task.tasker = response.data.tasker;
+
+  })
+  .catch(error => {
+    console.error(error);
+  });
 
 
 
@@ -127,4 +162,22 @@ const updateTaskStatus = (taskId) => {
       console.error(error);
     });
 };
+
+
+function formatDate(date) {
+  const now = new Date();
+  const timeDiff = (now.getTime() - new Date(date).getTime()) / 1000; // in seconds
+  if (timeDiff < 60) {
+    return 'now';
+  } else if (timeDiff < 3600) {
+    const minutes = Math.floor(timeDiff / 60);
+    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+  } else if (timeDiff < 86400) {
+    const hours = Math.floor(timeDiff / 3600);
+    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  } else {
+    const days = Math.floor(timeDiff / 86400);
+    return `${days} day${days > 1 ? 's' : ''} ago`;
+  }
+}
 </script>

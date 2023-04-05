@@ -14,7 +14,7 @@
       
     </div>
     <div>
-      <img src="../assets/images/img1.PNG"/>
+      <img src="https://images.ctfassets.net/hrltx12pl8hq/6VnchrGZSnO8xyvO7uT7PC/811d0fd7d53c07ad055adbd761f205c8/shutterstock_1919883236__1_.jpg?fit=fill&w=480&h=270&fm=webp"/>
     </div>
   </div>
 
@@ -22,7 +22,7 @@
   <!-- STEP1 -->
   <div class="flex space-x-2 p-3 mt-6 justfy-center">
     <div class="p-10">
-      <img src="../assets/images/step1.PNG"/>
+      <img src=""/>
     </div>
     <div class="bg-trasnparent rounded mx-2">
       <h1 class="text-center font-semibold text-4xl text-blue-900">Describe what you need done</h1>

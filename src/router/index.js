@@ -13,7 +13,7 @@ const routes = [
   {
     path: "/sms",
     name: "SMSS",
-    component: () => import("../components/client/PrivateChart.vue"),
+    component: () => import("../components/tasker/ActiveTasksDetails.vue"),
   },
   {
     path: "/rate",
@@ -188,6 +188,7 @@ const routes = [
     path: "/client/post-task",
     name: "ClientTaskPost",
     component: () => import("../components/client/PostTask.vue"),
+      //  meta: { requiresAuth: true }
   },
   {
     path: '/client/task/:id',
@@ -400,6 +401,7 @@ const routes = [
       path: "/post-task",
       name: "TaskPost",
       component: () => import("../components/client/PostTask.vue"),
+      // meta: { requiresAuth: true }
     },
     {
       path: "/tasker-dashboard",

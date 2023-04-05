@@ -130,7 +130,7 @@
        :amount="task.amount" 
        :location="task.location" 
        :date="task.date_on" 
-       :date_before="task.date_before" 
+       :description="task.description" 
        :offers="task.offers" 
        :time="task.time" />
     </div>
@@ -177,6 +177,15 @@ axios.get('http://127.0.0.1:8000/api/categories')
   });
 
 
+  const showDescription = ref(false)
+
+function truncateDescription(description, maxLength) {
+  if (description.length > maxLength) {
+    return description.substring(0, maxLength) + '...'
+  } else {
+    return description
+  }
+}
 </script>
 
 

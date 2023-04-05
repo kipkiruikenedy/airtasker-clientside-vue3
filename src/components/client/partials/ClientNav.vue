@@ -35,7 +35,7 @@
         </div>
         <div class="border rounded-full">
           <router-link @click="showMenu = !showMenu" :to="{ name: 'ClientProfile' }">
-            <v-avatar image="../../assets/images/img1.PNG" alt="image"></v-avatar>
+            <v-avatar image="" alt="image"></v-avatar>
           </router-link>
         </div>
         <button

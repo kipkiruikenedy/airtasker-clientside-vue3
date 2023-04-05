@@ -22,7 +22,7 @@
       <router-link @click="showMenu = !showMenu"
         :to="{ name: 'ClientProfile' }">
         <v-avatar 
-         image="../../assets/images/img1.PNG" alt="image">
+         image="" alt="image">
         </v-avatar>
         </router-link>
       </div>

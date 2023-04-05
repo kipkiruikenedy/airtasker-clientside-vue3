@@ -5,7 +5,7 @@
     <div class="flex space-x-2">
    
      <div class=" justify-center pt-4 pl-7">
-         <v-avatar  image="../../assets/images/azure.PNG"></v-avatar>
+         <v-avatar  image=""></v-avatar>
        </div>
  <!-- ITEMS -->
     <div class="flex space-x-10">

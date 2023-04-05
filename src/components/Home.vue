@@ -77,7 +77,7 @@ const authStore = useAuthStore();
       <div class="flex justify-between p-6">
         <div>
           <img
-            src="../assets/images/azure.PNG"
+            src="https://images.ctfassets.net/hrltx12pl8hq/4nxjScQk75U0xwd2c0aJDl/edb2b5976ca93c4141c31a0c37367cec/shutterstock_1118421353__3_.jpg?fit=fill&w=480&h=270&fm=webp"
             alt="image"
             class="rounded-lg h-[100px]"
           />
