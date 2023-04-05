@@ -1,122 +1,149 @@
-<template>
-  <div class="flex justify-between m-2"><p>Tasker Pro</p><TaskerNav /></div>
-    <div class="bg-gray-200 col-span-8">
-    <div class="flex space-x-4 p-3">
-      <div class="w-3/5 bg-white">
-      <!-- ROW1 -->
-      <div class="flex space-x-3 p-2">
-      <div class="bg-green-200 rounded-full py-1 px-2">OPEN</div>
-     
-      </div>
-
-<!-- ROW2 -->
-      <div class="text-4xl text-blue-900 font-semibold">title</div>
-      <!-- ROW4 -->
-      <div class="space-y-4">
-      <div class="space-y-1">
-      <div class="flex space-x-1">
-      <div> <Icon icon="ic:twotone-location-on" /></div>
-      <div> <p>Posted By</p><p>John</p></div>
-      </div>
-      </div>
-
-      <div class="space-y-1">
-      <div class="flex space-x-1">
-      <div> <Icon icon="ic:twotone-location-on" />location here</div>
-      <div> <p>LOCATION</p><p>{{ }}</p></div>
-      </div>
-      </div>
-
-
-      <div class="space-y-1">
-      <div class="flex space-x-1">
-      <div> <Icon icon="ic:twotone-location-on" /></div>
-      <div> <p>TO BE DONE ON</p><p>date here</p></div>
-      </div>
-      </div>
-
-     
-      </div>
-      <!-- ROW4 -->
-      <div class="p-2 space-x-2">
-      <div class="text-blue-800 text-2xl">Details</div>
-      <div class="text-blue-900">details here</div>
-      <div class="flex space-x-2"><p>Due date:</p><p>flexible</p></div>
-      </div>
-
-      </div>
-
-      <!-- RIGHT -->
-      <div class="w-2/5 bg-white">
-      <div class="bg-gray-200 rounded-lg m-8">
-      <div class="p-3">
-      <p class="text-center text-gray-700 mt-4">TASK BUDGET</p>
-      <h1 class="text-center text-4xl font-semibold text-blue-900 mt-4">$45</h1>
-      </div>
-      <!-- BUTTON -->
-     <div class="ml-6 mt-5 mb-3 pb-3">
-      <button class="bg-blue-600 text-white py-2 px-2 rounded-full items-center flex "
-      @click="router.push(`/tasker-browse-task/${task.id}/make-offer`)"
-          ><p class="px-8">Bid</p>
-        </button>
-     </div>
-     
-      </div>
-
-      <!-- TIME -->
-      <div class="m-5">
-      <p>posted 6 minutes ago</p>
-      </div>
-
-      </div>
-      <div>
-        
-      </div>
-    </div>
-
-    <!--Make OFFER -->
-   <div>
-    <RouterView/>
-   </div>
-
-
-    </div>
-</template>
-
-
 <script setup>
-import { useRoute, useRouter } from 'vue-router';
-import { RouterView } from "vue-router";
-import { onMounted, ref } from 'vue';
+import { defineProps, reactive } from 'vue';
 import axios from 'axios';
-import { Icon } from "@iconify/vue";
-import TaskerNav from './TaskerNav.vue';
-import { useAuthStore } from '../../stores/auth'
-const authStore = useAuthStore()
-const tasks = ref([]);
 
-const form = ref({
-  title: "",
-});
+import { useRoute, useRouter } from 'vue-router';
+import { useAuthStore } from '../../stores/auth';
+import moment from 'moment';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import TaskerNav from './TaskerNav.vue';
+import TaskerSideBar from './TaskerSideBar.vue';
 
 const route = useRoute();
 const router = useRouter();
+const Id=route.params.id;
+const authStore = useAuthStore();
 
-const task = ref({});
+const task = reactive({});
 
-async function fetchData() {
-  try {
-    const response = await axios.get('http://127.0.0.1:8000/api/all-tasks');
-    tasks.value.push(...response.data);
+console.log(Id);
 
-    const { id } = route.params;
-    await router.isReady(); // wait for router to be ready
-    task.value = tasks.value.find(t => t.id === parseInt(id));
-  } catch (error) {
+axios.get(`http://localhost:8000/api/tasks/${Id}`)
+  .then(response => {
+    task.title = response.data.title;
+    task.description = response.data.description;
+    task.deadline = response.data.deadline;
+    task.created_at = response.data.created_at;
+
+    task.amount = response.data.amount;
+    task.status = response.data.status;
+
+  })
+  .catch(error => {
     console.error(error);
+  });
+
+
+
+  function formatDate(date) {
+  const now = new Date();
+  const timeDiff = (now.getTime() - new Date(date).getTime()) / 1000; // in seconds
+  if (timeDiff < 60) {
+    return 'now';
+  } else if (timeDiff < 3600) {
+    const minutes = Math.floor(timeDiff / 60);
+    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+  } else if (timeDiff < 86400) {
+    const hours = Math.floor(timeDiff / 3600);
+    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  } else {
+    const days = Math.floor(timeDiff / 86400);
+    return `${days} day${days > 1 ? 's' : ''} ago`;
   }
 }
 
-onMounted(fetchData);
+
+
+
+
+function cancelTask() {
+  Swal.fire({
+    title: 'Are you sure you want to bid for this task?',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, I want to bid!',
+    cancelButtonText: 'No, keep it'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      router.push(`/tasker-browse-task/${task.id}/make-offer`);
+    }
+  });
+}
+
 
 </script>
+
+<template>
+  <div>
+    <TaskerNav />
+    <div class="grid grid-cols-12">
+      <!-- SIDEBAR -->
+      <div class="bg-red-100 col-span-2">
+        <TaskerSideBar />
+      </div>
+     
+      <div class="col-span-10">
+
+        <!-- TASK DETAILS -->
+        <h2 class="text-center">Details</h2>
+        <div class="bg-gray mx-10 my-3 px-10 py-1 border border-blue-600 flex justify-between rounded">
+          
+
+
+
+          <!-- left -->
+        <div class="b">
+          <div class="flex space-x-2">
+          <p class="text-blue-900 font-semibold">image:</p><span class="text-blue-900">{{ task.title }}</span>
+          </div>
+          <div class="flex space-x-2">
+          <p class="text-blue-900 font-semibold">By:</p><span class="text-blue-900">{{ task.title }}</span>
+          </div>
+          <div class="flex space-x-2">
+          <p class="text-blue-900 font-semibold">Rating:</p><span class="text-blue-900">{{ task.title }}</span>
+          </div>
+
+          <div class="flex space-x-2">
+          <p class="text-blue-900 font-semibold">Description:</p><span class="text-blue-900">{{ task.description }}</span>
+          </div>
+          
+         
+         
+          <div class="flex space-x-2"><p class="text-blue-900 font-semibold">Status:</p><span class="text-blue-900">{{ task.status }}</span></div>
+          <div class="flex space-x-2 mt-3 text-center border rounded py-1 px-2 mb-3"><p class="text-blue-900 font-semibold">Posted <span class="text-blue-900">{{ formatDate(task.created_at) }}</span> </p></div>
+        </div>
+
+
+
+<!-- right -->
+        <div>
+     
+          <div class="flex space-x-2"><p class="text-blue-900 font-semibold">Amount:</p><span class="text-blue-900 font-semibold">{{ task.amount}}</span></div>
+
+          <div class="flex space-x-2">
+          <p class="text-blue-900 font-semibold">Deadline:</p><span class="text-blue-900">{{ task.deadline }}</span>
+          </div>
+          <div class="mt-5">
+         <button  class=" space-x-2 rounded-lg bg-green-500 text-white py-1 px-3 hover:bg-green-300 font-medium w-10" @click="cancelTask">Bid</button>
+          </div>
+        </div>
+          
+         
+        <div class="text-center" v-if="authStore.isLoading"> <v-progress-circular
+      :size="50"
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
+    </div>
+        </div>
+
+        <!-- OFFERS -->
+        <div>
+        <h1 class="text-center text-green-700 font-semibold underline">Offers</h1>
+          <router-view />
+        </div>
+      
+      </div>
+    </div>
+  </div>
+</template>

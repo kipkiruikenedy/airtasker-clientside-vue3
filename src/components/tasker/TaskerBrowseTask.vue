@@ -119,7 +119,7 @@
   <TaskerSideBar />
   </div>
     <div class="bg-green-200 col-span-1 md:col-span-10 ">
-    <div v-for="task in tasks" class="m-2 space-y-5 "  @click="router.push(`/tasker-browse-task/${task.id}`)">
+    <div v-for="task in tasks" class="m-2 space-y-5 grid-col "  @click="router.push(`/tasker-browse-task/${task.id}`)">
 
 
       <TaskCard 

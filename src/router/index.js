@@ -128,11 +128,29 @@ const routes = [
     name: "taskerPending-Tasks",
     component: () => import("../components/tasker/PendingTasks.vue"),
   },
+
+
+
   {
     path: "/tasker-active-tasks",
     name: "taskerActive-Tasks",
     component: () => import("../components/tasker/ActiveTasks.vue"),
+
   },
+  {
+    path: "/tasker-active-tasks/:id",
+    name: "taskerActive-Tasks-details",
+    component: () => import("../components/tasker/ActiveTasksDetails.vue"),
+    children: [
+        
+      {
+     path: "make-offer",
+     component: () => import("../components/tasker/TaskerMakeOffer.vue"),
+      },
+    ]
+  },
+
+
   {
     path: "/tasker-completed-tasks",
     name: "taskercompleted-Tasks",

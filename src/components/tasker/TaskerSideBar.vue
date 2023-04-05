@@ -31,7 +31,7 @@ export default defineComponent({
         { title: 'Dashboard', to: '/tasker/dashboard',icon:"mdi mdi-account-multiple-outline" },
 
         { title: 'New Tasks', to: '/tasker-pending-tasks' },
-        { title: 'Active Tasks', to: '/tasker-active-tasks' },
+        { title: 'My Tasks', to: '/tasker-active-tasks' },
         { title: 'My offers', to: '/tasker-pending-tasks' },
         { title: 'Completed Tasks', to: '/tasker-completed-tasks' },
       

@@ -28,7 +28,7 @@
     </p>
     
     <div class="py-1 px-2 flex justify-between m-1">
-      <p class="text-gray-900 text-center">{{ minutesAgo }}minutes ago</p>
+      <p class="text-blue-900 text-center font-semibold border rounded py-1 px-2 mt-4">posted {{ minutesAgo }}</p>
 <button class="bg-blue-600 text-white py-1 px-3 rounded-full items-center flex "
 @click="router.push(`/client/task/${taskId}/private-chat`)"
 

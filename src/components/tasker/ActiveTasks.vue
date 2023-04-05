@@ -1,111 +1,220 @@
-
-
-
 <template>
-  <!-- NAV -->
-  <div class="flex justify-between p-1"><p>Airtasker Pro</p><TaskerNav /></div>
-<div class="grid grid-cols-12 gap-2 min-h-screen bg-gray-200">
-    <!-- SIDEBAR -->
-<div class="bg-red-500 col-span-2">
-<TaskerSideBar/>
-</div>
-<!-- CONTENT -->
-<div class="bg-white col-span-10">
-<h2 class="text-center">Active Tasks</h2>
-<v-table
-fixed-header
-height="300px"
->
-<thead>
-  <tr>
-    <th class="text-left">
-      Task ID
-    </th>
-  
-    <th class="text-left">
-     Task Title
-    </th>
-    <th class="text-left">
-     client Name
-    </th>
-    <th class="text-left">
-     Deadline
-    </th>
-    <th class="text-left">
-     Amount
-    </th>
-   
-    <th class="text-left">
-     Actions
-    </th>
-  </tr>
-</thead>
-<tbody>
-  <div class="text-center" v-if="authStore.isLoading"> <v-progress-circular
-  :size="50"
-  color="primary"
-  indeterminate
-></v-progress-circular>
-</div>
-<tr v-for="task in tasks" :key="task.id">
-      <td>{{ task.id }}</td>
-      <td>{{ task.title }}</td>
-      <td>{{ task.amount }}</td>
-      <td>{{ task.clie }}</td>
-      <td>{{ task.gender }}</td>
-      <td>{{ task.country }}</td>
-      <td>
-        <button @click="() => updateTaskStatus(task.id)" class="bg-blue-500 rounded-md py-1 px-2 text-white mx-2">Request Payment</button>
-       
-    </td>
-  </tr>
+  <Nav  />
+  <div class="bg-white col-span-8 flex flex-row space-x-10 justify-center">
+    <!-- SEARCH -->
+    <div class="flex items-center border rounded-lg px-4 py-2 m-2">
+      <input
+        type="text"
+        placeholder="Search..."
+        v-model="searchTerm"
+        @keydown.enter="search"
+        class="w-full bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none"
+          />
+      <button @click="search" class="ml-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="" viewBox="0 0 24 24">
+          <path
+            d="M9 17a8 8 0 1 1 6.08-13.444l5.613 5.614A1 1 0 0 1 19 11.414l-.003.003-5.614-5.613A8 8 0 0 1 9 17zm0-2a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"
+          />
+        </svg>
+      </button>
+    </div>
 
-</tbody>
-</v-table>
+    <div class="flex space-x-2 flex-row">
+    
+      <button class="hover-button" @mouseover="showCheckboxes = true" @mouseout="showCheckboxes = false">
+        <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 12l-5-5 1.41-1.41L10 9.17l3.59-3.58L15 7l-5 5z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      </button>
+     
+
+    </div>
+
+    <div class="hover-parent">
+    <div class="checkboxes" v-show="showCheckboxes">
+      <label v-for="(item, index) in categories" :key="`item-${index}`" class="checkbox-label">
+        <input type="checkbox" :value="item" v-model="selectedItems" class="checkbox-input" />
+        <span class="checkbox-text">{{ item.job_category_name }}</span>
+      </label>
+    </div>
+  </div>
 
 
-</div>
-</div>
+
+    <div class="flex space-x-2">
+      <p>Location</p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 12l-5-5 1.41-1.41L10 9.17l3.59-3.58L15 7l-5 5z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </div>
+
+    <div class="flex space-x-2">
+      <p>price</p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 12l-5-5 1.41-1.41L10 9.17l3.59-3.58L15 7l-5 5z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </div>
+    <div class="flex space-x-2">
+      <p>other filters</p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 12l-5-5 1.41-1.41L10 9.17l3.59-3.58L15 7l-5 5z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </div>
+    <div class="flex space-x-2">
+      <p>Other</p>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 12l-5-5 1.41-1.41L10 9.17l3.59-3.58L15 7l-5 5z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    class="min-h-screen bg-slate-400 grid grid-cols-1 md:grid-cols-12 mx-0 md:mx-10 gap-0 md:gap-6"
+  >
+  <div class="bg-green-200 col-span-1 md:col-span-2">
+  <TaskerSideBar />
+  </div>
+    <div class="bg-green-200 col-span-1 md:col-span-10 ">
+    <div v-for="task in tasks" class="m-2 space-y-5 "  @click="router.push(`/tasker-active-tasks/${task.id}`)">
+
+
+      <TaskCard 
+       :key="task.id" 
+       :title="task.title" 
+      
+       :status="task.status" 
+       :amount="task.amount" 
+       :location="task.location" 
+       :date="task.date_on" 
+       :date_before="task.date_before" 
+       :offers="task.offers" 
+       :time="task.time" />
+    </div>
+    </div>
+
+ 
+  </div>
 </template>
+
+
 <script setup>
-import TaskerNav from './TaskerNav.vue';
+
+import { reactive, toRefs } from 'vue'
+import axios from 'axios'
+import TaskCard from "../TaskCard.vue";
+import { ref } from 'vue'
+import { Icon } from "@iconify/vue";
+import {useRoute, useRouter} from "vue-router"
+import { onMounted, watch } from "vue";
+import OfferCard from '../OfferCard.vue';
+import Nav from './TaskerNav.vue';
 import TaskerSideBar from './TaskerSideBar.vue';
-import { useAuthStore } from '../../stores/auth';
-import { reactive } from 'vue';
-import axios from 'axios';
-import { ref, onMounted } from 'vue';
-const authStore = useAuthStore();
+import TaskerNav from './TaskerNav.vue';
+import { useAuthStore } from "../../stores/auth";
+const router = useRouter();
+
+const categories = reactive([]);
 const tasks = reactive([]);
+const showCheckboxes = ref(false);
+const authStore = useAuthStore();
 // fetch data from localhost:5000
 
+axios.get('http://127.0.0.1:8000/api/categories')
+  .then(response => {
+    categories.push(...response.data);
 
-const userAuthId=authStore.user.id;
+  });
+
+  const userAuthId=authStore.user.id;
  
- const params = new URLSearchParams([['user_id', userAuthId]]);
-console.log(userAuthId)
-authStore.isLoading=true;
-axios.get('http://127.0.0.1:8000/api/tasker-active-tasks',{params})
-.then(response => {
-tasks.push(...response.data);
+   const params = new URLSearchParams([['user_id', userAuthId]]);
 
-authStore.isLoading=false;
-});
-console.log(tasks)
+  axios.get('http://127.0.0.1:8000/api/tasker-active-tasks',{params})
+  .then(response => {
+    tasks.push(...response.data);
+
+  });
 
 
-
-
-
-const updateTaskStatus = (taskId) => {
-  axios.put(`http://127.0.0.1:8000/api/tasks/${taskId}/status`, { status: 'completed' })
-    .then(response => {
-      const taskIndex = tasks.findIndex(t => t.id === taskId);
-      if (taskIndex !== -1) {
-        tasks[taskIndex].status = 'completed';
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
-};
 </script>
+
+
+
+
+<style scoped>
+.hover-parent {
+  position: relative;
+}
+.hover-button {
+  padding: 0.5rem 1rem;
+  background-color: #3182CE;
+  color: white;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+.checkboxes {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding: 0.5rem;
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.checkbox-label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.checkbox-input {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+.checkbox-text {
+  cursor: pointer;
+}
+</style>

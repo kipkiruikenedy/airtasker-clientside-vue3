@@ -81,6 +81,8 @@ import {useRoute, useRouter} from "vue-router"
 import { onMounted, watch } from "vue";
 import ClientNav from './partials/ClientNav.vue';
 import ClientSidebar from './partials/ClientSideBar.vue';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 const router = useRouter();
 
 
@@ -108,7 +110,32 @@ try{
 }
 
 function rateTutor() {
-  router.push('/rate');
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You want to to release payment for this task!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, I want to pay the tasker!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        'Congratulations! You have succesfully released payment to  the tasker',
+        'You need to rate the tasker(OPTIONAL).',
+        'success'
+      ).then(() => {
+        router.push(`/rate`);
+      });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire(
+        'Cancelled succesfully',
+        'You have succesfully cancelled the operation.',
+        'error'
+      );
+    }
+  });
+ 
 }
 </script>
 

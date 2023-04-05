@@ -64,7 +64,7 @@ function cancelTask() {
     cancelButtonText: 'No, keep it'
   }).then((result) => {
     if (result.isConfirmed) {
-      axios.delete(`http://localhost:8000/api/tasks/${Id}`)
+      axios.delete(`http://localhost:8000/api/task/${Id}`)
         .then(response => {
           // Redirect the user to the client dashboard after successful task cancellation
           router.push('/dashboard');
@@ -106,13 +106,11 @@ function cancelTask() {
           <div class="flex space-x-2">
           <p class="text-blue-900 font-semibold">Description:</p><span class="text-blue-900">{{ task.description }}</span>
           </div>
-          <div class="flex space-x-2">
-          <p class="text-blue-900 font-semibold">By:</p><span class="text-blue-900">{{ task.description }}</span>
-          </div>
+          
          
          
           <div class="flex space-x-2"><p class="text-blue-900 font-semibold">Status:</p><span class="text-blue-900">{{ task.status }}</span></div>
-          <div class="flex space-x-2 mt-3 text-center"><p class="text-blue-900 font-semibold">Posted <span class="text-blue-900">{{ formatDate(task.created_at) }}</span> </p></div>
+          <div class="flex space-x-2 mt-3 text-center border rounded py-1 px-2 mb-3"><p class="text-blue-900 font-semibold">Posted <span class="text-blue-900">{{ formatDate(task.created_at) }}</span> </p></div>
         </div>
 
 
@@ -125,7 +123,8 @@ function cancelTask() {
           <div class="flex space-x-2">
           <p class="text-blue-900 font-semibold">Deadline:</p><span class="text-blue-900">{{ task.deadline }}</span>
           </div>
-          <div class="mt-5">
+          <div class="mt-5 flex space-x-2">
+         <button  class="flex space-x-2 rounded-lg bg-green-500 text-white py-1 px-2 hover:bg-green-300 font-medium" @click="cancelTask">Edit Task</button>
          <button  class="flex space-x-2 rounded-lg bg-red-500 text-white py-1 px-2 hover:bg-red-300 font-medium" @click="cancelTask">Cancel Task</button>
           </div>
         </div>
