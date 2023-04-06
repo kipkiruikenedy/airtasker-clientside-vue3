@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import TaskerNav from './TaskerNav.vue';
 import TaskerSideBar from './TaskerSideBar.vue';
+import AllTasks from '../Global/AllTasks.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -65,7 +66,7 @@ function cancelTask() {
     cancelButtonText: 'No, keep it'
   }).then((result) => {
     if (result.isConfirmed) {
-      router.push(`/tasker-browse-task/${task.id}/make-offer`);
+      router.push(`/tasker-browse-task/${Id}/make-offer`);
     }
   });
 }
@@ -78,14 +79,14 @@ function cancelTask() {
     <TaskerNav />
     <div class="grid grid-cols-12">
       <!-- SIDEBAR -->
-      <div class="bg-red-100 col-span-2">
-        <TaskerSideBar />
+      <div class="bg-red-100 col-span-4">
+        <AllTasks/>
       </div>
      
-      <div class="col-span-10">
+      <div class="col-span-8">
 
         <!-- TASK DETAILS -->
-        <h2 class="text-center">Details</h2>
+       
         <div class="bg-gray mx-10 my-3 px-10 py-1 border border-blue-600 flex justify-between rounded">
           
 

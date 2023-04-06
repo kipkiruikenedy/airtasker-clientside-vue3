@@ -21,7 +21,7 @@
       </button>
       <div v-if="isSubmitting" class="mt-2">
       <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">wait...</span>
+        <span class="visually-hidden"> please wait...</span>
       </div>
     </div>
     </form>
@@ -32,7 +32,8 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
-import Swal from 'sweetalert2';
+  import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import { reactive, toRefs } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 const authStore = useAuthStore();
@@ -50,46 +51,74 @@ const title = ref('');
 const description = ref('');
 const price = ref('');
 const isSubmitting = ref(false);
+const Id = route.params.id;
+
+
+
 const submitTask = () => {
+  axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
+    .then(response => {
+      task.amount = response.data.amount;
+      task.tasker = response.data.tasker;
+   
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
   isSubmitting.value = true;
   stripe.createToken(card).then(function(result) {
     const stripe_token = result.token.id;
-    const { taskId } = route.params;
-    
+    const Id = route.params.id;
     const clientId = userAuthId;
-    const amount = 1000; // replace with your student ID
-    const tasker_id = 2; // replace with your student ID
+    const task_id = Id;
+    const tasker_id = 2;
+    const amount = task.amount;
    
-    axios.post('http://localhost:8000/api/client-pay-task', {
-      stripe_token,
-      tasker_id,
-      amount: amount,
-      task_id: taskId,
-      client_id: clientId,
-     
-    }).then(function(response) {
-      console.log(response.data);
-      console.log("dfghjukilkjghfdghjdfghjklkjhgfkdf")
-      // reset the form fields and card element
-      title.value = '';
-      description.value = '';
-      price.value = '';
-      Swal.fire({
-        icon: 'success',
-        title: 'Congratulations! You payment have succesfully been submitted',
-  text: 'Your money will be on hold untill the tasker completes the task!',
-  footer: '<a href="">Want to read more about payment?</a>'
-})
-      card.clear();
-      isSubmitting.value = false;
-      const router = useRouter();
-      // window.location.href = '/client-active-task';
-    }).catch(function(error) {
-      console.log(error);
-      isSubmitting.value = false;
-    });
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, submit payment!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.post('http://localhost:8000/api/client-pay-task', {
+          stripe_token,
+          amount,
+          tasker_id,
+          task_id,
+          client_id: clientId,
+        
+        }).then(function(response) {
+          console.log(response.data);
+          title.value = '';
+          description.value = '';
+          price.value = '';
+          Swal.fire({
+            icon: '',
+            title: 'Congratulations! You payment have succesfully been submitted',
+            text: 'Your money will be on hold untill the tasker completes the task!',
+            footer: '<a href="">Want to read more about payment?</a>'
+          });
+          card.clear();
+          isSubmitting.value = false;
+          const router = useRouter();
+          // window.location.href = '/client-active-task';
+        }).catch(function(error) {
+          console.log(error);
+          isSubmitting.value = false;
+        });
+      }
+    })
   });
 };
+
+
+
 const mounted = () => {
   if (!card) {
     card = elements.create('card');

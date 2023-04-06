@@ -6,14 +6,14 @@ import { useRoute, useRouter } from 'vue-router';
 const authStore = useAuthStore();
 const route = useRoute();
 
-const { id } = route.params;
+const Id = route.params.id;
 
 const form = ref({
   title: "",
-  task_id: id,
+  task_id: Id,
 });
 
-console.log(form.value.task_id);
+console.log(Id);
 
 </script>
 <template>

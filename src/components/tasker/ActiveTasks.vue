@@ -1,5 +1,5 @@
 <template>
-  <Nav  />
+  <TaskerNav />
   <div class="bg-white col-span-8 flex flex-row space-x-10 justify-center">
     <!-- SEARCH -->
     <div class="flex items-center border rounded-lg px-4 py-2 m-2">
@@ -50,21 +50,6 @@
 
 
 
-    <div class="flex space-x-2">
-      <p>Location</p>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M10 12l-5-5 1.41-1.41L10 9.17l3.59-3.58L15 7l-5 5z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </div>
 
     <div class="flex space-x-2">
       <p>price</p>
@@ -115,10 +100,10 @@
   <div
     class="min-h-screen bg-slate-400 grid grid-cols-1 md:grid-cols-12 mx-0 md:mx-10 gap-0 md:gap-6"
   >
-  <div class="bg-green-200 col-span-1 md:col-span-2">
-  <TaskerSideBar />
-  </div>
-    <div class="bg-green-200 col-span-1 md:col-span-10 ">
+  <div class="bg-gray-200 col-span-4">
+  <AllTasks/>
+</div>
+    <div class="bg-green-200 col-span-1 md:col-span-8 ">
     <div v-for="task in tasks" class="m-2 space-y-5 "  @click="router.push(`/tasker-active-tasks/${task.id}`)">
 
 

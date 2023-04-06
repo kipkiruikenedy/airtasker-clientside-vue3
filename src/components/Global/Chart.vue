@@ -8,6 +8,7 @@
     <p>Loading...</p>
   </div>
 </template>
+
 <script setup>
 import { defineProps, ref } from 'vue';
 import axios from 'axios';

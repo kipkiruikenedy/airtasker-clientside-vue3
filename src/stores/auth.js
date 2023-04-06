@@ -62,7 +62,7 @@ export const useAuthStore = defineStore('auth',{
         if (this.authError == null && this.user.role_id == 'admin') {
           this.router.push('/admin-dashboard')
         } else if (this.authError == null && this.user.role_id == 'tasker') {
-          this.router.push('/tasker/dashboard')
+          this.router.push('/tasker-browse-task')
         } else if (this.authError == null && this.user.role_id == 'client') {
           this.router.push('/client/post-task')
         } else {
@@ -83,33 +83,38 @@ export const useAuthStore = defineStore('auth',{
     },
     
 
-    // REGISTER CLIENT
+   // REGISTER CLIENT
 
-    async handleRegisterClient(data) {
-      this.authErrors = [];
-      await this.getToken();
-      this.isLoading = true
-      try {
-        await axios.post("http://127.0.0.1:8000/api/register/client", {
-         
+async handleRegisterClient(data) {
+  this.authErrors = [];
+  await this.getToken();
+  this.isLoading = true;
+  try {
+    const formData = new FormData();
+    formData.append('first_name', data.first_name);
+    formData.append('last_name', data.last_name);
+    formData.append('phone_number', data.phone_number);
+    formData.append('country', data.country);
+    formData.append('gender', data.gender);
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+    formData.append('password_confirmation', data.password_confirmation);
+    formData.append('profile_image', data.profile_image);
 
-          first_name:data.first_name,
-          last_name:data.last_name,
-          phone_number:data.phone_number,
-          country:data.country,
-          gender:data.gender,
-          email: data.email,
-          password: data.password,
-          password_confirmation: data.password_confirmation,
-        });
-        this.isLoading=false
-        this.authError = null
-        this.router.push("/login");
-      } catch (error) {
-        this.isLoading=false 
-        this.authError = error.response.data.error;
+    await axios.post("http://127.0.0.1:8000/api/register/client", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${this.token}`
       }
-    },
+    });
+    this.isLoading = false;
+    this.authError = null;
+    this.router.push("/login");
+  } catch (error) {
+    this.isLoading = false;
+    this.authError = error.response.data.error;
+  }
+},
 
 
 

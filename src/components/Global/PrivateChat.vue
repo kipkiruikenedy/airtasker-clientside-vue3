@@ -1,68 +1,142 @@
 <template>
- <div v-for="user in users" :key="user.id">
-  <div v-if="user">
-    <div class="flex justify-between items-center py-2 px-4 bg-white shadow-sm rounded-md my-1 cursor-pointer" @click="openChat(user)">
-      <div class="flex items-center">
-        <img class="w-10 h-10 rounded-full mr-2" :src="user.profile_photo_url" :alt="`${user.first_name} `"/>
-        <div class="text-gray-500">{{ user.first_name }} {{ user.last_name }}</div>
+  <div class="z-50">
+    <div class="bg-white rounded-lg border border-gray-300 shadow-lg overflow-hidden w-96">
+      <div class="bg-gray-100 py-2 px-4">
+        <h3 class="text-lg font-medium text-gray-900">Chat with Client</h3>
       </div>
-      <div v-if="user.is_online" class="rounded-full w-3 h-3 bg-green-500"></div>
-      <div v-else  class="rounded-full w-3 h-3 bg-gray-500"></div>
+      <div class="p-4 h-64 overflow-y-auto">
+        <!-- Chat messages go here -->
+        <div v-for="message in messages" :key="message.id" :class="[message.from === 'user' ? 'bg-blue-100 text-left' : 'bg-gray-100 text-right', 'p-2 rounded-lg mb-2']">{{ message.content }}</div>
+      </div>
+      
+      <div class="bg-gray-100 py-2 px-4 flex">
+        <input type="file" class="hidden" ref="fileInput" @change="sendFile">
+        <button class="mr-4 text-gray-700 hover:text-gray-900" @click="openFileInput">
+  <svg class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M12 3c3.87 0 7 3.13 7 7v4h2l-3.5 3.5L13 14h-2v4c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h6m0 2H6v12h4v-5h2v5h4V5m-2 7l-2.5 2.5L9 12l3-3 3 3-1.5 1.5L13 12z"/>
+  </svg>
+</button>
+
+        <input type="text" class="border border-gray-300 rounded-full py-2 px-4 w-full" placeholder="Type your message here" v-model="message" @keyup.enter="sendMessage">
+        <button class="bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-full" @click="sendMessage">Send</button>
+      </div>
     </div>
   </div>
-</div>
-
 </template>
 
+
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from "../../stores/auth";
-import { useRouter } from 'vue-router';
+import { reactive } from 'vue';
+const route = useRoute();
+const router = useRouter();
+const Id=route.params.id;
 
 const authStore = useAuthStore();
-const userId = authStore.user.id;
-console.log(userId)
-const users = ref([]);
-const router = useRouter();
-async function getUsers() {
-  try {
-    const response = await axios.get(`http://localhost:8000/api/charts/users/${userId}`);
-    users.value = response.data;
-   
-  } catch (error) {
+const userAuthId=authStore.user.id;
+const message = ref('');
+const messages = ref([]);
+const task = reactive([]);
+const clientID = ref(null);
+ 
+
+axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
+  .then(response => {
+    task.title = response.data.title;
+    task.client = response.data.client;
+    clientID.value = response.data.client.id;
+    console.log(clientID.value); // Or do whatever you want with the client ID
+    fetchMessages(); 
+  })
+  .catch(error => {
     console.error(error);
+  });
+
+
+
+
+
+
+
+
+
+
+async function sendMessage() {
+  try {
+    // Send the message to the server
+    const response = await axios.post('http://localhost:8000/api/chats', { 
+      content: message.value,
+      sender_id:userAuthId, 
+      receiver_id:clientID.value,
+      task_id: Id 
+    });
+    // Add the message to the list of messages
+    messages.value.push(response.data);
+    // Clear the message input
+    message.value = '';
+  } catch (error) {
+    console.log(error);
   }
 }
 
-async function openChat(user) {
+
+
+
+
+function openFileInput() {
+  fileInput.value.click();
+}
+
+
+
+
+async function sendFile(event) {
+  const file = event.target.files[0];
   try {
-    const response = await axios.get(`http://localhost:8000/api/charts/${userId}?sender_id=${userId}&receiver_id=${user.id}`);
-
-    if (response.data) {
-      console.log(response.data); 
-      const messages = response.data; // assuming response.data is an array of messages
-      router.push({ name: 'Chat', params: { userId: userId }, query: { messages: JSON.stringify(messages) } });
-
-    } else {
-      console.error('No messages found');
-    }
+    const formData = new FormData();
+    formData.append('file', file);
+    // Send the file to the server
+    const response = await axios.post('http://localhost:8000/files', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+    // Add a message to the list of messages with a link to the uploaded file
+    messages.value.push({ content: `File uploaded: ${response.data.url}`, from: 'user' });
   } catch (error) {
-    console.error(error);
+    console.log(error);
+  }
+}
+
+
+async function fetchMessages() {
+  try {
+    const response = await axios.get('http://localhost:8000/api/chats', {
+      params: {
+        sender_id: userAuthId,
+        receiver_id: clientID.value,
+        task_id: Id 
+      }
+    });
+    messages.value = response.data;
+  } catch (error) {
+    console.log(error);
   }
 }
 
 
 
-getUsers();
+const fileInput = ref(null);
+
+onMounted(() => {
+  fetchMessages();
+});
+
+
+
+
 </script>
 
-<style scoped>
-.img-circle {
-  border-radius: 50%;
-}
-
-.bg-green-500 {
-  background-color: #48bb78;
-}
+<style>
+/* Tailwind CSS styles */
 </style>

@@ -159,6 +159,7 @@ const form = ref({
                   }}</span>
                 </div> -->
               </div>
+
               <div class="mb-6">
                 <input
                   type="email"
@@ -185,6 +186,13 @@ const form = ref({
                   }}</span>
                 </div> -->
               </div>
+
+
+  <label for="profile-image" class="block text-gray-700 font-bold mb-2">Profile Image</label>
+    <input type="file" name="profile-image" id="profile-image" @change="handleProfileImageChange" class="w-full border rounded-md py-2 px-3 mb-4">
+
+
+
               <div class="mb-6">
                 <input
                   type="password"

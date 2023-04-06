@@ -101,9 +101,9 @@ const Employ = () => {
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire(
-        'Congratulations! You have succesfully employed the tasker',
-        'You need to make payment for your employment to be complete.',
-        'success'
+        'Proceed to the payment page to complete employment process',
+        'Your money will be on hold untill the tasker completes the task.',
+        'warning'
       ).then(() => {
         router.push(`/client/task/${id}/pay`);
       });

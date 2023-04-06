@@ -6,11 +6,11 @@
   <div class="flex justify-between p-1"><p>Airtasker Pro</p><TaskerNav /></div>
 <div class="grid grid-cols-12 gap-2 min-h-screen bg-gray-200">
     <!-- SIDEBAR -->
-<div class="bg-red-500 col-span-2">
-<TaskerSideBar/>
+<div class="bg-gray-200 col-span-4">
+  <AllTasks/>
 </div>
 <!-- CONTENT -->
-<div class="bg-white col-span-10">
+<div class="bg-white col-span-8">
 
 <div>
 <p class="text-center text-blue-900 text-2xl font-semibold">{{ task.title }}</p>
@@ -102,6 +102,24 @@
 
 </div>
 
+<p class="text-center">Private Chat</p>
+<div class="flex  justify-center">
+<p></p>
+<button
+ class="py-1 px-2 rounded-full bg-gray-300 text-center text-green-900 font-semibold "
+ @click="handleChatClick"
+ >
+Message Cutomer</button>
+</div>
+
+
+<div class="flex justify-center items-center h-screen">
+  <div class="m-3" id="chat-messages">
+    <RouterView />
+  </div>
+</div>
+
+
 </div>
 </div>
 
@@ -117,6 +135,7 @@ import { reactive } from 'vue';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
+import AllTasks from '../Global/AllTasks.vue';
 const authStore = useAuthStore();
 const task = reactive([]);
 // fetch data from localhost:5000
@@ -180,4 +199,19 @@ function formatDate(date) {
     return `${days} day${days > 1 ? 's' : ''} ago`;
   }
 }
+
+
+
+const handleChatClick = () => {
+  const chatMessages = document.getElementById('chat-messages');
+  if (chatMessages) {
+    chatMessages.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+  router.push(`/tasker-active-tasks/${Id}/chat`);
+};
+
+
 </script>

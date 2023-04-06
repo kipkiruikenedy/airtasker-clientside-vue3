@@ -144,8 +144,8 @@ const routes = [
     children: [
         
       {
-     path: "make-offer",
-     component: () => import("../components/tasker/TaskerMakeOffer.vue"),
+     path: "chat",
+     component: () => import("../components/Global/PrivateChat.vue"),
       },
     ]
   },
