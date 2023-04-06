@@ -203,7 +203,13 @@ const routes = [
            {
           path: 'offer/:id',
           component: () => import("../components/client/offers/OfferDetails.vue"),
-         
+          children: [
+        
+            {
+           path: "chats",
+           component: () => import("../components/Global/ClientChart.vue"),
+            },
+          ]
            },
            {
             path: 'pay',
@@ -236,6 +242,11 @@ const routes = [
   name: "ClientCurrentActiveTasks",
   component: () => import("../components/client/ClientWorkingTasks.vue"),
 },
+{
+  path: "/client-requested-payments",
+  name: "client-requested-payments",
+  component: () => import("../components/client/RequestedPayments.vue"),
+},
 
   {
     path: '/client-active-task/:id',
@@ -246,7 +257,9 @@ const routes = [
            {
           path: "offer",
           component: () => import("../components/client/offers/ClientOfferCard.vue"),
+          
            },
+         
       ]
   },
 

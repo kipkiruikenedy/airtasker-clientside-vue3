@@ -33,6 +33,7 @@ export default defineComponent({
         { title: 'Pending Tasks', to: '/client-task' },
         { title: 'Completed Tasks', to: '/client-completedtask' },
         { title: 'Rejected Tasks', to: '/client-rejectedtask' },
+        { title: 'Requested Payments', to: '/client-requested-payments' },
       
       
       ],

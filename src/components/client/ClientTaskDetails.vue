@@ -55,6 +55,35 @@ axios.get(`http://localhost:8000/api/tasks/${Id}`)
 
 
 
+function editTask() {
+  axios.put(`http://localhost:8000/api/tasks/${Id}`, {
+    title: task.title,
+    description: task.description,
+    deadline: task.deadline,
+    amount: task.amount,
+    status: task.status
+  })
+  .then(response => {
+    // Display a success message to the user
+    Swal.fire({
+      icon: 'success',
+      title: 'Task edited successfully!',
+      showConfirmButton: false,
+      timer: 1500
+    });
+
+    // Redirect the user to the client dashboard after successful task edit
+    router.push('/client-active-task');
+  })
+  .catch(error => {
+    console.error(error);
+  });
+}
+
+
+
+
+
 
 function cancelTask() {
   Swal.fire({
@@ -66,8 +95,16 @@ function cancelTask() {
     if (result.isConfirmed) {
       axios.delete(`http://localhost:8000/api/task/${Id}`)
         .then(response => {
+          // Display a success message to the user
+          Swal.fire({
+            icon: 'success',
+            title: 'Task cancelled successfully!',
+            showConfirmButton: false,
+            timer: 1500
+          });
+
           // Redirect the user to the client dashboard after successful task cancellation
-          router.push('/dashboard');
+          router.push('/client-active-task');
         })
         .catch(error => {
           console.error(error);
@@ -75,6 +112,7 @@ function cancelTask() {
     }
   });
 }
+
 
 
 </script>
@@ -124,7 +162,7 @@ function cancelTask() {
           <p class="text-blue-900 font-semibold">Deadline:</p><span class="text-blue-900">{{ task.deadline }}</span>
           </div>
           <div class="mt-5 flex space-x-2">
-         <button  class="flex space-x-2 rounded-lg bg-green-500 text-white py-1 px-2 hover:bg-green-300 font-medium" @click="cancelTask">Edit Task</button>
+         <button  class="flex space-x-2 rounded-lg bg-green-500 text-white py-1 px-2 hover:bg-green-300 font-medium" @click="EditTask">Edit Task</button>
          <button  class="flex space-x-2 rounded-lg bg-red-500 text-white py-1 px-2 hover:bg-red-300 font-medium" @click="cancelTask">Cancel Task</button>
           </div>
         </div>

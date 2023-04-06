@@ -3,14 +3,14 @@
 
 <template>
     <!-- NAV -->
-    <div class="flex justify-between p-1"><p>Airtasker Pro</p><TaskerNav /></div>
-    <div class="grid grid-cols-12 gap-2 min-h-screen bg-gray-200">
-        <!-- SIDEBAR -->
-   <div class="bg-red-500 col-span-2">
-    <TaskerSideBar/>
-   </div>
+    <TaskerNav />
+<div class="grid grid-cols-12 gap-2 min-h-screen bg-gray-200">
+    <!-- SIDEBAR -->
+<div class="bg-gray-200 col-span-4">
+  <AllTasks/>
+</div>
    <!-- CONTENT -->
-   <div class="bg-white col-span-10">
+   <div class="bg-white col-span-8">
     <div class="bg-white-300 flex-1 p-3 overflow-hidden">
 
 <div class="flex flex-col bg-sky-200">
@@ -66,6 +66,7 @@
     </div>
 </template>
 <script setup>
+import AllTasks from '../Global/AllTasks.vue';
 import TaskerNav from './TaskerNav.vue';
 import TaskerSideBar from './TaskerSideBar.vue';
 

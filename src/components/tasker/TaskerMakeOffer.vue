@@ -43,8 +43,35 @@ console.log(Id);
             <div class="mb-10 text-center md:mb-16 text-2xl text-blue-900">Tell the client why you are the best fit for this job</div>
            
             <form @submit.prevent="authStore.offer(form)">
-              <div class="mb-6">
               <p>For your safety, do not share your personal information . eg email, phone or address</p>
+              <div class="mb-6 mt-3">
+          <p>Enter your bid amount</p>
+          
+            <input
+              type="number"
+              required
+              placeholder="amount"
+              v-model="form.amount"
+              class="
+                bordder-[#E9EDF4]
+                w-full
+                rounded-md
+                border
+                bg-[#FCFDFE]
+                py-1
+                px-5
+                text-base text-body-color
+                placeholder-[#ACB6BE]
+                outline-none
+                focus:border-primary
+                focus-visible:shadow-none
+              "
+            />
+          </div>
+        
+              <div class="mb-6">
+
+
                 <textarea
                   type="text"
                   required

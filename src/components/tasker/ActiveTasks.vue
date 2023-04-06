@@ -101,7 +101,7 @@
     class="min-h-screen bg-slate-400 grid grid-cols-1 md:grid-cols-12 mx-0 md:mx-10 gap-0 md:gap-6"
   >
   <div class="bg-gray-200 col-span-4">
-  <AllTasks/>
+  <AllTasks />
 </div>
     <div class="bg-green-200 col-span-1 md:col-span-8 ">
     <div v-for="task in tasks" class="m-2 space-y-5 "  @click="router.push(`/tasker-active-tasks/${task.id}`)">
@@ -140,6 +140,7 @@ import Nav from './TaskerNav.vue';
 import TaskerSideBar from './TaskerSideBar.vue';
 import TaskerNav from './TaskerNav.vue';
 import { useAuthStore } from "../../stores/auth";
+import AllTasks from '../Global/AllTasks.vue';
 const router = useRouter();
 
 const categories = reactive([]);

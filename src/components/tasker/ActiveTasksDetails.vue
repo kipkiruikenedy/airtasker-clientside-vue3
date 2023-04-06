@@ -3,7 +3,7 @@
 
 <template>
   <!-- NAV -->
-  <div class="flex justify-between p-1"><p>Airtasker Pro</p><TaskerNav /></div>
+  <TaskerNav />
 <div class="grid grid-cols-12 gap-2 min-h-screen bg-gray-200">
     <!-- SIDEBAR -->
 <div class="bg-gray-200 col-span-4">
@@ -73,7 +73,7 @@
 </div>
 <!-- BUTTON -->
 <div class="bg-green-500 text-center rounded-full py-1 ">
-<button><p class="text-white">Request Payment</p></button>
+<button  @click="RequestPayment(taskId)" ><p class="text-white">Request Payment</p></button>
 </div>
 </div>
 <!-- DETAILS -->
@@ -136,17 +136,19 @@ import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import AllTasks from '../Global/AllTasks.vue';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 const authStore = useAuthStore();
 const task = reactive([]);
 // fetch data from localhost:5000
 
 const route = useRoute();
 const router = useRouter();
-const Id=route.params.id;
+const taskId=route.params.id;
 
 
 
-  axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
+  axios.get(`http://127.0.0.1:8000/api/tasks/${taskId}`)
   .then(response => {
     task.title = response.data.title;
     task.description = response.data.description;
@@ -174,13 +176,44 @@ const updateTaskStatus = (taskId) => {
     .then(response => {
       const taskIndex = tasks.findIndex(t => t.id === taskId);
       if (taskIndex !== -1) {
-        tasks[taskIndex].status = 'completed';
+        task[taskIndex].status = 'completed';
       }
     })
     .catch(error => {
       console.error(error);
     });
 };
+
+// REQUEST PAYMENT
+const RequestPayment = (taskId) => {
+  axios.put(`/api/tasks/${taskId}/status`, { status: 'requestedPayment' })
+    .then(response => {
+      const updatedTask = response.data.data;
+      const taskIndex = task.findIndex(t => t.id === updatedTask.id);
+      if (taskIndex !== -1) {
+        task[taskIndex] = updatedTask;
+        Swal.fire({
+          icon: 'success',
+          title: 'Task status updated successfully',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+          window.location.href = "/";
+        });
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'An error occurred while trying to update the task status',
+        text: error.response.data.message,
+        confirmButtonText: 'OK'
+      });
+    });
+};
+
+
 
 
 function formatDate(date) {

@@ -120,7 +120,7 @@
     </div>
 <!-- RIGHT -->
     <div class="bg-green-200 col-span-1 md:col-span-8">
- Page
+ <img src="https://pikwizard.com/pw/medium/f47d318cec9a759ae4d4a11112025ae8.avif" alt="image"/>
   </div>
 
   </div>

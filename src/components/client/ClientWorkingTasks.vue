@@ -1,177 +1,146 @@
-
-
-
 <template>
-  <ClientNav/>
-  <div class="grid grid-cols-12 gap-2 min-h-screen bg-gray-200">
-      <!-- SIDEBAR -->
-      <div class="bg-gray-500 col-span-2 gap-1">
+  <ClientNav />
+  <div class="flex justify-center space-x-3 m-3 py-1 px-3">
+<div class="border py-1 px-3 rounded-md"> 
+  <input
+          type="text"
+          placeholder="Search..."
+          v-model="searchTerm"
+          @keydown.enter="search"
+          class=" bg-transparent text-gray-800 placeholder-gray-500 focus:outline-none"
+            />
+  </div>
+
+
+<div>Filter</div>
+
+</div>
+
+
+
+  <div class="grid grid-cols-12">
+  <div class="bg-gray-500 col-span-2 gap-1">
  <ClientSidebar />
   </div>
- <!-- CONTENT -->
- <div class="bg-white col-span-10">
-  <h2 class="text-center">Active Tasks</h2>
-<v-table
-  fixed-header
-  height="300px"
+
+
+
+<div v-if="authStore.isLoading">
+  <v-progress-circular indeterminate color="amber"></v-progress-circular>
+</div>
+  <div v-else class="col-span-10 p-5 ">
+  <p>My Pending Tasks</p>
+    <div v-for="task in tasks"
+     class="m-2 space-y-5 flex flex-row" 
+     @click="router.push('/client/task/' + task.id +'/offer')"
+
 >
-  <thead>
-    <tr>
-      <th class="text-left">
-        Task ID
-      </th>
     
-      <th class="text-left">
-       Task Title
-      </th>
-    
-      <th class="text-left">
-      Amount
-      </th>
-      <th class="text-left">
-        Tasker Name
-      </th>
-      <th class="text-left">
-       Status
-      </th>
-      
-      <th class="text-left">
-       Actions
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <div class="text-center" v-if="authStore.isLoading"> <v-progress-circular
-    :size="50"
-    color="primary"
-    indeterminate
-  ></v-progress-circular>
-  </div>
-  <tr v-for="task in tasks" :key="task.id">
-        <td>{{ task.id }}</td>
-        <td>{{ task.title }}</td>
-        <!-- <td>{{ task.user.name }}</td>
-        <td>{{ task.amount }}</td>
-        <td>{{ task.gender }}</td>
-        <td>{{ task.country }}</td> -->
-        <td>
-          <button class="bg-blue-500 rounded-md py-1 px-2 text-white mx-2" @click="rateTutor">Release payment</button>
-         
-      </td>
-    </tr>
-
-  </tbody>
-</v-table>
-
- 
+   <TaskCard 
+    :key="task.id" 
+    :title="task.title" 
+    :status="task.status" 
+    :amount="task.amount" 
+    :location="task.location" 
+    :date="task.deadline" 
+    :offers="task.offers" 
+    :time="task.time" />
  </div>
   </div>
-</template>
-
-
-<script setup>
+  </div>
+  </template>
   
-import { reactive, toRefs } from 'vue'
-import axios from 'axios'
-import TaskCard from "../TaskCard.vue";
-import { ref } from 'vue'
-import { Icon } from "@iconify/vue";
-import { useAuthStore } from "../../stores/auth";
-import {useRoute, useRouter} from "vue-router"
-import { onMounted, watch } from "vue";
-import ClientNav from './partials/ClientNav.vue';
-import ClientSidebar from './partials/ClientSideBar.vue';
-import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
-const router = useRouter();
+  
+
+  <script setup>
+  
+  import { reactive, toRefs } from 'vue'
+  import axios from 'axios'
+  import TaskCard from "../TaskCard.vue";
+  import { ref } from 'vue'
+  import { Icon } from "@iconify/vue";
+  import { useAuthStore } from "../../stores/auth";
+  import {useRoute, useRouter} from "vue-router"
+  import { onMounted, watch } from "vue";
+  import ClientNav from './partials/ClientNav.vue';
+  import ClientSidebar from './partials/ClientSideBar.vue';
+  const router = useRouter();
 
 
 const authStore = useAuthStore();
+
 const route = useRoute();
+
+
 const task = ref({});
-const categories = reactive([]);
-const tasks = reactive([]);
-const showCheckboxes = ref(false);
 
-const userAuthId=authStore.user.id;
 
- const params = new URLSearchParams([['user_id', userAuthId]]);
 
-try{
-  authStore.isLoading = true;
-  axios.get('http://127.0.0.1:8000/api/client/own-active-tasks',{params} )
-  .then(response => {
-    tasks.push(...response.data);
-    authStore.isLoading = false;
-   
-  });
-}catch{
-  console.log("erro occured")
-}
 
-function rateTutor() {
-  Swal.fire({
-    title: 'Are you sure?',
-    text: "You want to to release payment for this task!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, I want to pay the tasker!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire(
-        'Congratulations! You have succesfully released payment to  the tasker',
-        'You need to rate the tasker(OPTIONAL).',
-        'success'
-      ).then(() => {
-        router.push(`/rate`);
-      });
-    } else if (result.dismiss === Swal.DismissReason.cancel) {
-      Swal.fire(
-        'Cancelled succesfully',
-        'You have succesfully cancelled the operation.',
-        'error'
-      );
-    }
-  });
+
+  const categories = reactive([]);
+  const tasks = reactive([]);
+  const showCheckboxes = ref(false);
+  
+  // fetch data from localhost:8000
+  
+  axios.get('http://127.0.0.1:8000/api/categories')
+    .then(response => {
+      categories.push(...response.data);
+  
+    });
+  
+  const userAuthId=authStore.user.id;
  
-}
-</script>
-
-
-
-
-<style scoped>
-.hover-parent {
-  position: relative;
-}
-.hover-button {
-  padding: 0.5rem 1rem;
-  background-color: #3182CE;
-  color: white;
-  border-radius: 0.25rem;
-  cursor: pointer;
-}
-.checkboxes {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  padding: 0.5rem;
-  background-color: white;
-  border: 1px solid #E5E7EB;
-  border-radius: 0.25rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.checkbox-label {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-.checkbox-input {
-  margin-right: 0.5rem;
-  cursor: pointer;
-}
-.checkbox-text {
-  cursor: pointer;
-}
-</style>
+   const params = new URLSearchParams([['user_id', userAuthId]]);
+  
+  try{
+    authStore.isLoading = true;
+    axios.get('http://127.0.0.1:8000/api/client/own-bidding-tasks',{params} )
+    .then(response => {
+      tasks.push(...response.data);
+      authStore.isLoading = false;
+    });
+  }catch{
+    console.log("erro occured")
+  }
+  
+  </script>
+  
+  
+  
+  
+  <style scoped>
+  .hover-parent {
+    position: relative;
+  }
+  .hover-button {
+    padding: 0.5rem 1rem;
+    background-color: #3182CE;
+    color: white;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  .checkboxes {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 0.5rem;
+    background-color: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .checkbox-label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .checkbox-input {
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+  .checkbox-text {
+    cursor: pointer;
+  }
+  </style>
+  

@@ -1,162 +1,45 @@
 <template>
-   <ClientNav />
-   <div class="grid grid-cols-12">
-     <!-- SIDEBAR -->
-     <div class="bg-green-100 col-span-2">
-       <ClientSidebar />
-     </div>
-     <!-- CONTENT -->
-     <div class="mx-auto py-10 col-span-10">
-       <h1 class="text-3xl font-bold mb-5">Profile</h1>
-       <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-         <div>
-           <h2 class="text-xl font-bold mb-3">Personal Information</h2>
-           <form @submit.prevent="updateProfile">
-             <div class="mb-4">
-               <label class="block text-gray-700 font-bold mb-2" for="name">First Name</label>
-               <input
-                 v-model="name"
-                 class="appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                 id="name"
-                 type="text"
-                 required
-               />
-             </div>
-
-             <div class="mb-4">
-               <label class="block text-gray-700 font-bold mb-2" for="name">Last Name</label>
-               <input
-                 v-model="name"
-                 class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                 id="name"
-                 type="text"
-                 required
-               />
-             </div>
-
-             <div class="mb-4">
-               <label class="block text-gray-700 font-bold mb-2" for="email">Email</label>
-               <input
-                 v-model="email"
-                 class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                 id="email"
-                 type="email"
-                 required
-               />
-             </div>
-             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-               Save
-             </button>
-           </form>
-           
-           <!-- PASSWORD -->
-         <div>
-           <h2 class="text-xl font-bold mb-3 mt-12">Change Password</h2>
-           <form @submit.prevent="changePassword">
-             <div class="mb-4">
-               <label class="block text-gray-700 font-bold mb-2" for="currentPassword">Current Password</label>
-               <input
-                 v-model="currentPassword"
-                 class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                 id="currentPassword"
-                 type="password"
-                 required
-               />
-             </div>
-             <div class="mb-4">
-               <label class="block text-gray-700 font-bold mb-2" for="newPassword">New Password</label>
-               <input
-                 v-model="newPassword"
-                 class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                 id="newPassword"
-                 type="password"
-                 required
-               />
-             </div>
-             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-               Change Password
-             </button>
-           </form>
-           <h2 class="text-xl font-bold my-3">Two-Step Verification</h2>
-           <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" for="twoStepVerification">Enable Two-Step Verification</label>
-             <input
-               v-model="twoStepVerification"
-               class="form-checkbox h-5 w-5 text-gray-600"
-               type="checkbox"
-               id="twoStepVerification"
-             />
-           </div>
-         </div>
-         </div>
-
-         
-    </div>
-    <div class="mt-8">
-      <button @click="deleteAccount" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"></button>
-        Delete Account
+  <ClientNav />
+    <div class=" mx-auto my-5">
+      <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+        <div class="md:flex">
+          <div class="md:flex-shrink-0">
+            <!-- <img class="h-48 w-full object-cover md:w-48" :src="user.avatarUrl" alt="User avatar"> -->
+            image
+          </div>
+          <div class="p-8 space-y-3">
+            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold"><span class="text-gray-600">Name:</span> {{authStore.user.first_name}} {{authStore.user.last_name}}</div>
+            <div class="mt-2 text-gray-600 text-sm">Email:{{authStore.user.email}}</div>
+            <div class="mt-2 text-gray-600 text-sm">Phone No:{{authStore.user.phone_number}}</div>
+            <div class="mt-2 text-gray-600 text-sm">Gender:{{authStore.user.gender}}</div>
+            <div class="mt-2 text-gray-600 text-sm"><span class="text-gray-800 font-semibold">Country:</span>{{authStore.user.country}}</div>
+            <div class="mt-2 text-gray-600 text-sm"><span class="text-gray-800">Active since:</span>{{authStore.user.created_at}}</div>
+            <form class="mt-4">
+              <label class="block font-medium text-gray-700 mb-2">ATM Card Number</label>
+              <input  type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        
+            </form>
+            <button class="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline" @click="editUserDetails()">Edit Details</button>
+          </div>
+        </div>
       </div>
-  </div>
-   </div>
+    </div>
+  </template>
  
-</template>
-
-
-<script setup>
-
-import { useAuthStore } from "../../stores/auth";
-import { ref } from 'vue';
+ <script setup>
+ 
+ import { useAuthStore } from "../../stores/auth";
+ import { ref } from 'vue';
+ import TaskerNav from "../tasker/TaskerNav.vue";
+ import {useRoute, useRouter} from "vue-router"
 import ClientNav from "../client/partials/ClientNav.vue";
-import ClientSidebar from "../client/partials/ClientSideBar.vue";
-import axios from 'axios'
-
-const name = ref('')
-const email = ref('')
-const currentPassword = ref('')
-const newPassword = ref('')
-const twoStepVerification = ref(false)
-
-const updateProfile = async () => {
-  try {
-    const response = await axios.put('/api/profile', {
-      name: name.value,
-      email: email.value
-    })
-    console.log(response.data)
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const changePassword = async () => {
-  try {
-    const response = await axios.put('/api/password', {
-      currentPassword: currentPassword.value,
-      newPassword: newPassword.value
-    })
-    console.log(response.data)
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const deleteAccount = async () => {
-  if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-    try {
-      const response = await axios.delete('/api/profile')
-      console.log(response.data)
-      // Redirect to login page after successful account deletion
-      window.location.href = '/login'
-    } catch (error) {
-      console.error(error)
-    }
-  }
-}
-
-
-
-const authStore = useAuthStore();
-console.log(authStore.user.id)
-const showMenu = ref(false);
-</script>
-
+ const router = useRouter();
+ const authStore = useAuthStore();
+ console.log(authStore.user.id)
+ const showMenu = ref(false);
+ 
+ 
+ const editUserDetails = () => {
+   router.push("/client/profile/edit")
+ }
+ </script>

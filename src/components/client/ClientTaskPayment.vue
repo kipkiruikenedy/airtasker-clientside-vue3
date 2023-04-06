@@ -52,19 +52,23 @@ const description = ref('');
 const price = ref('');
 const isSubmitting = ref(false);
 const Id = route.params.id;
+const taskerID = ref(null);
 
 
-
-const submitTask = () => {
   axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
     .then(response => {
       task.amount = response.data.amount;
-      task.tasker = response.data.tasker;
-   
+      task.amountPayable = response.data.amountPayable;
+      task.tasker_id= response.data.tasker_id;
+      task.client_id= response.data.client_id;
+    console.log( task.tasker_id)
     })
     .catch(error => {
       console.error(error);
     });
+
+const submitTask = () => {
+
 
   isSubmitting.value = true;
   stripe.createToken(card).then(function(result) {
@@ -72,8 +76,8 @@ const submitTask = () => {
     const Id = route.params.id;
     const clientId = userAuthId;
     const task_id = Id;
-    const tasker_id = 2;
-    const amount = task.amount;
+    const tasker_id = task.tasker_id;
+    const amount = task.amountPayable;
    
 
     Swal.fire({

@@ -115,6 +115,37 @@ async handleRegisterClient(data) {
     this.authError = error.response.data.error;
   }
 },
+   // UPDATE CLIENT PROFILE
+
+async handleUpdateClient(data) {
+  this.authErrors = [];
+  await this.getToken();
+  this.isLoading = true;
+  try {
+    const formData = new FormData();
+    formData.append('first_name', data.first_name);
+    formData.append('last_name', data.last_name);
+    formData.append('phone_number', data.phone_number);
+    formData.append('country', data.country);
+    formData.append('gender', data.gender);
+    formData.append('email', data.email);
+    formData.append('card_number', data.card_number);
+    formData.append('profile_image', data.profile_image);
+
+    await axios.post("http://127.0.0.1:8000/api/register/client", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${this.token}`
+      }
+    });
+    this.isLoading = false;
+    this.authError = null;
+    this.router.push("/login");
+  } catch (error) {
+    this.isLoading = false;
+    this.authError = error.response.data.error;
+  }
+},
 
 
 
@@ -180,24 +211,52 @@ async handleTaskCreate(data) {
 },
 
 
-// CREATE AN OFFER TO DO TASK
-    async offer(data) {
-   
-      await this.getToken();
-      this.isLoading = true;
-      try {
-        const response = await axios.post('http://127.0.0.1:8000/api/create-offer',
-         {
-          tasker_id:this.user.id,
-            content:data.title, 
-            task_id: data.task_id, })
-         this.isLoading=false 
-      
-      } catch (error) {
-        this.isLoading=false ;
-      
-      }
-    },
+
+
+
+async offer(data) {
+  // Show confirmation message to user
+  const { value } = await Swal.fire({
+    title: 'Are you sure you want to make an offer?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, make offer',
+    cancelButtonText: 'Cancel'
+  })
+
+  if (value) {
+    await this.getToken();
+    this.isLoading = true;
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/create-offer', {
+        tasker_id: this.user.id,
+        content: data.title, 
+        task_id: data.task_id
+      })
+      this.isLoading=false;
+      // Show congratulatory message to user
+      Swal.fire({
+        icon: 'success',
+        title: 'Congratulations!',
+        text: message,
+        confirmButtonText: 'OK'
+      }).then(() => {
+        // Redirect to appropriate page
+        router.push("/tasker-browse-task")
+      })
+    } catch (error) {
+      this.isLoading=false;
+      // Show error message to user
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response.data.message,
+        confirmButtonText: 'OK'
+      })
+    }
+  }
+},
+
 
 
 

@@ -1,5 +1,5 @@
 <template>
-<div class="bg-white rounded border border-red m-3 p-2">
+<div class="bg-white rounded border border-red m-6 p-2">
     <!-- TOP -->
   
     <div class="flex space-x-2">
@@ -23,24 +23,36 @@
     </div>
     <!-- MESSAGE -->
     <div class="p-3">
-    <p>
+    <div class="bg-gray-200 rounded py-2 px-3 text-center">
         {{ message }}
-    </p>
+    </div>
     
     <div class="py-1 px-2 flex justify-between m-1">
       <p class="text-blue-900 text-center font-semibold border rounded py-1 px-2 mt-4">posted {{ minutesAgo }}</p>
-<button class="bg-blue-600 text-white py-1 px-3 rounded-full items-center flex "
-@click="router.push(`/client/task/${taskId}/private-chat`)"
+<div>
+  <button 
+class="bg-green-600 text-white py-1 px-3 rounded-lg items-center flex "
 
-          ><p>Reply</p>
-        </button>
-<button class="bg-blue-600 text-white py-1 px-3 rounded-full items-center flex "
+@click="router.push(`/client/task/${taskID}/offer/${Id}/chats`)" >
+<p>Reply</p>
+</button>
+</div>
 
-@click="Employ()"
+
+        <div>
+        <button 
+        class="bg-green-600 text-white py-1 px-3 rounded-lg items-center flex "
+        @click="Employ()"
           ><p>employ</p>
         </button>
+        </div>
+
 
 </div>
+
+    </div>
+    <div class="bg-gray-200">
+      <RouterView />
     </div>
     </div>
 
@@ -53,9 +65,11 @@
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { Icon } from "@iconify/vue";
 import { useRoute, useRouter } from 'vue-router';
+import { RouterView } from "vue-router";
 const route = useRoute();
 const router = useRouter();
-const {id } = route.params;
+const Id = route.params.id;
+const taskID = 11;
 
 const props = defineProps({
  name: String,
@@ -105,7 +119,7 @@ const Employ = () => {
         'Your money will be on hold untill the tasker completes the task.',
         'warning'
       ).then(() => {
-        router.push(`/client/task/${id}/pay`);
+        router.push(`/client/task/${Id}/pay`);
       });
     } else if (result.dismiss === Swal.DismissReason.cancel) {
       Swal.fire(
