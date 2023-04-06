@@ -33,7 +33,8 @@
   <button 
 class="bg-green-600 text-white py-1 px-3 rounded-lg items-center flex "
 
-@click="router.push(`/client/task/${taskID}/offer/${Id}/chats`)" >
+@click="reply()" >
+
 <p>Reply</p>
 </button>
 </div>
@@ -61,7 +62,7 @@ class="bg-green-600 text-white py-1 px-3 rounded-lg items-center flex "
 
 
     <script setup>
-    import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { Icon } from "@iconify/vue";
 import { useRoute, useRouter } from 'vue-router';
@@ -69,13 +70,14 @@ import { RouterView } from "vue-router";
 const route = useRoute();
 const router = useRouter();
 const Id = route.params.id;
-const taskID = 11;
+;
 
 const props = defineProps({
- name: String,
- message: String,
-
- rating:{
+  name: String,
+  message: String,
+  taskerId: String,
+  taskId: String,
+  rating:{
     type: Number,
     validator: (value) => {
       // Return true if value is a valid integer, otherwise false
@@ -91,7 +93,6 @@ const props = defineProps({
     },
   },
 
-
   minutesAgo: {
     type: Number,
     validator: (value) => {
@@ -99,9 +100,10 @@ const props = defineProps({
       return Number.isInteger(parseInt(value));
     },
   },
- 
- 
 });
+
+const tasker_id = props.taskerId;
+const task_id = props.taskId;
 
 const Employ = () => {
   Swal.fire({
@@ -119,7 +121,8 @@ const Employ = () => {
         'Your money will be on hold untill the tasker completes the task.',
         'warning'
       ).then(() => {
-        router.push(`/client/task/${Id}/pay`);
+        router.push(`/client/task/${Id}/pay?tasker_id=${tasker_id}`);
+
       });
     } else if (result.dismiss === Swal.DismissReason.cancel) {
       Swal.fire(
@@ -129,6 +132,28 @@ const Employ = () => {
       );
     }
   });
+
+
 };
+
+
+
+const reply = () => {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You want to open private chat with tasker!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'ok',
+    cancelButtonText: 'cancel',
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      router.push(`/client/task/${task_id}/offer/${Id}/chats`)
+    }
+  });
+};
+
 
 </script>

@@ -199,7 +199,7 @@ async handleTaskCreate(data) {
     icon: 'success',
     confirmButtonText: 'OK'
   }).then(() => {
-    router.push('/home'); // Navigate to "/home" route when "OK" button is clicked
+    router.push('/client-task'); // Navigate to "/home" route when "OK" button is clicked
   });
     this.isLoading=false
     this.authError = null

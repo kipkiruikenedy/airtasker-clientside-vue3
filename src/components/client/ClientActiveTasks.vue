@@ -96,7 +96,7 @@ const task = ref({});
   
   try{
     authStore.isLoading = true;
-    axios.get('http://127.0.0.1:8000/api/client/own-bidding-tasks',{params} )
+    axios.get('http://127.0.0.1:8000/api/client/own-active-tasks',{params} )
     .then(response => {
       tasks.push(...response.data);
       authStore.isLoading = false;

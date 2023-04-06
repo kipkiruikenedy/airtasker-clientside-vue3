@@ -9,8 +9,8 @@ import { Icon } from "@iconify/vue";
 const route = useRoute();
 const router = useRouter();
 
-const { id } = route.params;
-const params = new URLSearchParams([['task_id', id]]);
+const taskId = route.params.id;
+const params = new URLSearchParams([['task_id', taskId ]]);
 
 const state = reactive({
   categories: [],
@@ -54,6 +54,8 @@ axios.get('http://127.0.0.1:8000/api/client/task-offer',{params} )
       :CompletionPercentage="offer.status" 
       :message="offer.content" 
       :minutesAgo="offer.created_at" 
+      :taskerId="offer.tasker_id"
+      :taskId=taskId
     />
   </div>
 </template>

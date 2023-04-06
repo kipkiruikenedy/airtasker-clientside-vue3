@@ -2,7 +2,7 @@
   <div class="container mx-auto">
     <form class="max-w-md mx-auto bg-white p-8 my-10 rounded-lg shadow-lg border" @submit.prevent="submitTask">
 
-<p>You  are about to pay $25 for the task and a fee of $20</p>
+<p class="text-red-900">You  are about to pay <span class="font-semibold">${{ task.amount}}</span> for the task and a fee of <span class="font-semibold">${{ task.fees }}</span>  . Total=<span class="font-semibold">${{ task.amountPayable  }}</span> </p>
 <p>Your money will be on hold untill the tasker completes the task. </p>
     
 
@@ -11,11 +11,11 @@
       <div class="my-10 rounded-md border border-gray-300 p-4" ref="cardWrapper">
   <div ref="card" id="card"></div>
 </div>
-      <button type="submit" :disabled="isSubmitting" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"> 
+      <button type="submit" :disabled="isSubmitting" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"> 
         
       <div class="flex space-x-1">
       <p>pay</p>
-      <span>$45</span>
+      <span class="font-semibold">${{ task.amountPayable }}</span>
       <p>for the task</p>
       </div>
       </button>
@@ -38,7 +38,7 @@ import { reactive, toRefs } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 const authStore = useAuthStore();
 const userAuthId = authStore.user.id;
-const task = ref({});
+
 const categories = reactive([]);
 const tasks = reactive([]);
 const showCheckboxes = ref(false);
@@ -52,8 +52,15 @@ const description = ref('');
 const price = ref('');
 const isSubmitting = ref(false);
 const Id = route.params.id;
-const taskerID = ref(null);
+const task = reactive({
+  amount: null,
+  fees: null,
+  amountPayable: null,
+});
 
+
+
+const taskerId = route.query.tasker_id;
 
   axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
     .then(response => {
@@ -61,7 +68,8 @@ const taskerID = ref(null);
       task.amountPayable = response.data.amountPayable;
       task.tasker_id= response.data.tasker_id;
       task.client_id= response.data.client_id;
-    console.log( task.tasker_id)
+      task.fees= response.data.fees;
+    console.log( task.fees)
     })
     .catch(error => {
       console.error(error);
@@ -76,7 +84,7 @@ const submitTask = () => {
     const Id = route.params.id;
     const clientId = userAuthId;
     const task_id = Id;
-    const tasker_id = task.tasker_id;
+    const tasker_id = taskerId;
     const amount = task.amountPayable;
    
 

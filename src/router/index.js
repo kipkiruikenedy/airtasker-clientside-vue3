@@ -240,7 +240,7 @@ const routes = [
 {
   path: "/client-active-task",
   name: "ClientCurrentActiveTasks",
-  component: () => import("../components/client/ClientWorkingTasks.vue"),
+  component: () => import("../components/client/ClientActiveTasks.vue"),
 },
 {
   path: "/client-requested-payments",
@@ -266,9 +266,9 @@ const routes = [
 
 
   {
-    path: "/client-task",
+    path: "/client-pending-task",
     name: "ClientActiveTasks",
-    component: () => import("../components/client/ClientActiveTasks.vue"),
+    component: () => import("../components/client/ClientPendingTasks.vue"),
   },
 
   // {

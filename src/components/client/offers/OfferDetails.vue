@@ -1,6 +1,6 @@
 <template>
   <div class="my-8">
-    <div class="mb-4">     <p>Content: {{ offer.content.offer.content }}</p>
+    <div class="mb-4">     <p>huihui</p>
       <button class="bg-green-600 text-white py-1 px-3 rounded-lg items-center flex"
               @click="handleEmployTaskerClick()">
         <p>Employ tasker</p>

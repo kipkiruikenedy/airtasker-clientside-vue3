@@ -28,12 +28,12 @@ export default defineComponent({
   data() {
     return {
       items: [
-        { title: 'Active Tasks', to: '/client-active-task' },
         { title: 'Post a Task', to: '/client/post-task' },
-        { title: 'Pending Tasks', to: '/client-task' },
+        { title: 'Pending Tasks', to: '/client-pending-task' },
+        { title: 'Active Tasks', to: '/client-active-task' },
+        { title: 'Requested Payments', to: '/client-requested-payments' },
         { title: 'Completed Tasks', to: '/client-completedtask' },
         { title: 'Rejected Tasks', to: '/client-rejectedtask' },
-        { title: 'Requested Payments', to: '/client-requested-payments' },
       
       
       ],
