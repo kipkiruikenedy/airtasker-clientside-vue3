@@ -1,5 +1,6 @@
 <template>
-  <div class="flex flex-col items-center space-y-4">
+  <div class="flex flex-col items-center space-y-4 mt-8">
+<p class="text-2xl text-gray-900">Rate the tasker(OPTIONAL)</p>
     <div class="flex items-center">
       <button
         v-for="n in 5"
@@ -11,7 +12,7 @@
         }"
         @click="setRating(n)"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-current" viewBox="0 0 20 20" fill="currentColor">
           <path
             fill-rule="evenodd"
             d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
@@ -22,7 +23,7 @@
     </div>
     <div class="flex flex-col items-center">
       <textarea
-        class="rounded-lg w-96 p-4 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        class="rounded-lg w-96 p-4 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-gray-100"
         v-model="comment"
         placeholder="Enter your comment here"
       ></textarea>
@@ -49,7 +50,7 @@ function setRating(value) {
 
 function submit() {
   axios
-    .post('http://localhost:8000/api/tutors/ratings', {
+    .post('http://localhost:8000/api/ratings', {
       rating: rating.value,
       comment: comment.value,
     })
@@ -68,5 +69,9 @@ function submit() {
 <style scoped>
 button:hover {
   cursor: pointer;
+}
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #fbbf24;
 }
 </style>

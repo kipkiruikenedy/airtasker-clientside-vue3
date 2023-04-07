@@ -53,7 +53,7 @@ const showLoginError = () => {
             <div class="bg-red-500 text-center rounded-lg py-1 text-white">{{ authStore.authError }}</div>
           </div>
 
-            <div class="mb-10 text-center md:mb-16">Airtasker Pro</div>
+            <div class="mb-10 text-center md:mb-16">Airtaskers Pro</div>
            
 
             <form @submit.prevent="async () => {

@@ -9,6 +9,7 @@ import { useAuthStore } from '../../stores/auth';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import { RouterView } from "vue-router";
 const route = useRoute();
 const router = useRouter();
 const Id=route.params.id;
@@ -165,7 +166,7 @@ function releasePayment() {
           });
 
           // Redirect the user to the rate page after successful payment release
-          router.push('/rate');
+          router.push(`/client-requested-payments/${Id}/rate`);
         })
         .catch(error => {
           console.error(error);
@@ -289,5 +290,6 @@ stripe.createToken(card).then(function(result) {
       
       </div>
     </div>
+   <div>  <RouterView /></div>
   </div>
 </template>

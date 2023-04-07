@@ -1,7 +1,7 @@
 <template >
   <div class="flex justify-between py-2 px-2 mt-2 sticky top-0 w-full z-50">
   <div>  <a href="/" class="flex items-center text-blue-700 font-semibold">
-        Airtasker Pro
+        Airtaskers Pro
         
       </a></div>
     <div class="flex space-x-3">

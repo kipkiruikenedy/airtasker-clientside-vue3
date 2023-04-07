@@ -13,7 +13,7 @@ const showMenu = ref(false);
       bis_skin_checked="1"
     >
       <a href="/" class="flex items-center text-blue-700 font-semibold">
-        Airtasker Pro
+        Airtaskers Pro
         
       </a>
       <button
@@ -262,7 +262,7 @@ const showMenu = ref(false);
       @click="showMenu = !showMenu"> <p v-if="!showMenu">
     <div class="flex space-x-12 justify-between align-content-center m-2">
      <div><img src="../assets/images/menu.png" alt="menu"/></div>
-     <div class="text-blue-700 font-extrabold text-2xl">Airtasker Pro</div>
+     <div class="text-blue-700 font-extrabold text-2xl">Airtaskers Pro</div>
      <div ><p class="bg-blue-700 rounded-full p-4 text-white font-bold text-2xl">+</p></div>
     
     </div>
@@ -273,7 +273,7 @@ const showMenu = ref(false);
      
      </button>
     <div v-if="showMenu">
-      <button  @click="showMenu = false"><div class="flex justify-between align-center space-x-8"><p class="text-blue-400 font-bold text-2xl cursor-pointer">X</p> <div class="text-blue-700 font-extrabold text-2xl">Airtasker Pro</div></div></button>
+      <button  @click="showMenu = false"><div class="flex justify-between align-center space-x-8"><p class="text-blue-400 font-bold text-2xl cursor-pointer">X</p> <div class="text-blue-700 font-extrabold text-2xl">Airtaskers Pro</div></div></button>
       <v-divider class="border-opacity-100"></v-divider>
         <ul
           class="

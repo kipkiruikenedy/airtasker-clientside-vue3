@@ -17,14 +17,76 @@
       Browse Tasks
     </router-link>
 
-    <router-link
-      @click="showMenu = !showMenu"
-      :to="{ name: 'taskerActive-Tasks' }"
-      class="block rounded py-2 pr-4 pl-3 text-black hover:text-blue-800"
-    >
-    My Tasks
-    </router-link>
-  
+   
+    <div class="relative">
+      <div
+        class="cursor-pointer  "
+        @click="showMyTask = !showMyTask"
+
+      >My task</div>
+      <div
+        v-show="showMyTask"
+        class="
+          origin-top-right
+          absolute
+          right-0
+          mt-2
+          w-48
+          rounded-md
+          shadow-lg
+          bg-white
+          ring-1
+          ring-black
+          ring-opacity-5
+          divide-y divide-gray-100
+        "
+        @click.away="showMenu = false"
+      >
+
+
+
+      <router-link
+          :to="{ name: 'tasker-inprogress-tasks' }"
+          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        >
+        In Progress
+        </router-link>
+      
+      <router-link
+          :to="{ name: 'tasker-requested-payment-tasks' }"
+          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        >
+        Pending Payment
+        </router-link>
+
+        <router-link
+          :to="{ name: 'tasker-paid-tasks' }"
+          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        >
+         Paid
+        </router-link>
+        <router-link
+          :to="{ name: 'taskercompleted-Tasks' }"
+          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        >
+         Completed
+        </router-link>
+
+
+       
+
+        <router-link
+          :to="{ name: 'tasker-inprogress-tasks' }"
+          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        >
+        
+        </router-link>
+     
+       
+      </div>
+    </div>
+
+
   </div>
 
 
@@ -51,6 +113,7 @@
     >
       Message
     </router-link>
+    
     <div class="relative">
       <v-avatar
         class="cursor-pointer border rounded-full"
@@ -114,6 +177,9 @@ image
         </button>
       </div>
     </div>
+
+
+
   </div>
   </div>
   
@@ -125,4 +191,5 @@ import { ref } from 'vue';
 
 const authStore = useAuthStore();
 const showMenu = ref(false);
+const showMyTask = ref(false);
 </script>

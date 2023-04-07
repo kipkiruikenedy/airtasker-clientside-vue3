@@ -3,7 +3,7 @@
 
 <template>
   <!-- NAV -->
-  <div class="flex justify-between p-1"><p>Airtasker Pro</p><AdminNav /></div>
+  <div class="flex justify-between p-1"><p>Airtaskers Pro</p><AdminNav /></div>
 <div class="grid grid-cols-12 gap-2 min-h-screen bg-gray-200">
     <!-- SIDEBAR -->
 <div class="bg-red-500 col-span-2">

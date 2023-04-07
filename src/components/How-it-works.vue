@@ -55,7 +55,7 @@
       
     </div>
     <div class="p-10">
-      <img src="../assets/images/step2.PNG"/>
+      <img src="../assets/images/step2.jpg"/>
     </div>
   </div>
 
@@ -64,7 +64,7 @@
    <!-- STEP 3 -->
    <div class="flex space-x-2 p-3 mt-6 justfy-center">
     <div class="p-10">
-    <img src="../assets/images/step3.PNG"/>
+      <img src="../assets/images/step2.jpg"/>
   </div>
   <div class="bg-trasnparent rounded mx-2">
     <h1 class="text-center font-semibold text-4xl text-blue-900">Provide More information</h1>
@@ -73,7 +73,7 @@
       <butto class="bg-blue-600 text-white py-3 px-4 rounded-full "
       >Post your task for free<Icon icon="mdi:arrow-right"
     /></butto>
-
+ 
     </div>
     
   </div>
@@ -97,7 +97,7 @@
     
   </div>
   <div class="p-10">
-    <img src="../assets/images/step4.PNG"/>
+
   </div>
 </div>
 
@@ -107,7 +107,7 @@
   <!-- STEP 5 -->
   <div class="flex space-x-2 p-3 mt-6 justfy-center">
     <div class="p-10">
-     <img src="../assets/images/step4.PNG"/>
+   
    </div>
    <div class="bg-trasnparent rounded mx-2">
      <h1 class="text-center font-semibold text-4xl text-blue-900">Receive quotes. Pick the most suitable Tasker</h1>

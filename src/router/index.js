@@ -124,6 +124,42 @@ const routes = [
  ]
   },
   {
+    path: "/tasker-in-progress-tasks",
+    name: "tasker-inprogress-tasks",
+    component: () => import("../components/tasker/InProgress.vue"),
+  },
+  {
+    path: "/tasker-in-progress-tasks/:id",
+    name: "tasker-inprogress-tasksDetails",
+    component: () => import("../components/tasker/InProgressDetails.vue"),
+  },
+
+
+
+
+
+  {
+    path: "/tasker-requested-payment-tasks",
+    name: "tasker-requested-payment-tasks",
+    component: () => import("../components/tasker/RequestedPayment.vue"),
+  },
+  {
+    path: "/tasker-requested-payment-tasks/:id",
+    name: "tasker-requested-payment-tasksDetails",
+    component: () => import("../components/tasker/RequestedPaymentDetails.vue"),
+  },
+
+  {
+    path: "/tasker-paid-tasks",
+    name: "tasker-paid-tasks",
+    component: () => import("../components/tasker/Paid.vue"),
+  },
+  {
+    path: "/tasker-paid-tasks/:id",
+    name: "tasker-paid-tasksDetails",
+    component: () => import("../components/tasker/PaidDetails.vue"),
+  },
+  {
     path: "/tasker-pending-tasks",
     name: "taskerPending-Tasks",
     component: () => import("../components/tasker/PendingTasks.vue"),
@@ -255,7 +291,17 @@ const routes = [
   path: "/client-requested-payments/:id",
   name: "client-requested-payments-details",
   component: () => import("../components/client/RequestedPaymentsDetails.vue"),
+  children: [
+        
+    {
+   path: "rate",
+   component: () => import("../components/Global/RateUser.vue"),
+   
+    },]
 },
+
+
+
 
   {
     path: '/client-active-task/:id',

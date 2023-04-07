@@ -51,7 +51,7 @@ const authStore = useAuthStore();
 
         <!-- RIGHT -->
         <div>
-          <img src="../assets/images/img1.PNG" class="rounded-lg" alt="image" />
+          <img src="../assets/images/img1.jpg" class="rounded-lg" alt="image" />
         </div>
       </div>
       <div>
