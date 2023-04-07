@@ -1,83 +1,72 @@
 <template>
-  <div class="rating-page max-w-xl mx-auto p-6">
-    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      <div class="mb-6">
-        <label class="block text-blue-700 font-bold mb-2 text-center" for="rating">
-          Rate Your Tasker
-        </label>
-        <div class="flex justify-center mt-6">
-  <StarRating v-model="rating" />
-</div>
-       
-
-      </div>
-      <div class="mb-6">
-        <label class="block text-gray-700 font-bold mb-2" for="comment">
-          Comment:
-        </label>
-        <textarea
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="comment"
-          v-model="comment"
-        ></textarea>
-      </div>
-      <div class="flex items-center justify-end">
-        <button
-          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          type="button"
-          @click.prevent="submit"
-        >
-          Submit
-        </button>
-      </div>
-    </form>
+  <div class="flex flex-col items-center space-y-4">
+    <div class="flex items-center">
+      <button
+        v-for="n in 5"
+        :key="n"
+        class="mr-1 focus:outline-none"
+        :class="{
+          'text-yellow-400': n <= rating,
+          'text-gray-300': n > rating,
+        }"
+        @click="setRating(n)"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fill-rule="evenodd"
+            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="flex flex-col items-center">
+      <textarea
+        class="rounded-lg w-96 p-4 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        v-model="comment"
+        placeholder="Enter your comment here"
+      ></textarea>
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        @click="submit"
+      >
+        Submit
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import axios from 'axios';
-import { reactive } from 'vue';
-import StarRating from './StarRating.vue';
-const state = reactive({
-  rating: 3,
-  comment: '',
-});
+
+const rating = ref(0);
+const comment = ref('');
+
+function setRating(value) {
+  rating.value = value;
+}
 
 function submit() {
   axios
-    .post('http://localhost:8000/api/ratings', {
-      rating: state.rating,
-      comment: state.comment,
+    .post('http://localhost:8000/api/tutors/ratings', {
+      rating: rating.value,
+      comment: comment.value,
     })
     .then(() => {
-      alert('Thank you for rating your tasker!');
+      console.log('Rating saved successfully');
+      alert('Thank you for rating your tutor!');
+      comment.value = '';
     })
     .catch((error) => {
       console.error(error);
-      alert('An error occurred while rating your tasker.');
+      alert('An error occurred while saving your rating.');
     });
 }
 </script>
 
 <style scoped>
-.rating-page {
-  max-width: 600px;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
-button:focus {
-  outline: none;
-}
-
 button:hover {
-  background-color: #48bb78;
-}
-
-button:active {
-  background-color: #38a169;
+  cursor: pointer;
 }
 </style>

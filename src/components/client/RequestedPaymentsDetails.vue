@@ -138,35 +138,34 @@ function editTask() {
 
 
 
+
+
+
+
+
+
+
+
 function releasePayment() {
-  router.push("/rate");
-}
-
-
-
-
-
-
-function cancelTask() {
   Swal.fire({
-    title: 'Are you sure you want to cancel this task?',
+    title: 'Are you sure you want to release payment for this task?',
     showCancelButton: true,
-    confirmButtonText: 'Yes, cancel it!',
-    cancelButtonText: 'No, keep it'
+    confirmButtonText: 'Yes!',
+    cancelButtonText: 'No, keep it on hold'
   }).then((result) => {
     if (result.isConfirmed) {
-      axios.delete(`http://localhost:8000/api/task/${Id}`)
+      axios.put(`http://localhost:8000/api/tasks/${Id}/status`, { status: 'paid' })
         .then(response => {
           // Display a success message to the user
           Swal.fire({
             icon: 'success',
-            title: 'Task cancelled successfully!',
+            title: 'Payment released successfully!',
             showConfirmButton: false,
             timer: 1500
           });
 
-          // Redirect the user to the client dashboard after successful task cancellation
-          router.push('/client-active-task');
+          // Redirect the user to the rate page after successful payment release
+          router.push('/rate');
         })
         .catch(error => {
           console.error(error);
@@ -174,6 +173,56 @@ function cancelTask() {
     }
   });
 }
+
+
+
+
+const submitTask = () => {
+
+
+isSubmitting.value = true;
+stripe.createToken(card).then(function(result) {
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, submit payment!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axios.post('http://localhost:8000/api/client-pay-task', {
+        stripe_token,
+        amount,
+        tasker_id,
+        task_id,
+        client_id: clientId,
+      
+      }).then(function(response) {
+        console.log(response.data);
+        title.value = '';
+        description.value = '';
+        price.value = '';
+        Swal.fire({
+          icon: '',
+          title: 'Congratulations! You payment have succesfully been submitted',
+          text: 'Your money will be on hold untill the tasker completes the task!',
+          footer: '<a href="">Want to read more about payment?</a>'
+        });
+        card.clear();
+        isSubmitting.value = false;
+        const router = useRouter();
+        // window.location.href = '/client-active-task';
+      }).catch(function(error) {
+        console.log(error);
+        isSubmitting.value = false;
+      });
+    }
+  })
+});
+};
 
 
 
