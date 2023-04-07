@@ -76,19 +76,7 @@
   
   
   
-  const searchTerm = ref("");
-    
-function search() {
-  const params = new URLSearchParams([["user_id", userAuthId], ["search", searchTerm.value]]);
-  authStore.isLoading = true;
-  axios
-    .get("http://127.0.0.1:8000/api/client/own-requested-payment-tasks", { params })
-    .then((response) => {
-      tasks.splice(0, tasks.length, ...response.data.tasks);
-      authStore.isLoading = false;
-    });
-}
-
+  
   
     const categories = reactive([]);
     const tasks = reactive([]);

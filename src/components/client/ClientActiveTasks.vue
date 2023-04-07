@@ -32,7 +32,7 @@
   <p>My Pending Tasks</p>
     <div v-for="task in tasks"
      class="m-2 space-y-5 flex flex-row" 
-     @click="router.push('/client/task/' + task.id +'/offer')"
+     @click="router.push('/client-active-task/' + task.id +'/offer/')"
 
 >
     
@@ -44,7 +44,10 @@
     :location="task.location" 
     :date="task.deadline" 
     :offers="task.offers" 
-    :time="task.time" />
+    :time="task.time"
+
+    
+     />
  </div>
   </div>
   </div>

@@ -215,6 +215,10 @@ const routes = [
             path: 'pay',
             component: () => import('../components/client/ClientTaskPayment.vue'),
          },
+           {
+            path: 'edit',
+            component: () => import('../components/client/EditTask.vue'),
+         },
            
 
          
@@ -247,6 +251,11 @@ const routes = [
   name: "client-requested-payments",
   component: () => import("../components/client/RequestedPayments.vue"),
 },
+{
+  path: "/client-requested-payments/:id",
+  name: "client-requested-payments-details",
+  component: () => import("../components/client/RequestedPaymentsDetails.vue"),
+},
 
   {
     path: '/client-active-task/:id',
@@ -256,8 +265,20 @@ const routes = [
         
            {
           path: "offer",
-          component: () => import("../components/client/offers/ClientOfferCard.vue"),
+          component: () => import("../components/client/ClientActiveTasksDetails.vue"),
           
+           },
+        
+           {
+          path: "offer/:id",
+          component: () => import("../components/client/ClientActiveTasksDetails.vue"),
+          children: [
+        
+            {
+           path: "chat",
+           component: () => import("../components/client/ClientActiveTasksDetails.vue"),
+           
+            },]
            },
          
       ]
@@ -267,7 +288,7 @@ const routes = [
 
   {
     path: "/client-pending-task",
-    name: "ClientActiveTasks",
+    name: "ClientPendingTasks",
     component: () => import("../components/client/ClientPendingTasks.vue"),
   },
 

@@ -20,6 +20,7 @@
       </div>
     </div>
     <div class="flex justify-between">
+
       <p class=" text-blue-900 rounded font-semibold">{{ status }}</p>
       <p class="mb-2">{{ offers }}</p>
       <v-avatar>
@@ -39,6 +40,7 @@ const props = defineProps({
   date: String,
   status: String,
   time: String,
+
   amount: {
     type: Number,
     validator: (value) => {

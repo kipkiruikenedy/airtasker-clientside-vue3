@@ -199,11 +199,11 @@ async handleTaskCreate(data) {
     icon: 'success',
     confirmButtonText: 'OK'
   }).then(() => {
-    router.push('/client-task'); // Navigate to "/home" route when "OK" button is clicked
+    router.push('/client-pending-task'); // Navigate to "/home" route when "OK" button is clicked
   });
     this.isLoading=false
     this.authError = null
-    this.router.push('/client-task')
+    this.router.push('/client-pending-task')
   } catch (error) {
     this.isLoading=false 
     // this.authError = error.response.data.error;
@@ -238,7 +238,7 @@ async offer(data) {
       Swal.fire({
         icon: 'success',
         title: 'Congratulations!',
-        text: message,
+        text: response.data.message,
         confirmButtonText: 'OK'
       }).then(() => {
         // Redirect to appropriate page
