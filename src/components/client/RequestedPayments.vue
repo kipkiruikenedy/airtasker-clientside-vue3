@@ -32,7 +32,7 @@
     <p class="text-center font-semibold text-blue-900 text-2xl">Tasker has completed this tasks and waiting for you to release payment</p>
       <div v-for="task in tasks"
        class="m-2 space-y-5 flex flex-row" 
-       @click="router.push('/client-requested-payments' + task.id +'/offer')"
+       @click="router.push('/client-requested-payments/' + task.id)"
   
   >
       
@@ -41,7 +41,7 @@
       :title="task.title" 
       :status="task.status" 
       :amount="task.amount" 
-      :location="task.location" 
+      :location="Remote" 
       :date="task.deadline" 
       :offers="task.offers" 
       :time="task.time" />
@@ -72,33 +72,22 @@
   const route = useRoute();
   
   
-  const task = ref({});
+  const tasks = reactive([]);
   
   
   
-  const searchTerm = ref("");
-    
-function search() {
-  const params = new URLSearchParams([["user_id", userAuthId], ["search", searchTerm.value]]);
-  authStore.isLoading = true;
-  axios
-    .get("http://127.0.0.1:8000/api/client/own-requested-payment-tasks", { params })
-    .then((response) => {
-      tasks.splice(0, tasks.length, ...response.data.tasks);
-      authStore.isLoading = false;
-    });
-}
 
   
     const categories = reactive([]);
-    const tasks = reactive([]);
+   
     const showCheckboxes = ref(false);
     
     // fetch data from localhost:8000
     
     axios.get('http://127.0.0.1:8000/api/categories')
       .then(response => {
-        categories.push(...response.data);
+        categories.push(...[response.data]);
+
     
       });
     
@@ -110,12 +99,15 @@ function search() {
       authStore.isLoading = true;
       axios.get('http://127.0.0.1:8000/api/client/own-requested-payment-tasks',{params} )
       .then(response => {
-        tasks.push(...response.data);
+        tasks.push(...response.data.tasks);
+
         authStore.isLoading = false;
       });
     }catch{
       console.log("erro occured")
     }
+    
+
     
     </script>
     

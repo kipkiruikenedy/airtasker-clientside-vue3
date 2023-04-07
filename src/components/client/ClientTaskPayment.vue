@@ -133,7 +133,18 @@ const submitTask = () => {
 
 const mounted = () => {
   if (!card) {
-    card = elements.create('card');
+    card = elements.create('card', {
+      style: {
+        base: {
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between'
+        },
+        postalCode: {
+          display: 'none'
+        }
+      }
+    });
     card.mount(document.querySelector('#card'));
   }
 };
