@@ -14,7 +14,7 @@ const authStore = useAuthStore();
   
     <div >
       <div
-        class="min-h-screen bg-gray-200 rounded-md flex flex-col-reverse md:flex-row justify-between"
+        class="min-h-screen bg-gray-200 rounded-md flex justify-end space-y-4 flex-col-reverse md:flex-row md:justify-between"
       >
         <!-- LEFT -->
         <div class="flex flex-col justify-between">
@@ -38,19 +38,23 @@ const authStore = useAuthStore();
                   >Earn money as a tasker
                 </butto>
               </div>
-              <div class="flex justify-center space-x-3">
-                <p class="flex space-x-2 items-center">
+              <div class="flex flex-col justify-center items-center space-y-5 md:flex  md:flex-col md:justify-center md:space-x-3">
+             <div><p class="flex space-x-2 items-center">
                   <Icon icon="mdi:account-group"></Icon><span>1M+ Customers</span>
-                </p>
-                <p class="hidden md:block">Completed tasks</p>
-                <p class="hidden md:block">Reviews</p>
+                </p></div>
+             <div>  <p class=" md:block">Completed tasks</p></div>
+             <div> <p class=" md:block">Reviews</p></div>
+                
+              
+               
               </div>
             </div>
           </div>
         </div>
 
         <!-- RIGHT -->
-        <div>
+        <div class="mb-10 md:mb-0">
+      
           <img src="../assets/images/img1.jpg" class="rounded-lg" alt="image" />
         </div>
       </div>

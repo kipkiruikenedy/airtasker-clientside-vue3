@@ -41,6 +41,9 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
+const clientId =1;
+const taskerId =1;
+const taskId =2;
 const rating = ref(0);
 const comment = ref('');
 
@@ -53,6 +56,10 @@ function submit() {
     .post('http://localhost:8000/api/ratings', {
       rating: rating.value,
       comment: comment.value,
+      from_user_id: clientId,
+      to_user_id: taskerId,
+      task_id: taskId,
+     
     })
     .then(() => {
       console.log('Rating saved successfully');

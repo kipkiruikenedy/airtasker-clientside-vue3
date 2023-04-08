@@ -17,6 +17,19 @@ export const useAuthStore = defineStore('auth',{
     authError:null,
     authStatus: null,
     messages:null,
+
+
+    errors: {
+      first_name: null,
+      last_name: null,
+      phone_number: null,
+      country: null,
+      gender: null,
+      email: null,
+      password: null,
+      password_confirmation: null,
+    },
+
   }),
 
   // getters: {
@@ -90,30 +103,61 @@ async handleRegisterClient(data) {
   await this.getToken();
   this.isLoading = true;
   try {
-    const formData = new FormData();
-    formData.append('first_name', data.first_name);
-    formData.append('last_name', data.last_name);
-    formData.append('phone_number', data.phone_number);
-    formData.append('country', data.country);
-    formData.append('gender', data.gender);
-    formData.append('email', data.email);
-    formData.append('password', data.password);
-    formData.append('password_confirmation', data.password_confirmation);
-    formData.append('profile_image', data.profile_image);
-
-    await axios.post("http://127.0.0.1:8000/api/register/client", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${this.token}`
-      }
+    await axios.post("http://127.0.0.1:8000/api/register/client" ,{
+      first_name:data.first_name,
+      last_name:data.last_name,
+      phone_number:data.phone_number,
+      country:data.country,
+      gender:data.gender,
+      email: data.email,
+      password: data.password,
+      password_confirmation: data.password_confirmation,
     });
     this.isLoading = false;
     this.authError = null;
     this.router.push("/login");
   } catch (error) {
     this.isLoading = false;
-    this.authError = error.response.data.error;
+    const errorResponse = error.response.data; // get the error response from the server
+  
+    // Clear previous error messages
+    this.errors = {
+      first_name: null,
+      last_name: null,
+      phone_number: null,
+      country: null,
+      gender: null,
+      email: null,
+      password: null,
+      password_confirmation: null,
+    }
+  
+    // Assign the error message to the corresponding field's error property
+    if (errorResponse.errors) {
+      const errors = errorResponse.errors;
+      Object.keys(errors).forEach((key) => {
+        this.errors[key] = errors[key][0];
+        if (key === 'password_confirmation') {
+          this.errors.password_confirmation = 'The password confirmation does not match.';
+        }
+      });
+    }  
+    else if (errorResponse.message && errorResponse.message.errorInfo && errorResponse.message.errorInfo.includes("Duplicate entry")) {
+      this.errors.email = errorResponse.message.errorInfo[0];
+    }
+    else if (errorResponse.message && errorResponse.message.errorInfo && errorResponse.message.errorInfo.includes("Out of range value for column 'phone_number' ")) {
+      this.errors.phone = errorResponse.message.errorInfo[0];
+    }
+    else {
+      this.authError = 'Registration failed';
+    }
+    
+
+
+
+
   }
+    
 },
    // UPDATE CLIENT PROFILE
 
@@ -170,7 +214,27 @@ async handleUpdateClient(data) {
         this.router.push("/login");
       } catch (error) {
         this.isLoading=false 
-        this.authError = error.response.data.error;
+       // Assign the error message to the corresponding field's error property
+    if (errorResponse.errors) {
+      const errors = errorResponse.errors;
+      Object.keys(errors).forEach((key) => {
+        this.errors[key] = errors[key][0];
+        if (key === 'password_confirmation') {
+          this.errors.password_confirmation = 'The password confirmation does not match.';
+        }
+      });
+    }  
+    else if (errorResponse.message && errorResponse.message.errorInfo && errorResponse.message.errorInfo.includes("Duplicate entry")) {
+      this.errors.email = errorResponse.message.errorInfo[0];
+    }
+    else if (errorResponse.message && errorResponse.message.errorInfo && errorResponse.message.errorInfo.includes("Out of range value for column 'phone_number' ")) {
+      this.errors.phone = errorResponse.message.errorInfo[0];
+    }
+    else {
+      this.authError = 'Registration failed';
+    }
+    
+
       }
     },
 

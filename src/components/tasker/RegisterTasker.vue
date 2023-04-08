@@ -61,11 +61,11 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <!-- <div v-if="authStore.errors.name" class="flex">
+                <div v-if="authStore.errors.first_name" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
-                    authStore.errors.name[0]
+                    authStore.errors.first_name
                   }}</span>
-                </div> -->
+                </div>
               </div>
               <div class="mb-6">
                 <input
@@ -88,11 +88,11 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <!-- <div v-if="authStore.errors.name" class="flex">
+                <div v-if="authStore.errors.last_name" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
-                    authStore.errors.name[0]
+                    authStore.errors.last_name
                   }}</span>
-                </div> -->
+                </div>
               </div>
               <div class="mb-6">
                 <input
@@ -115,11 +115,11 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <!-- <div v-if="authStore.errors.name" class="flex">
+                <div v-if="authStore.errors.phone_number" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
-                    authStore.errors.name[0]
+                    authStore.errors.phone_number
                   }}</span>
-                </div> -->
+                </div>
               </div>
               <div class="mb-4 flex">
       <label for="gender" class="block text-gray-700 font-bold mb-2">Gender:</label>
@@ -129,6 +129,11 @@ const form = ref({
         <option value="female">Female</option>
         <option value="other">Other</option>
       </select>
+      <div v-if="authStore.errors.gender" class="flex">
+                  <span class="text-red-400 text-sm m-2 p-2">{{
+                    authStore.errors.gender
+                  }}</span>
+                </div>
     </div>
               <div class="mb-6">
                 <input
@@ -151,11 +156,11 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <!-- <div v-if="authStore.errors.name" class="flex">
+                <div v-if="authStore.errors.country" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
-                    authStore.errors.name[0]
+                    authStore.errors.country
                   }}</span>
-                </div> -->
+                </div>
               </div>
               <div class="mb-6">
                 <input
@@ -178,13 +183,14 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <!-- <div v-if="authStore.errors.email" class="flex">
+                <div v-if="authStore.errors.email" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
-                    authStore.errors.email[0]
+                    authStore.errors.email
                   }}</span>
-                </div> -->
+                </div>
               </div>
               <div class="mb-6">
+              <div><p class="text-xl text-black">password policy</p><span class="text-gray-600">The password must be at least 8 characters long, contain at least one letter, one number, and one special character.</span></div>
                 <input
                   type="password"
                   placeholder="Password"
@@ -205,11 +211,12 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <!-- <div v-if="authStore.errors.password" class="flex">
+                <div v-if="authStore.errors.password" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
-                    authStore.errors.password[0]
+                    authStore.errors.password
                   }}</span>
-                </div> -->
+                </div>
+
               </div>
               <div class="mb-6">
                 <input
@@ -232,6 +239,11 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
+                <div v-if="authStore.errors.password_confirmation" class="flex">
+                  <span class="text-red-400 text-sm m-2 p-2">{{
+                    authStore.errors.password_confirmation
+                  }}</span>
+                </div>
               </div>
               <div class="mb-10">
                 <button
