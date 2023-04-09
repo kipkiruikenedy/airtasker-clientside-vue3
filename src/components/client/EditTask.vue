@@ -13,6 +13,10 @@ const router = useRouter();
 const taskId=route.params.id;
 const authStore = useAuthStore();
 
+
+
+
+
 const form = ref({
   title: "",
   description: "",
@@ -39,6 +43,7 @@ axios.get(`http://127.0.0.1:8000/api/tasks/${taskId}`)
     form.job_category_name = response.data.job_category_name;
     form.deadline = response.data.deadline;
     form.time = response.data.time;
+    
   });
 
 
@@ -87,7 +92,7 @@ axios.get(`http://127.0.0.1:8000/api/tasks/${taskId}`)
           <div class="bg-red-500 text-center rounded-lg py-1 text-white mb-3" v-if="authStore.authError" >{{authStore.authError }}</div>
             <div class="mb-10 text-center md:mb-16 text-2xl text-blue-900">Edit task details</div>
            
-            <form @submit.prevent="authStore.handleUpdate(form)">
+            <form @submit.prevent="authStore.handleTaskUpdate(form)">
               <div class="mb-6">
               <p>Title of your task. Give a brief title</p>
                 <input

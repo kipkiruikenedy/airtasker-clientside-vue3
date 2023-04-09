@@ -98,67 +98,73 @@ export const useAuthStore = defineStore('auth',{
 
    // REGISTER CLIENT
 
-async handleRegisterClient(data) {
-  this.authErrors = [];
-  await this.getToken();
-  this.isLoading = true;
-  try {
-    await axios.post("http://127.0.0.1:8000/api/register/client" ,{
-      first_name:data.first_name,
-      last_name:data.last_name,
-      phone_number:data.phone_number,
-      country:data.country,
-      gender:data.gender,
-      email: data.email,
-      password: data.password,
-      password_confirmation: data.password_confirmation,
-    });
-    this.isLoading = false;
-    this.authError = null;
-    this.router.push("/login");
-  } catch (error) {
-    this.isLoading = false;
-    const errorResponse = error.response.data; // get the error response from the server
-  
-    // Clear previous error messages
-    this.errors = {
-      first_name: null,
-      last_name: null,
-      phone_number: null,
-      country: null,
-      gender: null,
-      email: null,
-      password: null,
-      password_confirmation: null,
-    }
-  
-    // Assign the error message to the corresponding field's error property
-    if (errorResponse.errors) {
-      const errors = errorResponse.errors;
-      Object.keys(errors).forEach((key) => {
-        this.errors[key] = errors[key][0];
-        if (key === 'password_confirmation') {
-          this.errors.password_confirmation = 'The password confirmation does not match.';
+   async handleRegisterClient(data) {
+    this.authErrors = [];
+    await this.getToken();
+    this.isLoading = true;
+    const formData = new FormData();
+    formData.append('first_name', data.first_name);
+    formData.append('last_name', data.last_name);
+    formData.append('phone_number', data.phone_number);
+    formData.append('country', data.country);
+    formData.append('gender', data.gender);
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+    formData.append('password_confirmation', data.password_confirmation);
+    formData.append('profile_photo', data.profile_photo);
+    
+    try {
+      await axios.post("http://127.0.0.1:8000/api/register/client", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${this.token}`
         }
+        
       });
-    }  
-    else if (errorResponse.message && errorResponse.message.errorInfo && errorResponse.message.errorInfo.includes("Duplicate entry")) {
-      this.errors.email = errorResponse.message.errorInfo[0];
-    }
-    else if (errorResponse.message && errorResponse.message.errorInfo && errorResponse.message.errorInfo.includes("Out of range value for column 'phone_number' ")) {
-      this.errors.phone = errorResponse.message.errorInfo[0];
-    }
-    else {
-      this.authError = 'Registration failed';
-    }
+      this.isLoading = false;
+      this.authError = null;
+      this.router.push("/login");
+    } catch (error) {
+      this.isLoading = false;
+      const errorResponse = error.response.data;
     
-
-
-
-
-  }
+      this.errors = {
+        first_name: null,
+        last_name: null,
+        phone_number: null,
+        country: null,
+        gender: null,
+        email: null,
+        password: null,
+        password_confirmation: null,
+        profile_photo: null // add error property for profile photo
+      }
     
-},
+      if (errorResponse.errors) {
+        const errors = errorResponse.errors;
+        Object.keys(errors).forEach((key) => {
+          this.errors[key] = errors[key][0];
+          if (key === 'password_confirmation') {
+            this.errors.password_confirmation = 'The password confirmation does not match.';
+          }
+        });
+        // check if there's an error with the profile photo upload
+        if (errors.profile_photo) {
+          this.errors.profile_photo = errors.profile_photo[0];
+        }
+      }  
+      else if (errorResponse.message && errorResponse.message.errorInfo && errorResponse.message.errorInfo.includes("Duplicate entry")) {
+        this.errors.email = errorResponse.message.errorInfo[0];
+      }
+      else if (errorResponse.message && errorResponse.message.errorInfo && errorResponse.message.errorInfo.includes("Out of range value for column 'phone_number' ")) {
+        this.errors.phone = errorResponse.message.errorInfo[0];
+      }
+      else {
+        this.authError = 'Registration failed';
+      }
+    }
+  },
+  
    // UPDATE CLIENT PROFILE
 
 async handleUpdateClient(data) {
@@ -273,6 +279,39 @@ async handleTaskCreate(data) {
     // this.authError = error.response.data.error;
   }
 },
+// CREATE TASK
+
+async handleTaskUpdate(data) {
+  this.authErrors = [];
+  await this.getToken();
+  this.isLoading = true
+  try {
+    await axios.post("http://127.0.0.1:8000/api/create-task", {
+      title:data.title,
+      description:data.description,
+      amount:data.amount,
+      category_id:data.job_category_name,
+      deadline:data.deadline,
+      time:data.time,
+      client_id:this.user.id
+    });
+   // Display congratulations popup upon successful task creation
+   Swal.fire({
+    title: 'Congratulations!',
+    text: 'Your task has been created successfully.',
+    icon: 'success',
+    confirmButtonText: 'OK'
+  }).then(() => {
+    router.push('/client-pending-task'); // Navigate to "/home" route when "OK" button is clicked
+  });
+    this.isLoading=false
+    this.authError = null
+    this.router.push('/client-pending-task')
+  } catch (error) {
+    this.isLoading=false 
+    // this.authError = error.response.data.error;
+  }
+},
 
 
 
@@ -295,7 +334,8 @@ async offer(data) {
       const response = await axios.post('http://127.0.0.1:8000/api/create-offer', {
         tasker_id: this.user.id,
         content: data.title, 
-        task_id: data.task_id
+        task_id: data.task_id,
+        price: data.price
       })
       this.isLoading=false;
       // Show congratulatory message to user

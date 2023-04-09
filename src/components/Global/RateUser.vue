@@ -38,14 +38,31 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref,reactive } from 'vue';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import { useRoute, useRouter } from 'vue-router';
 
-const clientId =1;
-const taskerId =1;
-const taskId =2;
+
+const route = useRoute();
+const router = useRouter();
+
 const rating = ref(0);
 const comment = ref('');
+const Id=route.params.id;
+const task = reactive({});
+
+
+axios.get(`http://localhost:8000/api/tasks/${Id}`)
+  .then(response => {
+    task.client_id = response.data.client_id;
+    task.tasker_id = response.data.tasker_id;
+  })
+  .catch(error => {
+    console.error(error);
+  });
+
 
 function setRating(value) {
   rating.value = value;
@@ -56,21 +73,29 @@ function submit() {
     .post('http://localhost:8000/api/ratings', {
       rating: rating.value,
       comment: comment.value,
-      from_user_id: clientId,
-      to_user_id: taskerId,
-      task_id: taskId,
-     
+      user_id: task.tasker_id,
+      task_id: Id,
     })
     .then(() => {
       console.log('Rating saved successfully');
-      alert('Thank you for rating your tutor!');
-      comment.value = '';
+      Swal.fire({
+        title: 'Thank you for rating your tasker!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        comment.value = '';
+      });
     })
     .catch((error) => {
       console.error(error);
-      alert('An error occurred while saving your rating.');
+      Swal.fire({
+        title: 'An error occurred while saving your rating.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     });
 }
+
 </script>
 
 <style scoped>

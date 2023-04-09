@@ -10,6 +10,7 @@ const Id = route.params.id;
 
 const form = ref({
   title: "",
+  price: "",
   task_id: Id,
 });
 
@@ -51,7 +52,7 @@ console.log(Id);
               type="number"
               required
               placeholder="amount"
-              v-model="form.amount"
+              v-model="form.price"
               class="
                 bordder-[#E9EDF4]
                 w-full

@@ -4,6 +4,7 @@ import { useAuthStore } from "../stores/auth";
 import SideBar from "./admin/AdminSideBar.vue";
 import { Icon } from "@iconify/vue";
 import Nav from "../components/Nav.vue";
+import Notification from "./Global/Notification.vue";
 const authStore = useAuthStore();
 
 
@@ -11,7 +12,7 @@ const authStore = useAuthStore();
 <template>
   <Nav />
   <div class="max-w-7xl mx-auto px-5">
-  
+
     <div >
       <div
         class="min-h-screen bg-gray-200 rounded-md flex justify-end space-y-4 flex-col-reverse md:flex-row md:justify-between"

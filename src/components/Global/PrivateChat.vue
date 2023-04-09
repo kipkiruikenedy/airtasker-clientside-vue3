@@ -2,7 +2,7 @@
   <div class="z-50">
     <div class="bg-white rounded-lg border border-gray-300 shadow-lg overflow-hidden w-96">
       <div class="bg-gray-100 py-2 px-4">
-        <h3 class="text-lg font-medium text-gray-900">Chat with Client</h3>
+        <h3 class="text-lg font-medium text-gray-900">Chat </h3>
       </div>
       <div class="p-4 h-64 overflow-y-auto">
         <!-- Chat messages go here -->
@@ -38,18 +38,19 @@ const Id=route.params.id;
 
 const authStore = useAuthStore();
 const userAuthId=authStore.user.id;
+// const userAuthId=authStore.user.id;
 const message = ref('');
 const messages = ref([]);
-const task = reactive([]);
-const clientID = ref(null);
+const offer = reactive([]);
+const taskerID = ref(null);
  
 
-axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
+axios.get(`http://127.0.0.1:8000/api/offers/${Id}`)
   .then(response => {
-    task.title = response.data.title;
-    task.client = response.data.client;
-    clientID.value = response.data.client.id;
-    console.log(clientID.value); // Or do whatever you want with the client ID
+    offer.title = response.data.title;
+    offer.client = response.data.client;
+    taskerID.value = response.data.tasker.id;
+
     fetchMessages(); 
   })
   .catch(error => {
@@ -71,7 +72,7 @@ async function sendMessage() {
     const response = await axios.post('http://localhost:8000/api/chats', { 
       content: message.value,
       sender_id:userAuthId, 
-      receiver_id:clientID.value,
+      receiver_id:taskerID.value,
       task_id: Id 
     });
     // Add the message to the list of messages
@@ -113,8 +114,8 @@ async function fetchMessages() {
   try {
     const response = await axios.get('http://localhost:8000/api/chats', {
       params: {
-        sender_id: userAuthId,
-        receiver_id: clientID.value,
+        sender_id: taskerID.value, // Fetch messages where the current user is the receiver
+        receiver_id: userAuthId, // Fetch messages sent by the other user
         task_id: Id 
       }
     });
@@ -123,6 +124,7 @@ async function fetchMessages() {
     console.log(error);
   }
 }
+
 
 
 

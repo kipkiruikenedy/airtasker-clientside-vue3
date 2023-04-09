@@ -10,8 +10,23 @@
  <!-- ITEMS -->
     <div class="flex space-x-10">
     <div>
-    <div >user{{name}}</div>
-    <div>{{rating  }}/5<span class="ml-1">stars</span></div>
+   
+      <div><span class="text-blue-800 font-semibold mx-1">{{fname }}</span><span class="text-blue-900 font-bold">{{ lname.charAt(0) }}</span></div>
+
+    <!-- <div>{{avgStars}}/5<span class="ml-1">of<span>(</span>{{numberOftimeRated }}<span>)</span></span></div> -->
+    <div class="flex items-center space-x-1">
+    <template v-for="i in 5"  key="i">
+      <Icon
+        icon="ic:baseline-star"
+        :class="{ 'text-yellow-500': i <= avgStars }"
+        class="w-4 h-4"
+       
+      />
+    </template>
+    <span class="ml-1">of ({{ numberOftimeRated }})</span>
+  </div>
+
+    
     <div>{{ CompletionPercentage }}<span class="mr-1">%</span>Completion rate</div>
 </div>
 
@@ -20,7 +35,10 @@
 </div>
    
     </div>
+   
     </div>
+
+    <div class="text-center text-2xl">Bidded Amount: ${{name}}</div>
     <!-- MESSAGE -->
     <div class="p-3">
     <div class="bg-gray-200 rounded py-2 px-3 text-center">
@@ -74,16 +92,41 @@ const Id = route.params.id;
 
 const props = defineProps({
   name: String,
+  fname: String,
+  lname: String,
   message: String,
   taskerId: String,
   taskId: String,
-  rating:{
+  avgStars:{
     type: Number,
     validator: (value) => {
       // Return true if value is a valid integer, otherwise false
       return Number.isInteger(parseInt(value));
     },
   },
+  amount:{
+    type: Number,
+    validator: (value) => {
+      // Return true if value is a valid integer, otherwise false
+      return Number.isInteger(parseInt(value));
+    },
+  },
+
+  totalStars:{
+    type: Number,
+    validator: (value) => {
+      // Return true if value is a valid integer, otherwise false
+      return Number.isInteger(parseInt(value));
+    },
+  },
+  numberOftimeRated:{
+    type: Number,
+    validator: (value) => {
+      // Return true if value is a valid integer, otherwise false
+      return Number.isInteger(parseInt(value));
+    },
+  },
+ 
 
   CompletionPercentage:{
     type: Number,

@@ -119,6 +119,7 @@ const submitTask = () => {
           card.clear();
           isSubmitting.value = false;
           const router = useRouter();
+          router.push("/client-active-task");
           // window.location.href = '/client-active-task';
         }).catch(function(error) {
           console.log(error);

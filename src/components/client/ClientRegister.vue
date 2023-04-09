@@ -10,12 +10,19 @@ const form = ref({
   last_name: "",
   phone_number: "",
   country: "",
+  profile_photo:"",
   gender: "",
   email: "",
   password: "",
   password_confirmation: "",
 });
 
+
+const handleProfileImageChange = (e) => {
+  const file = e.target.files[0];
+  form.profile_photo = file;
+};
+console.log( form.email)
 </script>
 <template>
     <Nav />
@@ -197,7 +204,7 @@ const form = ref({
 
 
   <label for="profile-image" class="block text-gray-700 font-bold mb-2">Profile Image</label>
-    <input type="file" name="profile-image" id="profile-image" @change="handleProfileImageChange" class="w-full border rounded-md py-2 px-3 mb-4">
+    <input type="file" name="profile-image"   id="profile-image" @change="handleProfileImageChange" class="w-full border rounded-md py-2 px-3 mb-4">
 
 
 
