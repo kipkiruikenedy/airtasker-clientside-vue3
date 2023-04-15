@@ -35,7 +35,7 @@ function formatDate(date) {
   }
 }
 
-axios.get('http://127.0.0.1:8000/api/client/task-offer',{params} )
+axios.get('https://server.airtaska.com/public/api/client/task-offer',{params} )
   .then(response => {
     state.offers.push(...response.data.map(offer => ({
       ...offer,
@@ -47,7 +47,7 @@ axios.get('http://127.0.0.1:8000/api/client/task-offer',{params} )
     const taskerId = response.data[0].tasker_id;
 
     // make another API call to fetch the star rating for the tasker with taskerId
-    axios.get(`http://127.0.0.1:8000/api/ratings/${taskerId}`)
+    axios.get(`https://server.airtaska.com/public/api/ratings/${taskerId}`)
       .then(response => {
         const rating = response.data;
         state.offers[0].rating = rating;
@@ -57,7 +57,7 @@ axios.get('http://127.0.0.1:8000/api/client/task-offer',{params} )
       });
 
     // make another API call to fetch the user details for the tasker with taskerId
-    axios.get(`http://127.0.0.1:8000/api/users/${taskerId}`)
+    axios.get(`https://server.airtaska.com/public/api/users/${taskerId}`)
       .then(response => {
         const tasker = response.data;
         // find the offer object with matching tasker_id and update it with tasker details
@@ -80,11 +80,11 @@ axios.get('http://127.0.0.1:8000/api/client/task-offer',{params} )
       :minutesAgo="offer.created_at" 
       :taskerId="offer.tasker_id"
       :priceAmount="offer.price"
-      :avgStars="offer.rating.average_rating"
-      :numberOftimeRated="offer.rating.times_rated"
-      :totalStars="offer.rating.total_stars"
-      :fname="offer.tasker.first_name"
-      :lname="offer.tasker.last_name"
+      :avgStars="offer.rating ? offer.rating.average_rating : null"
+      :numberOftimeRated="offer.rating ? offer.rating.times_rated : null"
+      :totalStars="offer.rating ? offer.rating.total_stars : null"
+      :fname="offer.tasker ? offer.tasker.first_name : null"
+      :lname="offer.tasker ? offer.tasker.last_name : null"
     />
   </div>
 </template>

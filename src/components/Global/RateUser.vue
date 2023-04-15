@@ -54,7 +54,7 @@ const Id=route.params.id;
 const task = reactive({});
 
 
-axios.get(`http://localhost:8000/api/tasks/${Id}`)
+axios.get(`https://server.airtaska.com/public/api/tasks/${Id}`)
   .then(response => {
     task.client_id = response.data.client_id;
     task.tasker_id = response.data.tasker_id;
@@ -70,7 +70,7 @@ function setRating(value) {
 
 function submit() {
   axios
-    .post('http://localhost:8000/api/ratings', {
+    .post('https://server.airtaska.com/public/api/ratings', {
       rating: rating.value,
       comment: comment.value,
       user_id: task.tasker_id,

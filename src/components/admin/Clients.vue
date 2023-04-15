@@ -75,7 +75,7 @@ const authStore = useAuthStore();
 const clients = reactive([]);
 // fetch data from localhost:5000
 authStore.isLoading=true;
-axios.get('http://127.0.0.1:8000/api/admin-clients')
+axios.get('https://server.airtaska.com/public/api/admin-clients')
   .then(response => {
     clients.push(...response.data);
     authStore.isLoading=false;

@@ -11,7 +11,7 @@
     <div class="flex space-x-10">
     <div>
    
-      <div><span class="text-blue-800 font-semibold mx-1">{{fname }}</span><span class="text-blue-900 font-bold">{{ lname.charAt(0) }}</span></div>
+      <div><span class="text-blue-800 font-semibold mx-1">{{fname }}</span><span class="text-blue-900 font-bold">{{ lname ? lname.charAt(0) : '' }}</span></div>
 
     <!-- <div>{{avgStars}}/5<span class="ml-1">of<span>(</span>{{numberOftimeRated }}<span>)</span></span></div> -->
     <div class="flex items-center space-x-1">

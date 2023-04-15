@@ -82,7 +82,7 @@ const tasks = reactive([]);
 
 
 authStore.isLoading=true;
-axios.get('http://127.0.0.1:8000/api/pending-tasks')
+axios.get('https://server.airtaska.com/public/api/pending-tasks')
 .then(response => {
 tasks.push(...response.data);
 
@@ -95,7 +95,7 @@ console.log(tasks)
 
 
 const updateTaskStatus = (taskId) => {
-  axios.put(`http://127.0.0.1:8000/api/tasks/${taskId}/status`, { status: 'in-progress' })
+  axios.put(`https://server.airtaska.com/public/api/tasks/${taskId}/status`, { status: 'in-progress' })
     .then(response => {
       const taskIndex = tasks.findIndex(t => t.id === taskId);
       if (taskIndex !== -1) {

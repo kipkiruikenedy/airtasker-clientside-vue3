@@ -37,7 +37,7 @@ const form = ref({
               md:px-[60px]
             "
           >
-          <div class="bg-red-500 text-center rounded-lg py-1 text-white mb-3" v-if="authStore.authError" >{{authStore.authError }}</div>
+          <div class="bg-red-500 text-center rounded-lg py-1 text-white mb-3" v-if="authStore.errors.phone_number" >{{ authStore.errors.phone_number }}</div>
             <div class="mb-10 text-center md:mb-16">Become a tasker </div>
             <form @submit.prevent="authStore.handleRegisterTasker(form)">
               <div class="mb-6">
@@ -98,7 +98,7 @@ const form = ref({
                 <input
                   type="number"
                   required
-                  placeholder="04"
+                  placeholder="61412345678"
                   v-model="form.phone_number"
                   class="
                     bordder-[#E9EDF4]

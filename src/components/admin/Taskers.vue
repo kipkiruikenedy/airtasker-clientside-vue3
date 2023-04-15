@@ -77,7 +77,7 @@ const taskers = reactive([]);
 // fetch data from localhost:5000
 authStore.isLoading = true;
 axios
-  .get("http://127.0.0.1:8000/api/admin-taskers")
+  .get("https://server.airtaska.com/public/api/admin-taskers")
   .then((response) => {
     taskers.push(...response.data);
     authStore.isLoading = false;
@@ -87,7 +87,7 @@ const deleteTasker = async (id) => {
   const confirmDelete = confirm("Are you sure you want to delete this tasker?");
   if (confirmDelete) {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/admin-taskers/${id}`);
+      await axios.delete(`https://server.airtaska.com/public/api/admin-taskers/${id}`);
       taskers.splice(taskers.findIndex((tasker) => tasker.id === id), 1);
     } catch (error) {
       console.error(error);

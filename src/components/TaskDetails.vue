@@ -128,7 +128,7 @@ const task = ref({});
 
 async function fetchData() {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/all-tasks');
+    const response = await axios.get('https://server.airtaska.com/public/api/all-tasks');
     tasks.value.push(...response.data);
 
     const { id } = route.params;

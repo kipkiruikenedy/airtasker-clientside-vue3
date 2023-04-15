@@ -18,7 +18,7 @@ const task = reactive({});
 
 console.log(Id);
 
-axios.get(`http://localhost:8000/api/tasks/${Id}`)
+axios.get(`https://server.airtaska.com/public/api/tasks/${Id}`)
   .then(response => {
     task.title = response.data.title;
     task.description = response.data.description;
@@ -56,7 +56,7 @@ axios.get(`http://localhost:8000/api/tasks/${Id}`)
 
 
 function editTasks() {
-  axios.put(`http://localhost:8000/api/tasks/${Id}`, {
+  axios.put(`https://server.airtaska.com/public/api/tasks/${Id}`, {
     title: task.title,
     description: task.description,
     deadline: task.deadline,
@@ -101,7 +101,7 @@ function cancelTask() {
     cancelButtonText: 'No, keep it'
   }).then((result) => {
     if (result.isConfirmed) {
-      axios.delete(`http://localhost:8000/api/task/${Id}`)
+      axios.delete(`https://server.airtaska.com/public/api/task/${Id}`)
         .then(response => {
           // Display a success message to the user
           Swal.fire({

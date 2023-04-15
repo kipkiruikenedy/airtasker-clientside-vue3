@@ -32,7 +32,7 @@ import AdminSideBar from './AdminSideBar.vue';
   
   onMounted(async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/help');
+      const response = await axios.get('https://server.airtaska.com/public/api/help');
       console.log(response.data);
       messages.push(...response.data.data)
     } catch (error) {

@@ -24,7 +24,7 @@ const props = defineProps({
 const messages = ref(null);
 
 
-axios.get(`http://localhost:8000/api/charts/${props.userId}`)
+axios.get(`https://server.airtaska.com/public/api/charts/${props.userId}`)
   .then(response => {
     // set the response data to the messages ref
     messages.value = response.data;

@@ -97,7 +97,7 @@ const userAuthId=authStore.user.id;
 
 try{
   authStore.isLoading = true;
-  axios.get('http://127.0.0.1:8000/api/client/own-rejected-tasks',{params} )
+  axios.get('https://server.airtaska.com/public/api/client/own-rejected-tasks',{params} )
   .then(response => {
     tasks.push(...response.data);
     authStore.isLoading = false;

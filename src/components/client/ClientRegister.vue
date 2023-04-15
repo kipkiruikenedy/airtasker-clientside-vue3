@@ -22,6 +22,7 @@ const handleProfileImageChange = (e) => {
   const file = e.target.files[0];
   form.profile_photo = file;
 };
+
 console.log( form.email)
 </script>
 <template>
@@ -49,7 +50,7 @@ console.log( form.email)
        
             <div class="mb-10 text-center md:mb-16">Create Account </div>
            
-            <form @submit.prevent="authStore.handleRegisterClient(form)">
+            <form @submit.prevent="authStore.handleRegisterClient(form)"  enctype="multipart/form-data">
               <div class="mb-6">
                 <input
                   type="text"
@@ -202,10 +203,15 @@ console.log( form.email)
                 </div>
               </div>
 
-
+<div>
   <label for="profile-image" class="block text-gray-700 font-bold mb-2">Profile Image</label>
-    <input type="file" name="profile-image"   id="profile-image" @change="handleProfileImageChange" class="w-full border rounded-md py-2 px-3 mb-4">
-
+    <input  type="file"  required  accept=".jpg,.jpeg,.png"  id="profile-image" @change="handleProfileImageChange" class="w-full border rounded-md py-2 px-3 mb-4">
+    <div v-if="authStore.errors.profile_photo" class="flex">
+                  <span class="text-red-400 text-sm m-2 p-2">{{
+                    authStore.errors.profile_photo
+                  }}</span>
+                </div>
+  </div>
 
 
               <div class="mb-6">

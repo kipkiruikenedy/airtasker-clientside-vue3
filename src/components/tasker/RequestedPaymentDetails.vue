@@ -154,7 +154,7 @@ const taskId=route.params.id;
 
 
 
-  axios.get(`http://127.0.0.1:8000/api/tasks/${taskId}`)
+  axios.get(`https://server.airtaska.com/public/api/tasks/${taskId}`)
   .then(response => {
     task.title = response.data.title;
     task.description = response.data.description;
@@ -178,7 +178,7 @@ const taskId=route.params.id;
 
 
 const updateTaskStatus = (taskId) => {
-  axios.put(`http://127.0.0.1:8000/api/tasks/${taskId}/status`, { status: 'completed' })
+  axios.put(`https://server.airtaska.com/public/api/tasks/${taskId}/status`, { status: 'completed' })
     .then(response => {
       const taskIndex = tasks.findIndex(t => t.id === taskId);
       if (taskIndex !== -1) {

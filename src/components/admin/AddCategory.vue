@@ -53,7 +53,7 @@ import AdminSideBar from './AdminSideBar.vue';
   const confirmDelete = confirm("Are you sure you want to add this category?");
   if (confirmDelete) {
     try {
-    axios.post('http://127.0.0.1:8000/api/admin-create-category', data)
+    axios.post('https://server.airtaska.com/public/api/admin-create-category', data)
       .then(response => {
        
       })

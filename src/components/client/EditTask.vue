@@ -10,14 +10,14 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import axios from 'axios'
 const route = useRoute();
 const router = useRouter();
-const taskId=route.params.id;
+const Id=route.params.id;
 const authStore = useAuthStore();
 
 
+// const task = reactive({});
 
 
-
-const form = ref({
+const task = ref({
   title: "",
   description: "",
   amount: "",
@@ -28,25 +28,27 @@ const form = ref({
 
 const categories = reactive([]);
 
-axios.get('http://127.0.0.1:8000/api/categories')
+axios.get('https://server.airtaska.com/public/api/categories')
   .then(response => {
     categories.push(...response.data);
   });
 
 
-
-axios.get(`http://127.0.0.1:8000/api/tasks/${taskId}`)
+  axios.get(`https://server.airtaska.com/public/api/tasks/${Id}`)
   .then(response => {
-    form.title = response.data.title;
-    form.description = response.data.description;
-    form.amount = response.data.amount;
-    form.job_category_name = response.data.job_category_name;
-    form.deadline = response.data.deadline;
-    form.time = response.data.time;
-    
+    task.title = response.data.title;
+    task.description = response.data.description;
+    task.deadline = response.data.deadline;
+    task.created_at = response.data.created_at;
+    task.amount = response.data.amount;
+    task.status = response.data.status;
+    task.client_id = response.data.client_id;
+    task.tasker_id = response.data.tasker_id;
+  })
+  .catch(error => {
+    console.error(error);
   });
-
-
+console.log(task.title)
 </script>
 
 
@@ -98,8 +100,7 @@ axios.get(`http://127.0.0.1:8000/api/tasks/${taskId}`)
                 <input
                   type="text"
                   required
-                  placeholder="e.g I need a wordpress website"
-                  v-model="form.title"
+                  v-model="task.title"
                   class="
                     bordder-[#E9EDF4]
                     w-full
@@ -128,7 +129,7 @@ axios.get(`http://127.0.0.1:8000/api/tasks/${taskId}`)
                   type="text"
                   required
                   placeholder="descripe your task fully to help the tasker understand the task fully"
-                  v-model="form.description"
+                  v-model="task.description"
                   class="
                     bordder-[#E9EDF4]
                     w-full
@@ -155,7 +156,7 @@ axios.get(`http://127.0.0.1:8000/api/tasks/${taskId}`)
             
               <div class="mb-4 flex mt-3">
       <label for="category" class="block text-gray-700 font-bold mb-2">Task Category:</label>
-      <select id="category" v-model="form.job_category_name" class="bg-gray-300 text-center ml-4 py-1 px-2 rounded-md" required>
+      <select id="category" v-model="task.job_category_name" class="bg-gray-300 text-center ml-4 py-1 px-2 rounded-md" required>
   <option value="">Select a category</option>
   <option v-for="category in categories" :value="category.id">{{ category.job_category_name }}</option>
 </select>
@@ -166,7 +167,7 @@ axios.get(`http://127.0.0.1:8000/api/tasks/${taskId}`)
                 <input
                   type="number"
                   placeholder="$1200"
-                  v-model="form.amount"
+                  v-model="task.amount"
                   class="
                     bordder-[#E9EDF4]
                     w-full
@@ -192,7 +193,7 @@ axios.get(`http://127.0.0.1:8000/api/tasks/${taskId}`)
               <div class="mb-6">
               <p class="text-blue-800">Deadline of the task</p>
               <div>     
-<input type="date" id="birthday" name="birthday"  v-model="form.deadline">
+<input type="date" id="birthday" name="birthday"  v-model="task.deadline">
               </div>
               </div>
 
@@ -201,7 +202,7 @@ axios.get(`http://127.0.0.1:8000/api/tasks/${taskId}`)
               <p class="text-blue-800">Deadline Time</p>
               <div class="p-5">     
               
-<input type="time" id="picker" name="picker" v-model="form.time">
+<input type="time" id="picker" name="picker" v-model="task.time">
               </div>
               </div>
 

@@ -59,7 +59,7 @@ export const useAuthStore = defineStore('auth',{
       await this.getToken()
       this.isLoading = true
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/login', {
+        const response = await axios.post('https://server.airtaska.com/public/api/login', {
           email: data.email,
           password: data.password,
         })
@@ -114,7 +114,7 @@ export const useAuthStore = defineStore('auth',{
     formData.append('profile_photo', data.profile_photo);
     
     try {
-      await axios.post("http://127.0.0.1:8000/api/register/client", formData, {
+      await axios.post("https://server.airtaska.com/public/api/register/client", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${this.token}`
@@ -149,7 +149,7 @@ export const useAuthStore = defineStore('auth',{
           }
         });
         // check if there's an error with the profile photo upload
-        if (errors.profile_photo) {
+        if (errors.photo) {
           this.errors.profile_photo = errors.profile_photo[0];
         }
       }  
@@ -165,6 +165,9 @@ export const useAuthStore = defineStore('auth',{
     }
   },
   
+
+
+
    // UPDATE CLIENT PROFILE
 
 async handleUpdateClient(data) {
@@ -182,7 +185,7 @@ async handleUpdateClient(data) {
     formData.append('card_number', data.card_number);
     formData.append('profile_image', data.profile_image);
 
-    await axios.post("http://127.0.0.1:8000/api/register/client", formData, {
+    await axios.post("https://server.airtaska.com/public/api/register/client", formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${this.token}`
@@ -205,7 +208,7 @@ async handleUpdateClient(data) {
       await this.getToken();
       this.isLoading=true
       try {
-        await axios.post("http://127.0.0.1:8000/api/register/tasker", {
+        await axios.post("https://server.airtaska.com/public/api/register/tasker", {
           first_name:data.first_name,
           last_name:data.last_name,
           phone_number:data.phone_number,
@@ -219,31 +222,45 @@ async handleUpdateClient(data) {
         this.authError = null
         this.router.push("/login");
       } catch (error) {
-        this.isLoading=false 
-       // Assign the error message to the corresponding field's error property
-    if (errorResponse.errors) {
-      const errors = errorResponse.errors;
-      Object.keys(errors).forEach((key) => {
-        this.errors[key] = errors[key][0];
-        if (key === 'password_confirmation') {
-          this.errors.password_confirmation = 'The password confirmation does not match.';
+        this.isLoading = false;
+        const errorResponse = error.response.data;
+      
+        this.errors = {
+          first_name: null,
+          last_name: null,
+          phone_number: null,
+          country: null,
+          gender: null,
+          email: null,
+          password: null,
+          password_confirmation: null,
+          profile_photo: null // add error property for profile photo
         }
-      });
-    }  
-    else if (errorResponse.message && errorResponse.message.errorInfo && errorResponse.message.errorInfo.includes("Duplicate entry")) {
-      this.errors.email = errorResponse.message.errorInfo[0];
-    }
-    else if (errorResponse.message && errorResponse.message.errorInfo && errorResponse.message.errorInfo.includes("Out of range value for column 'phone_number' ")) {
-      this.errors.phone = errorResponse.message.errorInfo[0];
-    }
-    else {
-      this.authError = 'Registration failed';
-    }
-    
-
+      
+        if (errorResponse.errors) {
+          const errors = errorResponse.errors;
+          Object.keys(errors).forEach((key) => {
+            this.errors[key] = errors[key][0];
+            if (key === 'password_confirmation') {
+              this.errors.password_confirmation = 'The password confirmation does not match.';
+            }
+          });
+          // check if there's an error with the profile photo upload
+          if (errors.photo) {
+            this.errors.profile_photo = errors.profile_photo[0];
+          }
+        }  
+        else if (errorResponse.message && errorResponse.message.errorInfo && errorResponse.message.errorInfo.includes("Duplicate entry")) {
+          this.errors.email = errorResponse.message.errorInfo[0];
+        }
+        else if (errorResponse.message && errorResponse.message.errorInfo && errorResponse.message.errorInfo.includes("Out of range value for column 'phone_number' ")) {
+          this.errors.phone = errorResponse.message.errorInfo[0];
+        }
+        else {
+          this.authError = 'Registration failed';
+        }
       }
     },
-
 
 
 // CREATE TASK
@@ -253,7 +270,7 @@ async handleTaskCreate(data) {
   await this.getToken();
   this.isLoading = true
   try {
-    await axios.post("http://127.0.0.1:8000/api/create-task", {
+    await axios.post("https://server.airtaska.com/public/api/create-task", {
       title:data.title,
       description:data.description,
       amount:data.amount,
@@ -286,7 +303,7 @@ async handleTaskUpdate(data) {
   await this.getToken();
   this.isLoading = true
   try {
-    await axios.post("http://127.0.0.1:8000/api/create-task", {
+    await axios.post("https://server.airtaska.com/public/api/create-task", {
       title:data.title,
       description:data.description,
       amount:data.amount,
@@ -331,7 +348,7 @@ async offer(data) {
     await this.getToken();
     this.isLoading = true;
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/create-offer', {
+      const response = await axios.post('https://server.airtaska.com/public/api/create-offer', {
         tasker_id: this.user.id,
         content: data.title, 
         task_id: data.task_id,
@@ -370,7 +387,7 @@ async offer(data) {
       this.authErrors = [];
       this.isLoading=true
       try {
-        await axios.post("http://127.0.0.1:8000/api/logout");
+        await axios.post("https://server.airtaska.com/public/api/logout");
         this.isAuthenticated = false
         this.isLoading=false
         this.user=null
