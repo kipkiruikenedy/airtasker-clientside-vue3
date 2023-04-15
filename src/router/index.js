@@ -13,11 +13,19 @@ const routes = [
   
  
   {
+    path: "/help/success",
+    name: "SMSSucess",
+    component: () => import("../components/Global/MessageSuccess.vue"),
+ 
+  },
+  {
     path: "/sms",
     name: "SMSS",
     component: () => import("../components/tasker/ActiveTasksDetails.vue"),
   meta: { requiresAuth: false }
   },
+
+
   {
     path: "/rate",
     name: "Rate",
