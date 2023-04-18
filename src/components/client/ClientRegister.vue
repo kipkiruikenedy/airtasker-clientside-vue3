@@ -203,15 +203,7 @@ console.log( form.email)
                 </div>
               </div>
 
-<div>
-  <label for="profile-image" class="block text-gray-700 font-bold mb-2">Profile Image</label>
-    <input  type="file"  required  accept=".jpg,.jpeg,.png"  id="profile-image" @change="handleProfileImageChange" class="w-full border rounded-md py-2 px-3 mb-4">
-    <div v-if="authStore.errors.profile_photo" class="flex">
-                  <span class="text-red-400 text-sm m-2 p-2">{{
-                    authStore.errors.profile_photo
-                  }}</span>
-                </div>
-  </div>
+
 
 
               <div class="mb-6">

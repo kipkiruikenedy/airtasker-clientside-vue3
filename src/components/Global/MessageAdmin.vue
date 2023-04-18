@@ -47,10 +47,11 @@
   import axios from 'axios';
   import { useAuthStore } from '../../stores/auth'
 import Swal from 'sweetalert2'
-
+import {useRoute, useRouter} from "vue-router"
 const authStore = useAuthStore()
 
-
+const route = useRoute();
+const router = useRouter();
 
   const message = ref('');
   
@@ -67,8 +68,8 @@ async function sendMessage() {
 
  
 
-    // Optionally, redirect to another page
-     window.location.href = '/help/success';
+    // Optionally, redirect to another pag
+     router.push("/help/success");
 
   } catch (error) {
     console.error(error);
