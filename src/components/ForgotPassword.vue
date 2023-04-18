@@ -1,4 +1,5 @@
 <script setup>
+
 import { ref } from "vue";
 import { useAuthStore } from "../stores/auth";
 
@@ -45,14 +46,17 @@ const email = ref("");
         "
         placeholder="email@ken.com"
       />
-      <div v-if="authStore.errors" class="flex">
-        <span class="text-red-400 text-sm m-2 p-2">{{
-          authStore.errors.email[0]
-        }}</span>
-      </div>
+      <div v-if="authStore.errors.last_email" class="flex">
+                  <span class="text-red-400 text-sm m-2 p-2">{{
+                    authStore.errors.last_email
+                  }}</span>
+                </div>
     </div>
-    <button
-      class="
+ 
+    <div class="mb-10">
+                <button
+                  type="submit"
+                  class="
         w-full
         rounded-lg
         bg-blue-700
@@ -66,8 +70,15 @@ const email = ref("");
         dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
         sm:w-auto
       "
-    >
-      Submit
-    </button>
+                >
+                
+                <div v-if="authStore.isLoading" >
+                <v-progress-circular indeterminate color="amber"></v-progress-circular>
+                </div>
+                <div v-else>Submit</div>
+               
+                  
+                </button>
+              </div>
   </form>
 </template>

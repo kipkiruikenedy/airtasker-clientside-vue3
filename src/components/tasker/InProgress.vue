@@ -155,7 +155,7 @@ const showCheckboxes = ref(false);
 const authStore = useAuthStore();
 // fetch data from localhost:5000
 
-axios.get('https://server.airtaska.com/public/api/categories')
+axios.get('http://127.0.0.1:8000/api/categories')
   .then(response => {
     categories.push(...response.data);
 
@@ -165,7 +165,7 @@ axios.get('https://server.airtaska.com/public/api/categories')
  
    const params = new URLSearchParams([['user_id', userAuthId]]);
 
-  axios.get('https://server.airtaska.com/public/api/tasker-in-progress-tasks',{params})
+  axios.get('http://127.0.0.1:8000/api/tasker-in-progress-tasks',{params})
   .then(response => {
     tasks.push(...response.data);
 

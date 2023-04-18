@@ -1,6 +1,6 @@
 
 <script setup>
-import { useAuthStore } from '../stores/auth'
+import { useAuthStore } from '../stores/profile-store'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 
@@ -49,9 +49,11 @@ const showLoginError = () => {
           >
 
     <!-- ERROR -->
-          <div class="mb-6" v-if="authStore.authError">
-            <div class="bg-red-500 text-center rounded-lg py-1 text-white">{{ authStore.authError }}</div>
-          </div>
+    <div v-if="authStore.errors.error" class="flex">
+                  <span class="text-red-400 text-sm m-2 p-2">{{
+                    authStore.errors.error
+                  }}</span>
+                </div>
 
             <div class="mb-10 text-center md:mb-16">Airtaskers Pro</div>
            

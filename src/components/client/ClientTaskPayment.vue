@@ -62,7 +62,7 @@ const task = reactive({
 
 const taskerId = route.query.tasker_id;
 
-  axios.get(`https://server.airtaska.com/public/api/tasks/${Id}`)
+  axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
     .then(response => {
       task.amount = response.data.amount;
       task.amountPayable = response.data.amountPayable;
@@ -98,7 +98,7 @@ const submitTask = () => {
       confirmButtonText: 'Yes, submit payment!'
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.post('https://server.airtaska.com/public/api/client-pay-task', {
+        axios.post('http://127.0.0.1:8000/api/client-pay-task', {
           stripe_token,
           amount,
           tasker_id,

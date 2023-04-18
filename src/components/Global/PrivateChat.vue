@@ -45,7 +45,7 @@ const offer = reactive([]);
 const taskerID = ref(null);
  
 
-axios.get(`https://server.airtaska.com/public/api/offers/${Id}`)
+axios.get(`http://127.0.0.1:8000/api/offers/${Id}`)
   .then(response => {
     offer.title = response.data.title;
     offer.client = response.data.client;
@@ -69,7 +69,7 @@ axios.get(`https://server.airtaska.com/public/api/offers/${Id}`)
 async function sendMessage() {
   try {
     // Send the message to the server
-    const response = await axios.post('https://server.airtaska.com/public/api/chats', { 
+    const response = await axios.post('http://127.0.0.1:8000/api/chats', { 
       content: message.value,
       sender_id:userAuthId, 
       receiver_id:taskerID.value,
@@ -101,7 +101,7 @@ async function sendFile(event) {
     const formData = new FormData();
     formData.append('file', file);
     // Send the file to the server
-    const response = await axios.post('https://server.airtaska.com/public/files', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+    const response = await axios.post('http://127.0.0.1:8000/files', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
     // Add a message to the list of messages with a link to the uploaded file
     messages.value.push({ content: `File uploaded: ${response.data.url}`, from: 'user' });
   } catch (error) {
@@ -112,7 +112,7 @@ async function sendFile(event) {
 
 async function fetchMessages() {
   try {
-    const response = await axios.get('https://server.airtaska.com/public/api/chats', {
+    const response = await axios.get('http://127.0.0.1:8000/api/chats', {
       params: {
         sender_id: taskerID.value, // Fetch messages where the current user is the receiver
         receiver_id: userAuthId, // Fetch messages sent by the other user

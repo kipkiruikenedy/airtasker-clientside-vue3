@@ -84,7 +84,7 @@ const task = ref({});
   
   // fetch data from localhost:8000
   
-  axios.get('https://server.airtaska.com/public/api/categories')
+  axios.get('http://127.0.0.1:8000/api/categories')
     .then(response => {
       categories.push(...response.data);
   
@@ -96,7 +96,7 @@ const task = ref({});
   
   try{
     authStore.isLoading = true;
-    axios.get('https://server.airtaska.com/public/api/client/own-bidding-tasks',{params} )
+    axios.get('http://127.0.0.1:8000/api/client/own-bidding-tasks',{params} )
     .then(response => {
       tasks.push(...response.data);
       authStore.isLoading = false;

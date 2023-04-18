@@ -18,7 +18,7 @@ const task = reactive({});
 const offer = ref({});
 
 console.log(Id);
-axios.get(`https://server.airtaska.com/public/api/tasks/${Id}`)
+axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
   .then(response => {
     task.title = response.data.title;
     task.description = response.data.description;
@@ -38,7 +38,7 @@ axios.get(`https://server.airtaska.com/public/api/tasks/${Id}`)
 
       try {
         authStore.isLoading = true;
-        axios.get('https://server.airtaska.com/public/api/offers', { params })
+        axios.get('http://127.0.0.1:8000/api/offers', { params })
   .then(response => {
     offer.value = response.data[0];
     authStore.isLoading = false;
@@ -57,7 +57,7 @@ axios.get(`https://server.airtaska.com/public/api/tasks/${Id}`)
 
 
   
-  axios.get(`https://server.airtaska.com/public/api/tasks/${Id}`)
+  axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
   .then(response => {
     task.title = response.data.title;
     task.description = response.data.description;
@@ -77,7 +77,7 @@ const params = new URLSearchParams([
   ['tasker_id', task.tasker_id],
 ]);
 
-axios.get('https://server.airtaska.com/public/api/offers', { params })
+axios.get('http://127.0.0.1:8000/api/offers', { params })
   .then(response => {
     offer.value = response.data[0];
   })
@@ -107,7 +107,7 @@ axios.get('https://server.airtaska.com/public/api/offers', { params })
 
 
 function editTasks() {
-  axios.put(`https://server.airtaska.com/public/api/tasks/${Id}`, {
+  axios.put(`http://127.0.0.1:8000/api/tasks/${Id}`, {
     title: task.title,
     description: task.description,
     deadline: task.deadline,
@@ -155,7 +155,7 @@ function cancelTask() {
     cancelButtonText: 'No, keep it'
   }).then((result) => {
     if (result.isConfirmed) {
-      axios.delete(`https://server.airtaska.com/public/api/task/${Id}`)
+      axios.delete(`http://127.0.0.1:8000/api/task/${Id}`)
         .then(response => {
           // Display a success message to the user
           Swal.fire({

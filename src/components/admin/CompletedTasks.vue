@@ -96,7 +96,7 @@ const showCheckboxes = ref(false);
 
 try{
   authStore.isLoading = true;
-  axios.get('https://server.airtaska.com/public/api/completed-tasks')
+  axios.get('http://127.0.0.1:8000/api/completed-tasks')
   .then(response => {
     tasks.push(...response.data);
     authStore.isLoading = false;

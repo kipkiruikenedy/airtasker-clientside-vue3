@@ -20,7 +20,7 @@ const task = reactive({});
 
 console.log(Id);
 
-axios.get(`https://server.airtaska.com/public/api/tasks/${Id}`)
+axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
   .then(response => {
     task.title = response.data.title;
     task.description = response.data.description;

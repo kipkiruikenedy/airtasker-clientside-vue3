@@ -8,4 +8,4 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 ## Add This to Laravel .env File
 
-`APP_URL=https://server.airtaska.com/public FRONTEND_URL=http://localhost:3000 SANCTUM_STATEFUL_DOMAINS=localhost:3000 SESSION_DOMAIN=localhost`
+`APP_URL=http://127.0.0.1:8000 FRONTEND_URL=http://localhost:3000 SANCTUM_STATEFUL_DOMAINS=localhost:3000 SESSION_DOMAIN=localhost`

@@ -42,7 +42,7 @@
   });
 
   onMounted(() => {
-    axios.get(`https://server.airtaska.com/public/api/offers/${id.value}`)
+    axios.get(`http://127.0.0.1:8000/api/offers/${id.value}`)
       .then(response => {
         offer.content = response.data;
         console.log(offer.content);

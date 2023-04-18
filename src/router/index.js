@@ -4,7 +4,7 @@ import Home from "../components/Home.vue";
 import Pay from "../components/client/ClientTaskPayment.vue";
 import sms from "../components/Global/PrivateChat.vue";
 import Chat from "../components/Global/Chart.vue";
-
+import { useAuthStore } from '../stores/profile-store'
 
 
 const routes = [
@@ -22,7 +22,7 @@ const routes = [
     path: "/sms",
     name: "SMSS",
     component: () => import("../components/tasker/ActiveTasksDetails.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
 
 
@@ -30,21 +30,21 @@ const routes = [
     path: "/rate",
     name: "Rate",
     component: () => import("../components/Global/RateUser.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: '/chat/:userId',
     name: 'Chat',
     component: Chat,
     props: true,
-    meta: { requiresAuth: false }
+    meta: { requiresAuth: true }
   },
   
   { 
     path: "/private-chart",
    name: "sms", 
    component: sms,
- meta: { requiresAuth: false }
+ meta: { requiresAuth: true }
 
   },
 
@@ -54,7 +54,7 @@ const routes = [
   path: "/tasker/messages",
  name: "ClieMessages", 
  component: sms,
- meta: { requiresAuth: false }
+ meta: { requiresAuth: true }
  
 
 },
@@ -68,7 +68,7 @@ const routes = [
     path: "/tasker/dashboard",
     name: "TaskerDashboard",
     component: () => import("../components/tasker/TaskerDashboard.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
 
 
@@ -76,20 +76,20 @@ const routes = [
     path: "/tasker/profile",
     name: "TaskerProfile",
     component: () => import("../components/Profile/TaskerProfile.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/tasker/profile/edit",
     name: "TaskerEditProfile",
     component: () => import("../components/Profile/TaskerEditProfile.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
 
   {
     path: "/tasker-task",
     name: "TaskerTasks",
     component: () => import("../components/tasker/TaskerTask.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/tasker-task/:id",
@@ -123,7 +123,7 @@ const routes = [
     path: "/tasker-browse-task",
     name:"TaskerBrowseTask",
     component: () => import("../components/tasker/TaskerBrowseTask.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   
 
@@ -151,13 +151,13 @@ const routes = [
     path: "/tasker-in-progress-tasks",
     name: "tasker-inprogress-tasks",
     component: () => import("../components/tasker/InProgress.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/tasker-in-progress-tasks/:id",
     name: "tasker-inprogress-tasksDetails",
     component: () => import("../components/tasker/InProgressDetails.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
 
 
@@ -168,32 +168,32 @@ const routes = [
     path: "/tasker-requested-payment-tasks",
     name: "tasker-requested-payment-tasks",
     component: () => import("../components/tasker/RequestedPayment.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/tasker-requested-payment-tasks/:id",
     name: "tasker-requested-payment-tasksDetails",
     component: () => import("../components/tasker/RequestedPaymentDetails.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
 
   {
     path: "/tasker-paid-tasks",
     name: "tasker-paid-tasks",
     component: () => import("../components/tasker/Paid.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/tasker-paid-tasks/:id",
     name: "tasker-paid-tasksDetails",
     component: () => import("../components/tasker/PaidDetails.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/tasker-pending-tasks",
     name: "taskerPending-Tasks",
     component: () => import("../components/tasker/PendingTasks.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
 
 
@@ -203,14 +203,14 @@ const routes = [
     name: "taskerActive-Tasks",
     
     component: () => import("../components/tasker/ActiveTasks.vue"),
-    meta: { requiresAuth: false }
+    meta: { requiresAuth: true }
 
   },
   {
     path: "/tasker-active-tasks/:id",
     name: "taskerActive-Tasks-details",
     component: () => import("../components/tasker/ActiveTasksDetails.vue"),
-  meta: { requiresAuth: false },
+  meta: { requiresAuth: true },
     children: [
         
       {
@@ -225,7 +225,7 @@ const routes = [
     path: "/tasker-completed-tasks",
     name: "taskercompleted-Tasks",
     component: () => import("../components/tasker/CompletedTasks.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
 
  
@@ -237,7 +237,7 @@ const routes = [
     path: "/client/messages",
    name: "ClientMessages", 
    component: sms,
- meta: { requiresAuth: false }
+ meta: { requiresAuth: true }
   
   },
   {
@@ -251,26 +251,26 @@ const routes = [
     path: "/client/profile",
     name: "ClientProfile",
     component: () => import("../components/Profile/ClientProfile.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/client/profile/edit",
     name: "ClientEditProfile",
     component: () => import("../components/Profile/ClientEditProfile.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/client/post-task",
     name: "ClientTaskPost",
     component: () => import("../components/client/PostTask.vue"),
-  meta: { requiresAuth: false }
-    //  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
+    //  meta: { requiresAuth: true }
   },
   {
     path: '/client/task/:id',
     name: 'clientTaskDetails',
     component: () => import('../components/client/ClientTaskDetails.vue'),
-  meta: { requiresAuth: false },
+  meta: { requiresAuth: true },
     children: [
         
            {
@@ -312,13 +312,13 @@ const routes = [
   path: "/client-rejectedtask",
   name: "ClientCurrentRejectedTasks",
   component: () => import("../components/client/ClientRejectedTasks.vue"),
- meta: { requiresAuth: false }
+ meta: { requiresAuth: true }
 },
 {
   path: "/client-completedtask",
   name: "ClientCurrentCompletedTasks",
   component: () => import("../components/client/ClientCompletedTasks.vue"),
- meta: { requiresAuth: false }
+ meta: { requiresAuth: true }
 },
 {
   path: "/client-active-task",
@@ -336,7 +336,7 @@ meta: { requiresAuth: false }
   path: "/client-requested-payments/:id",
   name: "client-requested-payments-details",
   component: () => import("../components/client/RequestedPaymentsDetails.vue"),
- meta: { requiresAuth: false },
+ meta: { requiresAuth: true },
   children: [
         
     {
@@ -353,7 +353,7 @@ meta: { requiresAuth: false }
     path: '/client-active-task/:id',
     name: 'ClientActiveTaskDetails',
     component: () => import('../components/client/ClientTaskDetails.vue'),
-  meta: { requiresAuth: false },
+  meta: { requiresAuth: true },
     children: [
         
            {
@@ -383,7 +383,7 @@ meta: { requiresAuth: false }
     path: "/client-pending-task",
     name: "ClientPendingTasks",
     component: () => import("../components/client/ClientPendingTasks.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
  
   },
 
@@ -405,25 +405,25 @@ meta: { requiresAuth: false }
     path: "/forgot-password",
     name: "ForgotPassword",
     component: () => import("../components/ForgotPassword.vue"),
-  meta: { requiresAuth: false }
+ 
   },
   {
     path: "/password-reset/:token",
     name: "ResetPassword",
     component: () => import("../components/ResetPassword.vue"),
-  meta: { requiresAuth: false }
+
   },
   {
     path: "/how-it-works",
     name: "HowItWorks",
     component: () => import("../components/How-it-works.vue"),
-  meta: { requiresAuth: false }
+
   },
   {
     path: "/all-tasks",
     name: "AllTasks",
     component: () => import("../components/TasksList.vue"),
-  meta: { requiresAuth: false }
+
   },
 
 
@@ -439,13 +439,13 @@ meta: { requiresAuth: false }
     path: "/categories",
     name: "Categories",
     component: () => import("../components/Categories.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/add-categories",
     name: "AddCategories",
     component: () => import("../components/Categories.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/login",
@@ -459,67 +459,67 @@ meta: { requiresAuth: false }
     path: "/admin-view-notifications",
     name: "AdminNotifications",
     component: () => import("../components/admin/AdminViewNotifications.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/admin-dashboard",
     name: "AdminDahsboard",
     component: () => import("../components/admin/AdminDashboard.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/admin/profile",
     name: "AdminProfile",
     component: () => import("../components/Profile/AdminProfile.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/admin/profile/edit",
     name: "AdminEditProfile",
     component: () => import("../components/Profile/ClientEditProfile.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/admin-taskers",
     name: "Taskers",
     component: () => import("../components/admin/Taskers.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/admin-clients",
     name: "Clients",
     component: () => import("../components/admin/Clients.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/admin-pending-tasks",
     name: "Pending-Tasks",
     component: () => import("../components/admin/PendingTasks.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/admin-completed-tasks",
     name: "completed-Tasks",
     component: () => import("../components/admin/CompletedTasks.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/admin-pending-payments",
     name: "PendingPayment",
     component: () => import("../components/admin/PendingPayments.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/admin-completed-payments",
     name: "CompletedPayment",
     component: () => import("../components/admin/CompletedPayments.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/admin-suspended-accounts",
     name: "CompletedPayment",
     component: () => import("../components/admin/CompletedPayments.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
 
 
@@ -531,13 +531,13 @@ meta: { requiresAuth: false }
     path: "/client-dashboard",
     name: "Dahsboard",
     component: () => import("../components/client/ClientDashboard.vue"),
-  meta: { requiresAuth: false }
+  meta: { requiresAuth: true }
   },
   {
     path: "/client-register",
     name: "Client-Register",
     component: () => import("../components/client/ClientRegister.vue"),
-  meta: { requiresAuth: false }
+ 
   },
  
     // WRITER
@@ -545,14 +545,14 @@ meta: { requiresAuth: false }
       path: "/post-task",
       name: "TaskPost",
       component: () => import("../components/client/PostTask.vue"),
-    meta: { requiresAuth: false }
+    meta: { requiresAuth: true }
     
     },
     {
       path: "/tasker-dashboard",
       name: "TaskerDahsboard",
       component: () => import("../components/tasker/TaskerDashboard.vue"),
-    meta: { requiresAuth: false }
+    meta: { requiresAuth: true }
     },
 
 
@@ -561,22 +561,21 @@ meta: { requiresAuth: false }
       path: "/admin-create-category",
       name: "AdminCreateCategory",
       component: () => import("../components/admin/AddCategory.vue"),
-    meta: { requiresAuth: false }
+    meta: { requiresAuth: true }
     },
     {
       path: "/categories",
       name: "Categories",
       component: () => import("../components/Categories.vue"),
-    meta: { requiresAuth: false }
+    meta: { requiresAuth: true }
     },
     {
       path: "/help",
       name: "Help",
       component: () => import("../components/Global/MessageAdmin.vue"),
-    meta: { requiresAuth: false }
+    meta: { requiresAuth: true }
     },
 ];
-
 
 
 const router = createRouter({
@@ -586,15 +585,31 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = /* your authentication logic */ false; // replace with your authentication logic
+  const authStore = useAuthStore()
+  const isAuthenticated = authStore.isAuthenticated;
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
 
   if (requiresAuth && !isAuthenticated) {
+    // Store the original route in session storage
+    sessionStorage.setItem('originalRoute', to.fullPath)
     next({ name: "Login" }); // redirect to login if not authenticated
   } else {
     next();
   }
 });
+
+// After the user logs in, retrieve the stored route from session storage
+// and redirect the user to that route
+function redirectToOriginalRoute() {
+  const originalRoute = sessionStorage.getItem('originalRoute')
+  if (originalRoute) {
+    sessionStorage.removeItem('originalRoute')
+    router.push(originalRoute)
+  } else {
+    router.push({ name: 'Home' })
+  }
+}
+
 
 export default router;
 

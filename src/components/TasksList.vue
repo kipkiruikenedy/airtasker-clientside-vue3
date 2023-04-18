@@ -115,6 +115,15 @@
   <div
     class="min-h-screen bg-slate-400 grid grid-cols-1 md:grid-cols-12 mx-0 md:mx-10 gap-0 md:gap-6"
   >
+
+
+  <div class="text-center" v-if="authStore.isLoading"> <v-progress-circular
+      :size="50"
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
+    </div>
+
   <div class="bg-green-200 col-span-1 md:col-span-4">
     <div v-for="(task, index) in visibleTasks" :key="task.id" class="m-2 space-y-5" @click="goToTaskDetails(task.id)">
       <TaskCard
@@ -130,7 +139,7 @@
     </div>
     <div class="flex justify-center">
       <button v-if="visibleTasks.length < tasks.length" @click="loadMore" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Load More
+        Load More task
       </button>
     </div>
   </div>
@@ -228,6 +237,8 @@ import {useRoute, useRouter} from "vue-router"
 import { onMounted, watch } from "vue";
 import OfferCard from './OfferCard.vue';
 import Nav from './Nav.vue';
+import { useAuthStore } from '../stores/auth';
+const authStore = useAuthStore();
 const router = useRouter();
 
 const categories = reactive([]);
@@ -236,7 +247,7 @@ const showCheckboxes = ref(false);
 
 // fetch data from localhost:5000
 
-axios.get('https://server.airtaska.com/public/api/categories')
+axios.get('http://127.0.0.1:8000/api/categories')
   .then(response => {
     categories.push(...response.data);
 
@@ -244,7 +255,7 @@ axios.get('https://server.airtaska.com/public/api/categories')
 
 
 
-  axios.get('https://server.airtaska.com/public/api/all-tasks')
+  axios.get('http://127.0.0.1:8000/api/all-tasks')
   .then(response => {
     tasks.push(...response.data);
 

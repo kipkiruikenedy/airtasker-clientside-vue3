@@ -1,7 +1,10 @@
 <template>
-  <div class="p-4 text-center">
-    <h2 class="font-bold text-lg mb-2">Send Message to Admin</h2>
+
+    
+  <div class="flex justify-center items-center h-screen">
+<div class="h-1/2">
     <form @submit.prevent="sendMessage">
+      <h2 class="font-bold text-lg mb-2">Send Message to Admin</h2>
       <div class="mb-4">
         <label class="block text-gray-700 font-bold mb-2" for="message">
           Message
@@ -32,6 +35,9 @@
               </div>
     </form>
   </div>
+  </div>
+
+  
 </template>
 
   
@@ -59,12 +65,7 @@ async function sendMessage() {
     console.log(response.data);
     authStore.isLoading = false;
 
-    // Show a success message
-    await Swal.fire({
-      icon: 'success',
-      title: 'Message sent',
-      text: 'Your message has been successfully sent to the admin.',
-    });
+ 
 
     // Optionally, redirect to another page
      window.location.href = '/help/success';

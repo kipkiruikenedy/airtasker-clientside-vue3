@@ -84,7 +84,7 @@ const userAuthId=authStore.user.id;
  const params = new URLSearchParams([['user_id', userAuthId]]);
 console.log(userAuthId)
 authStore.isLoading=true;
-axios.get('https://server.airtaska.com/public/api/tasker-pending-tasks',{params})
+axios.get('http://127.0.0.1:8000/api/tasker-pending-tasks',{params})
 .then(response => {
 tasks.push(...response.data);
 
@@ -97,7 +97,7 @@ console.log(tasks)
 
 
 const updateTaskStatus = (taskId) => {
-  axios.put(`https://server.airtaska.com/public/api/tasks/${taskId}/status`, { status: 'in-progress' })
+  axios.put(`http://127.0.0.1:8000/api/tasks/${taskId}/status`, { status: 'in-progress' })
     .then(response => {
       const taskIndex = tasks.findIndex(t => t.id === taskId);
       if (taskIndex !== -1) {

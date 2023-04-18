@@ -28,13 +28,13 @@ const task = ref({
 
 const categories = reactive([]);
 
-axios.get('https://server.airtaska.com/public/api/categories')
+axios.get('http://127.0.0.1:8000/api/categories')
   .then(response => {
     categories.push(...response.data);
   });
 
 
-  axios.get(`https://server.airtaska.com/public/api/tasks/${Id}`)
+  axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
   .then(response => {
     task.title = response.data.title;
     task.description = response.data.description;

@@ -59,7 +59,7 @@ export const useAuthStore = defineStore('auth',{
       await this.getToken()
       this.isLoading = true
       try {
-        const response = await axios.post('https://server.airtaska.com/public/api/login', {
+        const response = await axios.post('http://127.0.0.1:8000/api/login', {
           email: data.email,
           password: data.password,
         })
@@ -114,7 +114,7 @@ export const useAuthStore = defineStore('auth',{
     formData.append('profile_photo', data.profile_photo);
     
     try {
-      await axios.post("https://server.airtaska.com/public/api/register/client", formData, {
+      await axios.post("http://127.0.0.1:8000/api/register/client", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${this.token}`
@@ -185,7 +185,7 @@ async handleUpdateClient(data) {
     formData.append('card_number', data.card_number);
     formData.append('profile_image', data.profile_image);
 
-    await axios.post("https://server.airtaska.com/public/api/register/client", formData, {
+    await axios.post("http://127.0.0.1:8000/api/register/client", formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${this.token}`
@@ -208,7 +208,7 @@ async handleUpdateClient(data) {
       await this.getToken();
       this.isLoading=true
       try {
-        await axios.post("https://server.airtaska.com/public/api/register/tasker", {
+        await axios.post("http://127.0.0.1:8000/api/register/tasker", {
           first_name:data.first_name,
           last_name:data.last_name,
           phone_number:data.phone_number,
@@ -270,7 +270,7 @@ async handleTaskCreate(data) {
   await this.getToken();
   this.isLoading = true
   try {
-    await axios.post("https://server.airtaska.com/public/api/create-task", {
+    await axios.post("http://127.0.0.1:8000/api/create-task", {
       title:data.title,
       description:data.description,
       amount:data.amount,
@@ -303,7 +303,7 @@ async handleTaskUpdate(data) {
   await this.getToken();
   this.isLoading = true
   try {
-    await axios.post("https://server.airtaska.com/public/api/create-task", {
+    await axios.post("http://127.0.0.1:8000/api/create-task", {
       title:data.title,
       description:data.description,
       amount:data.amount,
@@ -348,7 +348,7 @@ async offer(data) {
     await this.getToken();
     this.isLoading = true;
     try {
-      const response = await axios.post('https://server.airtaska.com/public/api/create-offer', {
+      const response = await axios.post('http://127.0.0.1:8000/api/create-offer', {
         tasker_id: this.user.id,
         content: data.title, 
         task_id: data.task_id,
@@ -387,7 +387,7 @@ async offer(data) {
       this.authErrors = [];
       this.isLoading=true
       try {
-        await axios.post("https://server.airtaska.com/public/api/logout");
+        await axios.post("http://127.0.0.1:8000/api/logout");
         this.isAuthenticated = false
         this.isLoading=false
         this.user=null
@@ -421,16 +421,17 @@ async offer(data) {
 // FORGOT PASSWORD
     async handleForgotPassword(email) {
       this.authErrors = [];
+      this.isLoading = true;
       this.getToken();
       try {
-        const response = await axios.post("/forgot-password", {
+        const response = await axios.post("http://127.0.0.1:8000/api/forgot-password", {
           email: email,
         });
         this.authStatus = response.data.status;
+        this.isLoading = false;
       } catch (error) {
-        if (error.response.status === 422) {
-          this.authErrors = error.response.data.errors;
-        }
+        this.authErrors = error.response.data.errors;
+          this.isLoading = false;
       }
     },
 
@@ -441,7 +442,7 @@ async offer(data) {
     async handleResetPassword(resetData) {
       this.authErrors = [];
       try {
-        const response = await axios.post("/reset-password", resetData);
+        const response = await axios.post("http://127.0.0.1:8000/api/reset-password", resetData);
         this.authStatus = response.data.status;
       } catch (error) {
         if (error.response.status === 422) {
