@@ -77,12 +77,14 @@ export const useAuthStore = defineStore('auth',{
     
         localStorage.setItem('token', this.token)
     
-        if (this.authError == null && this.user.role_id == 'admin') {
+        if (this.authError == null && this.user.role_id == 'admin' && this.user.is_email_verified) {
           this.router.push('/admin-dashboard')
-        } else if (this.authError == null && this.user.role_id == 'tasker') {
+        } else if (this.authError == null && this.user.role_id == 'tasker' && this.user.is_email_verified) {
           this.router.push('/tasker-browse-task')
-        } else if (this.authError == null && this.user.role_id == 'client') {
+        } else if (this.authError == null && this.user.role_id == 'client' && this.user.is_email_verified) {
           this.router.push('/client/post-task')
+        } else if (!this.user.is_email_verified) {
+          this.router.push('/accountneedsverify')
         } else {
           this.router.push('/login')
         }
