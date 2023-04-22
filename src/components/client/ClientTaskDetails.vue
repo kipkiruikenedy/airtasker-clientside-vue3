@@ -18,7 +18,7 @@ const task = reactive({});
 
 console.log(Id);
 
-axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
+axios.get(`/api/tasks/${Id}`)
   .then(response => {
     task.title = response.data.title;
     task.description = response.data.description;
@@ -56,7 +56,7 @@ axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
 
 
 function editTasks() {
-  axios.put(`http://127.0.0.1:8000/api/tasks/${Id}`, {
+  axios.put(`/api/tasks/${Id}`, {
     title: task.title,
     description: task.description,
     deadline: task.deadline,
@@ -101,7 +101,7 @@ function cancelTask() {
     cancelButtonText: 'No, keep it'
   }).then((result) => {
     if (result.isConfirmed) {
-      axios.delete(`http://127.0.0.1:8000/api/task/${Id}`)
+      axios.delete(`/api/task/${Id}`)
         .then(response => {
           // Display a success message to the user
           Swal.fire({

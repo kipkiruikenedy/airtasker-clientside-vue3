@@ -264,7 +264,7 @@ const routes = [
     name: "ClientTaskPost",
     component: () => import("../components/client/PostTask.vue"),
   meta: { requiresAuth: true }
-    //  meta: { requiresAuth: true }
+   
   },
   {
     path: '/client/task/:id',

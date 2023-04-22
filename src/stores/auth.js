@@ -47,19 +47,24 @@ export const useAuthStore = defineStore('auth',{
 
 
     async getToken() {
-      await axios.get("/sanctum/csrf-cookie");
-      
-      localStorage.getItem('token')
+      await axios.get('/sanctum/csrf-cookie').then(response => {
+        // CSRF cookie has been set
+    });
     },
+
+  
+   
+  
+
 
 
 
     // LOGIN THE USER
     async login(data) {
-      await this.getToken()
+      await this.getToken();
       this.isLoading = true
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/login', {
+        const response = await axios.post('/api/login', {
           email: data.email,
           password: data.password,
         })
@@ -100,7 +105,7 @@ export const useAuthStore = defineStore('auth',{
 
    async handleRegisterClient(data) {
     this.authErrors = [];
-    await this.getToken();
+ 
     this.isLoading = true;
     const formData = new FormData();
     formData.append('first_name', data.first_name);
@@ -114,7 +119,8 @@ export const useAuthStore = defineStore('auth',{
     formData.append('profile_photo', data.profile_photo);
     
     try {
-      await axios.post("http://127.0.0.1:8000/api/register/client", formData, {
+      await axios.get("/sanctum/csrf-cookie");
+      await axios.post("/api/register/client", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${this.token}`
@@ -172,7 +178,6 @@ export const useAuthStore = defineStore('auth',{
 
 async handleUpdateClient(data) {
   this.authErrors = [];
-  await this.getToken();
   this.isLoading = true;
   try {
     const formData = new FormData();
@@ -184,8 +189,8 @@ async handleUpdateClient(data) {
     formData.append('email', data.email);
     formData.append('card_number', data.card_number);
     formData.append('profile_image', data.profile_image);
-
-    await axios.post("http://127.0.0.1:8000/api/register/client", formData, {
+    await axios.get("/sanctum/csrf-cookie");
+    await axios.post("/api/register/client", formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${this.token}`
@@ -205,10 +210,10 @@ async handleUpdateClient(data) {
 // REGISTER TASKER
     async handleRegisterTasker(data) {
       this.authErrors = [];
-      await this.getToken();
       this.isLoading=true
       try {
-        await axios.post("http://127.0.0.1:8000/api/register/tasker", {
+        await axios.get("/sanctum/csrf-cookie");
+        await axios.post("/api/register/tasker", {
           first_name:data.first_name,
           last_name:data.last_name,
           phone_number:data.phone_number,
@@ -270,7 +275,7 @@ async handleTaskCreate(data) {
   await this.getToken();
   this.isLoading = true
   try {
-    await axios.post("http://127.0.0.1:8000/api/create-task", {
+    await axios.post("/api/create-task", {
       title:data.title,
       description:data.description,
       amount:data.amount,
@@ -303,7 +308,7 @@ async handleTaskUpdate(data) {
   await this.getToken();
   this.isLoading = true
   try {
-    await axios.post("http://127.0.0.1:8000/api/create-task", {
+    await axios.post("/api/create-task", {
       title:data.title,
       description:data.description,
       amount:data.amount,
@@ -348,7 +353,7 @@ async offer(data) {
     await this.getToken();
     this.isLoading = true;
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/create-offer', {
+      const response = await axios.post('/api/create-offer', {
         tasker_id: this.user.id,
         content: data.title, 
         task_id: data.task_id,
@@ -387,7 +392,7 @@ async offer(data) {
       this.authErrors = [];
       this.isLoading=true
       try {
-        await axios.post("http://127.0.0.1:8000/api/logout");
+        await axios.post("/api/logout");
         this.isAuthenticated = false
         this.isLoading=false
         this.user=null
@@ -424,14 +429,15 @@ async offer(data) {
       this.isLoading = true;
       this.getToken();
       try {
-        const response = await axios.post("http://127.0.0.1:8000/api/forgot-password", {
+        const response = await axios.post("/api/forgot-password", {
           email: email,
         });
         this.authStatus = response.data.status;
         this.isLoading = false;
+        this.router.push("/reset-password");
       } catch (error) {
+        this.isLoading = false;
         this.authErrors = error.response.data.errors;
-          this.isLoading = false;
       }
     },
 
@@ -442,8 +448,9 @@ async offer(data) {
     async handleResetPassword(resetData) {
       this.authErrors = [];
       try {
-        const response = await axios.post("http://127.0.0.1:8000/api/reset-password", resetData);
+        const response = await axios.post("/api/reset-password", resetData);
         this.authStatus = response.data.status;
+        this.router.push("/login");
       } catch (error) {
         if (error.response.status === 422) {
           this.authErrors = error.response.data.errors;

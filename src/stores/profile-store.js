@@ -1,5 +1,8 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 export const useAuthStore = defineStore('profile', {
   state: () => ({
@@ -8,14 +11,20 @@ export const useAuthStore = defineStore('profile', {
     last_name: null,
     email: null,
     location: null,
-    image: null,
-    description: null,
+    phone_number: null,
+    country: null,
+    gender:null,
+    profile_picture: null,
+
+  
     isLoading: false,
     isAuthenticated: false,
     authError: null,
     refreshToken: null,
     token: null,
     user: null,
+    
+   
 
     errors: {
       error:null,
@@ -25,10 +34,16 @@ export const useAuthStore = defineStore('profile', {
   }),
 
   actions: {
+
+
+
+
+    
     async login(data) {
       this.isLoading = true;
 
       try {
+       
         const response = await axios.post('http://127.0.0.1:8000/api/login', {
           email: data.email,
           password: data.password,
@@ -41,7 +56,11 @@ export const useAuthStore = defineStore('profile', {
         this.id = this.user.id
         this.first_name = this.user.first_name
         this.last_name = this.user.last_name
-
+        this.email=this.user.email,
+        this.location=this.user.location,
+        this.phone_numbe= this.user.phone_number,
+        this.country=this.user.country,
+        this.gender=this.user.gender,
         this.isAuthenticated = true
         this.authError = response.data.error
 
@@ -79,6 +98,40 @@ export const useAuthStore = defineStore('profile', {
     storeToken() {
       localStorage.setItem('token', this.token)
     },
+
+
+
+       // UPDATE CLIENT PROFILE
+
+async handleUpdateClient(data) {
+  this.authErrors = [];
+  await this.getToken();
+  this.isLoading = true;
+  try {
+    const formData = new FormData();
+    formData.append('first_name', data.first_name);
+    formData.append('last_name', data.last_name);
+    formData.append('phone_number', data.phone_number);
+    formData.append('country', data.country);
+    formData.append('gender', data.gender);
+    formData.append('email', data.email);
+    formData.append('card_number', data.card_number);
+    formData.append('profile_image', data.profile_image);
+
+    await axios.post("/register", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${this.token}`
+      }
+    });
+    this.isLoading = false;
+    this.authError = null;
+    this.router.push("/login");
+  } catch (error) {
+    this.isLoading = false;
+    this.authError = error.response.data.error;
+  }
+},
   },
   persist: true,
 })

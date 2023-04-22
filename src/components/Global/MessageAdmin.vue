@@ -1,45 +1,37 @@
 <template>
-
-    
   <div class="flex justify-center items-center h-screen">
-<div class="h-1/2">
-    <form @submit.prevent="sendMessage">
-      <h2 class="font-bold text-lg mb-2">Send Message to Admin</h2>
-      <div class="mb-4">
-        <label class="block text-gray-700 font-bold mb-2" for="message">
-          Message
-        </label>
-        <textarea v-model="message" class="form-textarea mt-1 block w-full rounded-md border border-red-400 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" id="message" rows="3"></textarea>
-      </div>
-      <div class="mb-10">
-                <button
-                  type="submit"
-                  class="
-                    w-full
-                    px-4
-                    py-3
-                    bg-indigo-500
-                    hover:bg-indigo-700
-                    rounded-md
-                    text-white
-                  "
-                >
-                
-                <div v-if="authStore.isLoading" >
-                <v-progress-circular indeterminate color="amber"></v-progress-circular>
-                </div>
-                <div v-else>Submit</div>
-               
-                  
-                </button>
-              </div>
-    </form>
+    <div class="w-96">
+      <h2 class="font-bold text-lg mb-4 text-center">Send Message to Admin</h2>
+      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="sendMessage">
+      
+        <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2" for="message">Message</label>
+          <textarea v-model="message" class="form-textarea mt-1 block w-full rounded-md border border-gray-300 shadow-lg focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" id="message" rows="7"></textarea>
+        </div>
+        <div class="mb-6">
+          <button type="submit" class="w-full px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-md text-white">
+            <div v-if="authStore.isLoading">
+              <v-progress-circular indeterminate color="amber"></v-progress-circular>
+            </div>
+            <div v-else>Submit</div>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-  </div>
-
-  
 </template>
+<style>
+  .form-textarea:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: #4f46e5;
+  }
 
+  button:focus {
+    outline: none;
+    box-shadow: none;
+  }
+</style>
   
   
   <script setup>

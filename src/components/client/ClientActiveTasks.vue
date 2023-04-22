@@ -87,7 +87,7 @@ const task = ref({});
   
   // fetch data from localhost:8000
   
-  axios.get('http://127.0.0.1:8000/api/categories')
+  axios.get('/api/categories')
     .then(response => {
       categories.push(...response.data);
   
@@ -99,7 +99,7 @@ const task = ref({});
   
   try{
     authStore.isLoading = true;
-    axios.get('http://127.0.0.1:8000/api/client/own-active-tasks',{params} )
+    axios.get('/api/client/own-active-tasks',{params} )
     .then(response => {
       tasks.push(...response.data);
       authStore.isLoading = false;

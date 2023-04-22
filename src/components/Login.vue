@@ -1,6 +1,6 @@
 
 <script setup>
-import { useAuthStore } from '../stores/profile-store'
+import { useAuthStore } from '../stores/auth'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 
@@ -59,7 +59,7 @@ const showLoginError = () => {
            
 
             <form @submit.prevent="async () => {
-          await authStore.login(form)
+           authStore.login(form)
           if (authStore.authError) {
             showLoginError()
           }

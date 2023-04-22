@@ -1,25 +1,31 @@
-
 <script setup>
 import { ref } from "vue";
 import { useAuthStore } from "../../stores/auth";
 import Nav from "../Nav.vue";
+import TaskerNav from "../tasker/TaskerNav.vue";
 const authStore = useAuthStore();
 
-
 const form = ref({
-  first_name: "",
-  last_name: "",
-  phone_number: "",
-  country: "",
-  gender: "",
-  email: "",
-  password: "",
-  password_confirmation: "",
+  first_name: authStore.first_name || "",
+  last_name: authStore.last_name || "",
+  phone_number: authStore.phone_number || "",
+  country: authStore.country || "",
+  gender: authStore.gender || "",
+  email: authStore.email || "",
+  email:  "",
+  profile_picture: null,
 });
+
+
+
+const handleProfilePictureChange = (event) => {
+  const file = event.target.files[0];
+  form.value.profile_picture = file;
+};
 
 </script>
 <template>
-    <Nav />
+  <TaskerNav/>
   <!-- ====== Forms Section Start -->
   <section class="bg-[#F4F7FF] py-20 lg:py-[120px]">
     <div class="container mx-auto">
@@ -41,9 +47,9 @@ const form = ref({
             "
           >
           <div class="bg-red-500 text-center rounded-lg py-1 text-white mb-3" v-if="authStore.authError" >{{authStore.authError }}</div>
-            <div class="mb-10 text-center md:mb-16">Create Account </div>
+            <div class="mb-10 text-center md:mb-16">Edit Your Details </div>
            
-            <form @submit.prevent="authStore.handleRegisterClient(form)">
+            <form @submit.prevent="authStore.handleUpdateClient(form)">
               <div class="mb-6">
                 <input
                   type="text"
@@ -186,11 +192,34 @@ const form = ref({
                   }}</span>
                 </div> -->
               </div>
+
               <div class="mb-6">
+  <label for="profile-picture" class="block text-gray-700 font-bold mb-2">
+    Profile Picture:
+  </label>
+  <input
+    id="profile-picture"
+    type="file"
+    accept="image/*"
+    @change="handleProfilePictureChange"
+    class="border-gray-400 p-2 border rounded-lg w-full"
+  />
+  <!-- <div v-if="authStore.errors.profile_picture" class="flex">
+    <span class="text-red-400 text-sm m-2 p-2">{{
+      authStore.errors.profile_picture[0]
+    }}</span>
+  </div> -->
+</div>
+
+<div class="mb-6">
+  <label for="profile-picture" class="block text-gray-700 font-bold mb-2">
+   Payment Details
+  </label>
+  <span class="text-gray-400 font-light">(This is where you will receive payment into after completing task)</span>
                 <input
-                  type="password"
-                  placeholder="Password"
-                  v-model="form.password"
+                type="number"
+                  placeholder="4242 4242 4242 4242 4242"
+                  v-model="form.card_number"
                   class="
                     bordder-[#E9EDF4]
                     w-full
@@ -206,33 +235,14 @@ const form = ref({
                     focus-visible:shadow-none
                   "
                 />
-                <!-- <div v-if="authStore.errors.password" class="flex">
+                <!-- <div v-if="authStore.errors.email" class="flex">
                   <span class="text-red-400 text-sm m-2 p-2">{{
-                    authStore.errors.password[0]
+                    authStore.errors.email[0]
                   }}</span>
                 </div> -->
               </div>
-              <div class="mb-6">
-                <input
-                  type="password"
-                  placeholder="Password Confirmation"
-                  v-model="form.password_confirmation"
-                  class="
-                    bordder-[#E9EDF4]
-                    w-full
-                    rounded-md
-                    border
-                    bg-[#FCFDFE]
-                    py-3
-                    px-5
-                    text-base text-body-color
-                    placeholder-[#ACB6BE]
-                    outline-none
-                    focus:border-primary
-                    focus-visible:shadow-none
-                  "
-                />
-              </div>
+
+           
               <div class="mb-10">
                 <button
                   type="submit"
@@ -240,8 +250,8 @@ const form = ref({
                     w-full
                     px-4
                     py-3
-                    bg-indigo-500
-                    hover:bg-indigo-700
+                    bg-green-500
+                    hover:bg-green-700
                     rounded-md
                     text-white
                   "
@@ -249,15 +259,11 @@ const form = ref({
                 <div v-if="authStore.isLoading" >
                 <v-progress-circular indeterminate color="amber"></v-progress-circular>
                 </div>
-                <div v-else>Register</div>
+                <div v-else><p class="text-white">Update</p></div>
                 </button>
               </div>
             </form>
-            <p class="text-base text-[#adadad]">
-              <router-link to="/login" class="text-primary hover:underline">
-                Sign In
-              </router-link>
-            </p>
+          
           </div>
         </div>
       </div>

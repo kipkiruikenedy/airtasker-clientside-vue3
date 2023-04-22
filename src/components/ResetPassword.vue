@@ -18,12 +18,7 @@ const form = ref({
     class="max-w-md mx-auto bg-slate-100 p-4 rounded-lg mt-12"
     @submit.prevent="authStore.handleResetPassword(form)"
   >
-    <div
-      class="m-2 p-2 text-green-900 font-semibold bg-green-300 rounded-md"
-      v-if="authStore.status"
-    >
-      {{ authStore.status }}
-    </div>
+  
     <div class="mb-6">
       <label
         for="password"

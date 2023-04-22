@@ -24,7 +24,7 @@
 
 <script setup>
 
-import { useAuthStore } from "../../stores/auth";
+import { useAuthStore } from "../../stores/profile-store";
 import { ref } from 'vue';
 import TaskerNav from "../tasker/TaskerNav.vue";
 import {useRoute, useRouter} from "vue-router"

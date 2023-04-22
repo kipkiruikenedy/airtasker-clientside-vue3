@@ -57,7 +57,7 @@
   
   async function sendMessage() {
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/charts/${userId}`, { receiver_id: props.messages[0].sender_id, content: newMessage.value });
+      const response = await axios.post(`/api/charts/${userId}`, { receiver_id: props.messages[0].sender_id, content: newMessage.value });
       if (response.data) {
         console.log(response.data); 
         // response.data is not undefined or null

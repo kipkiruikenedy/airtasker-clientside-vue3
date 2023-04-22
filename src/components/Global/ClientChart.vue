@@ -46,7 +46,7 @@ const taskerID = ref(null);
 const taskerId =2;
  
 
-axios.get(`http://127.0.0.1:8000/api/offers/${Id}`)
+axios.get(`/api/offers/${Id}`)
   .then(response => {
     offer.title = response.data.title;
     offer.client = response.data.client;
@@ -70,7 +70,7 @@ axios.get(`http://127.0.0.1:8000/api/offers/${Id}`)
 async function sendMessage() {
   try {
     // Send the message to the server
-    const response = await axios.post('http://127.0.0.1:8000/api/chats', { 
+    const response = await axios.post('/api/chats', { 
       content: message.value,
       sender_id:userAuthId, 
       receiver_id:taskerId,
@@ -113,7 +113,7 @@ async function sendFile(event) {
 
 async function fetchMessages() {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/chats', {
+    const response = await axios.get('/api/chats', {
       params: {
         sender_id: taskerId, // Fetch messages where the current user is the receiver
         receiver_id: userAuthId, // Fetch messages sent by the other user

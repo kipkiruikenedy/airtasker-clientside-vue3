@@ -21,7 +21,7 @@ const form = ref({
 
 const categories = reactive([]);
 
-axios.get('http://127.0.0.1:8000/api/categories')
+axios.get('/api/categories')
   .then(response => {
     categories.push(...response.data);
 

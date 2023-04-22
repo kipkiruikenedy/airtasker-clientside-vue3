@@ -19,7 +19,7 @@ const task = reactive({});
 const offer = ref({});
 
 console.log(Id);
-axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
+axios.get(`/api/tasks/${Id}`)
   .then(response => {
     task.title = response.data.title;
     task.description = response.data.description;
@@ -39,7 +39,7 @@ axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
 
       try {
         authStore.isLoading = true;
-        axios.get('http://127.0.0.1:8000/api/offers', { params })
+        axios.get('/api/offers', { params })
   .then(response => {
     offer.value = response.data[0];
     authStore.isLoading = false;
@@ -55,7 +55,7 @@ axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
     console.error(error);
   });
 
-  axios.get(`http://127.0.0.1:8000/api/tasks/${Id}`)
+  axios.get(`/api/tasks/${Id}`)
   .then(response => {
     task.title = response.data.title;
     task.description = response.data.description;
@@ -75,7 +75,7 @@ const params = new URLSearchParams([
   ['tasker_id', task.tasker_id],
 ]);
 
-axios.get('http://127.0.0.1:8000/api/offers', { params })
+axios.get('/api/offers', { params })
   .then(response => {
     offer.value = response.data[0];
   })
@@ -105,7 +105,7 @@ axios.get('http://127.0.0.1:8000/api/offers', { params })
 
 
 function editTasks() {
-  axios.put(`http://127.0.0.1:8000/api/tasks/${Id}`, {
+  axios.put(`/api/tasks/${Id}`, {
     title: task.title,
     description: task.description,
     deadline: task.deadline,
@@ -155,7 +155,7 @@ function releasePayment() {
     cancelButtonText: 'No, keep it on hold'
   }).then((result) => {
     if (result.isConfirmed) {
-      axios.put(`http://127.0.0.1:8000/api/tasks/${Id}/status`, { status: 'paid' })
+      axios.put(`/api/tasks/${Id}/status`, { status: 'paid' })
         .then(response => {
           // Display a success message to the user
           Swal.fire({
@@ -194,7 +194,7 @@ stripe.createToken(card).then(function(result) {
     confirmButtonText: 'Yes, submit payment!'
   }).then((result) => {
     if (result.isConfirmed) {
-      axios.post('http://127.0.0.1:8000/api/client-pay-task', {
+      axios.post('/api/client-pay-task', {
         stripe_token,
         amount,
         tasker_id,

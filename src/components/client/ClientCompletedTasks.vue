@@ -97,7 +97,7 @@ const userAuthId=authStore.user.id;
 
 try{
   authStore.isLoading = true;
-  axios.get('http://127.0.0.1:8000/api/client/own-completed-tasks',{params} )
+  axios.get('/api/client/own-completed-tasks',{params} )
   .then(response => {
     tasks.push(...response.data);
     authStore.isLoading = false;
