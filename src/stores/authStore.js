@@ -75,7 +75,7 @@ export const useAuthStore = defineStore("auth", {
     async handleResetPassword(resetData) {
       this.authErrors = [];
       try {
-        const response = await axios.post("/reset-password", resetData);
+        const response = await axios.post("/change-password", resetData);
         this.authStatus = response.data.status;
       } catch (error) {
         if (error.response.status === 422) {

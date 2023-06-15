@@ -54,7 +54,18 @@ export const useAuthStore = defineStore('auth',{
 
   
    
-  
+    async verifyEmail(token) {
+      try {
+        const response = await axios.get(`/api/verify-email/${token}`);
+        // If email verification is successful, show a success message and redirect to login page
+        this.$router.push({ name: 'login' });
+        this.$toast.success(response.data.message);
+      } catch (error) {
+        // If there is an error with email verification, show an error message
+        this.$toast.error(error.response.data.error);
+      }
+    },
+    
 
 
 
@@ -79,20 +90,19 @@ export const useAuthStore = defineStore('auth',{
     
         if (this.authError == null && this.user.role_id == 'admin' && this.user.is_email_verified) {
           this.router.push('/admin-dashboard')
-        } else if (this.authError == null && this.user.role_id == 'tasker' && this.user.is_email_verified) {
+        } else if (this.authError == null && this.user.role_id == 'tasker' ) {
           this.router.push('/tasker-browse-task')
-        } else if (this.authError == null && this.user.role_id == 'client' && this.user.is_email_verified) {
+        } else if (this.authError == null && this.user.role_id == 'client') {
           this.router.push('/client/post-task')
-        } else if (!this.user.is_email_verified) {
-          this.router.push('/accountneedsverify')
         } else {
           this.router.push('/login')
         }
       } catch (error) {
+        const errorMessage = error.response.data.message;
         Swal.fire({
           position: 'center',
           icon: 'error',
-          title: 'Invalid credentials, please try again',
+          title: errorMessage,
           showConfirmButton: false,
           timer: 2000
         })
@@ -211,6 +221,7 @@ async handleUpdateClient(data) {
 
 // REGISTER TASKER
     async handleRegisterTasker(data) {
+      await this.getToken();
       this.authErrors = [];
       this.isLoading=true
       try {
@@ -450,7 +461,7 @@ async offer(data) {
     async handleResetPassword(resetData) {
       this.authErrors = [];
       try {
-        const response = await axios.post("/api/reset-password", resetData);
+        const response = await axios.post("/api/change-password", resetData);
         this.authStatus = response.data.status;
         this.router.push("/login");
       } catch (error) {

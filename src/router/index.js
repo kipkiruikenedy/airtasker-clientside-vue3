@@ -427,7 +427,7 @@ meta: { requiresAuth: false }
  
   },
   {
-    path: "/password-reset/:token",
+    path: "/change_password/:token",
     name: "ResetPassword",
     component: () => import("../components/ResetPassword.vue"),
 
@@ -445,15 +445,6 @@ meta: { requiresAuth: false }
 
   },
 
-
-
-
-
-
-
-
-
-
   {
     path: "/categories",
     name: "Categories",
@@ -470,7 +461,6 @@ meta: { requiresAuth: false }
     path: "/login",
     name: "Login",
     component: () => import("../components/Login.vue"),
-
   },
 
   // ADMIN
@@ -619,15 +609,15 @@ router.beforeEach((to, from, next) => {
 
 // After the user logs in, retrieve the stored route from session storage
 // and redirect the user to that route
-function redirectToOriginalRoute() {
-  const originalRoute = sessionStorage.getItem('originalRoute')
-  if (originalRoute) {
-    sessionStorage.removeItem('originalRoute')
-    router.push(originalRoute)
-  } else {
-    router.push({ name: 'Home' })
-  }
-}
+// function redirectToOriginalRoute() {
+//   const originalRoute = sessionStorage.getItem('originalRoute')
+//   if (originalRoute) {
+//     sessionStorage.removeItem('originalRoute')
+//     router.push(originalRoute)
+//   } else {
+//     router.push({ name: 'Home' })
+//   }
+// }
 
 
 export default router;

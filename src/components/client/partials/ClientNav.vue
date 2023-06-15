@@ -37,13 +37,37 @@
     >
       Help
     </router-link>
-    <router-link
-      @click="showMenu = !showMenu"
-      :to="{ name: 'Login' }"
-      class="block rounded py-2 pr-4 pl-3 text-black hover:text-blue-800"
+
+
+
+
+    <div
+    @click="showNotifications = !showNotifications"
+      class="block rounded py-2 pr-4 pl-3 text-black hover:text-blue-800 cursor-pointer"
     >
-      Notification
-    </router-link>
+    <div class="relative">
+      <p @click="toggleDropdown"><Icon icon="bi:bell" class="h-7 w-7 text-gray-500" /></p>
+      <span class="absolute top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center z-10">2</span>
+    </div>
+    <div v-show="isDropdownVisible" class="absolute right-0 mt-2 bg-white shadow-lg rounded-md w-48">
+      <ul>
+        <li v-for="notification in notifications" :key="notification.id" @click="showNotificationDetails(notification)">
+          {{ notification.title }}
+        </li>
+      </ul>
+    </div>
+    <div v-if="selectedNotification" class="mt-2 p-2 bg-gray-200 rounded-md">
+      <h3>{{ selectedNotification.title }}</h3>
+      <p>{{ selectedNotification.content }}</p>
+      <p>Description goes here</p>
+    </div>
+    </div>
+
+
+
+
+
+
     <router-link
       @click="showMenu = !showMenu"
       :to="{ name: 'Login' }"
@@ -88,6 +112,8 @@ image
           Dashboard
         </router-link>
 
+
+
         <router-link
           :to="{ name: 'Login' }"
           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -121,8 +147,27 @@ image
 
 <script setup>
 import { useAuthStore } from "../../../stores/auth";
-import { ref } from 'vue';
-
+import { reactive, ref } from 'vue';
+import { Icon } from '@iconify/vue';
 const authStore = useAuthStore();
 const showMenu = ref(false);
+const showNotifications = ref(false);
+
+const state = reactive({
+  isDropdownVisible: false,
+  selectedNotification: null,
+});
+
+const notifications = ref([
+  { id: 1, title: 'Notification 1', content: 'Notification 1 content' },
+  { id: 2, title: 'Notification 2', content: 'Notification 2 content' },
+]);
+
+const toggleDropdown = () => {
+  state.isDropdownVisible = !state.isDropdownVisible;
+};
+
+const showNotificationDetails = (notification) => {
+  state.selectedNotification = notification;
+};
 </script>

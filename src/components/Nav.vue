@@ -215,7 +215,7 @@ const showMenu = ref(false);
               <router-link @click="showMenu = !showMenu"
                 :to="{ name: 'Login' }"
                 class="block rounded py-2 pr-4 pl-3 text-black hover:text-blue-800">
-                Notification
+                bell icon
                 </router-link>
             </li>
                 <li>
